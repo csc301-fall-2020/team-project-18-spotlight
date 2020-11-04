@@ -8,7 +8,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "0.1.10",
     "@react-native-firebase/app": "^8.4.6",
+    "@react-navigation/native": "^5.8.4",
     "expo": "~39.0.2",
     "expo-splash-screen": "~0.6.2",
     "expo-status-bar": "~1.0.2",
@@ -20,11 +22,10 @@
     "react-native-maps": "0.27.1",
     "react-native-navigation": "^7.2.0",
     "react-native-reanimated": "~1.13.0",
+    "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
     "react-native-unimodules": "~0.11.0",
-    "react-native-web": "~0.13.12",
-    "react-native-safe-area-context": "3.1.4",
-    "@react-native-community/masked-view": "0.1.10"
+    "react-native-web": "~0.13.12"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
