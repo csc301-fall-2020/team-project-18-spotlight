@@ -17,7 +17,7 @@ const AppNavigator = () => {
             <AppStack.Navigator
             initialRouteName="Auth"
             screenOptions={{
-                headerShown: true
+                headerShown: false
             }}
             >
                 <AppStack.Screen name="Auth" component={AuthNavigator}/>
