@@ -1,25 +1,22 @@
-import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
+import React, { Component } from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
+import MapScreen from './screens/MapScreen'
+import GymInfo from './screens/GymInfo'
 
+const GymStack = createStackNavigator()
 
 const GymScreen = () => {
-    return(
-        <View style={styles.container}>
-            <Text>
-                {"Gym!"}
-            </Text>
-        </View>
+    return (
+        <GymStack.Navigator
+        screenOptions={{
+            headerShown:false
+        }}>
+            <GymStack.Screen name="Gym Stack" component={MapScreen}/>
+            <GymStack.Screen name="Gym info" component={GymInfo}/>
+        </GymStack.Navigator>
     )
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
 
 export default GymScreen;
-  
+
