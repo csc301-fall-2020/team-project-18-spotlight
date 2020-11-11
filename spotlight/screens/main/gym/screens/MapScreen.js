@@ -1,48 +1,41 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import MapView, { AnimatedRegion } from "react-native-maps";
 import GetLocation from "react-native-get-location";
+import { region } from "../components/UserLocation";
 
 const MapScreen = () => {
-  // state = {
-  //     location: null,
-  //     loading: false,
-  // }
+  const [location, setLocation] = useState(region);
+  const [loading, setLoading] = useState(false);
 
-  // _requestLocation = () => {
-  //     this.setState({ loading: true, location: null });
-
-  //     GetLocation.getCurrentPosition({
+  // useEffect(() => {
+  //   const requestLocation = async () => {
+  //     try {
+  //       const location = await GetLocation.getCurrentPosition({
   //         enableHighAccuracy: true,
-  //         timeout: 150000,
-  //     })
-  //         .then(location => {
-  //             this.setState({
-  //                 location,
-  //                 loading: false,
-  //             });
-  //         })
-  //         .catch(ex => {
-  //             const { code, message } = ex;
-  //             console.warn(code, message);
-  //             if (code === 'CANCELLED') {
-  //                 Alert.alert('Location cancelled by user or by another request');
-  //             }
-  //             if (code === 'UNAVAILABLE') {
-  //                 Alert.alert('Location service is disabled or unavailable');
-  //             }
-  //             if (code === 'TIMEOUT') {
-  //                 Alert.alert('Location request timed out');
-  //             }
-  //             if (code === 'UNAUTHORIZED') {
-  //                 Alert.alert('Authorization denied');
-  //             }
-  //             this.setState({
-  //                 location: null,
-  //                 loading: false,
-  //             });
-  //         });
-  // }
+  //         timeout: 15000,
+  //       });
+
+  //       setLocation(location);
+  //       setLoading(false);
+  //     } catch ({ code, message }) {
+  //       console.warn(code, message);
+  //       if (code === "CANCELLED") {
+  //         Alert.alert("Location cancelled by user or by another request");
+  //       }
+  //       if (code === "UNAVAILABLE") {
+  //         Alert.alert("Location service is disabled or unavailable");
+  //       }
+  //       if (code === "TIMEOUT") {
+  //         Alert.alert("Location request timed out");
+  //       }
+  //       if (code === "UNAUTHORIZED") {
+  //         Alert.alert("Authorization denied");
+  //       }
+  //     }
+  //   };
+  //   requestLocation();
+  // });
 
   return (
     <View style={styles.container}>
@@ -50,7 +43,11 @@ const MapScreen = () => {
       <Text style={styles.description}>
         Find a workout partner at your local gym
       </Text>
-      <MapView style={styles.map} />
+      {loading ? (
+        <Text style={styles.description}>Loading...</Text>
+      ) : (
+        <MapView style={styles.map} region={location} />
+      )}
     </View>
   );
 };
