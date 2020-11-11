@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet} from 'react-native';
+import { Text, View, Button, StyleSheet} from 'react-native';
 
-const AddWorkoutScreen = () => {
+const AddWorkoutScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
-            <Text>
+            <Text style={styles.header}>
                 Add Workout!
             </Text>
+            <Button
+                title="Back"
+                color="#A20A0A"
+                onPress={() =>
+                    navigation.navigate('Calendar Stack')}
+                />
         </View>
     )
 }
@@ -14,11 +20,10 @@ const AddWorkoutScreen = () => {
 const styles = StyleSheet.create({
     header:{
         fontFamily: "Raleway_600SemiBold",
-        fontSize: 40,
+        fontSize: 30,
         fontStyle: "normal",
         textAlign: "center",
-        paddingTop: 20,
-        paddingBottom: 20,
+        paddingTop: "21%"
     },
     container: {
       flex: 1,
@@ -26,6 +31,35 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'flex-start',
     },
+    block: {
+        flex: 1,
+        justifyContent: "space-between",
+        backgroundColor: "#fff",
+        padding: "5%",
+        margin: "5%",
+      },
+    description:{
+        fontFamily: "Raleway_600SemiBold",
+        textAlign: "center",
+        marginBottom: "5%",
+        paddingLeft: "3%",
+    },
+    top: {
+        flex: 0.3,
+        backgroundColor: "#d3d3d3",
+        borderRadius: 10,
+      },
+      middle: {
+        flex: 0.3,
+        backgroundColor: "#d3d3d3",
+        borderRadius: 10,
+
+      },
+      bottom: {
+        flex: 0.3,
+        backgroundColor: "#d3d3d3",
+        borderRadius: 10,
+      },
   });
 
 export default AddWorkoutScreen;
