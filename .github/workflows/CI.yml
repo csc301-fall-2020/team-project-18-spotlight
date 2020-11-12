@@ -20,4 +20,4 @@ jobs:
       - name: Run ESLint
         run: |
           cd spotlight
-          eslint . --ext .js,.jsx,.ts,.tsx
+          ./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx
