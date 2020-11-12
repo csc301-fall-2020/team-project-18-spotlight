@@ -1,13 +1,35 @@
 import React, { Component, useEffect, useState } from "react";
 import { Text, View, StyleSheet, Alert } from "react-native";
-import MapView, { AnimatedRegion } from "react-native-maps";
+import MapView, { AnimatedRegion, Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
 import { region } from "../components/UserLocation";
 
-const MapScreen = () => {
+const MapScreen = ({ navigation }) => {
+  /**
+   * @typedef {Object} Marker
+   * @property {number} longitude
+   * @property {number} latitude
+   * @property {string} title
+   * @property {string} address
+   */
+
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [markers, setMarkers] = useState([
+    {
+      longitude: -79.4152,
+      latitude: 43.82873,
+      title: "Placeholder gym",
+      address: "69 bayview ave",
+    },
+    {
+      longitude: -79.414075,
+      latitude: 43.831143,
+      title: "Placeholder gym 2",
+      address: "55 yonge st",
+    },
+  ]);
 
   useEffect(() => {
     const requestLocation = async () => {
@@ -22,12 +44,12 @@ const MapScreen = () => {
         } = await Location.getCurrentPositionAsync({
           accuracy: 3,
         });
-        console.log("current user lattitude + longitude:", latitude, longitude);
+        console.log("current user latitude + longitude:", latitude, longitude);
         setLocation({
           latitude,
           longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 0.0922, // These two deltas determine how zoomed in the map is initially
+          longitudeDelta: 0.0421, // The larger the delta, the more zoomed out the map is
         });
       } catch ({ code, message }) {
         console.log(code, message);
@@ -54,7 +76,27 @@ const MapScreen = () => {
       </Text>
 
       {location ? (
-        <MapView style={styles.map} region={location} />
+        <MapView style={styles.map} region={location}>
+          {markers.map((marker, i) => (
+            // TODO Add custom icon to marker: @expo/vector-icons maybe
+            <Marker
+              key={i}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
+              title={marker.title}
+              description={marker.address}
+              onCalloutPress={() =>
+                navigation.navigate("GymInfo", {
+                  // Paramaters to pass to pop-up gym info screen
+                  name: marker.title,
+                  address: marker.address,
+                })
+              }
+            />
+          ))}
+        </MapView>
       ) : (
         <Text style={styles.description}>Loading...</Text>
       )}
