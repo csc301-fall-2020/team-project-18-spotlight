@@ -5,8 +5,9 @@ on:
       - master
 
 jobs:
-  setup-environment:
+  Setup-and-lint:
     runs-on: ubuntu-latest
+    continue-on-failure: true
     steps:
       - uses: actions/checkout@v2
 
@@ -20,4 +21,4 @@ jobs:
       - name: Run ESLint
         run: |
           cd spotlight
-          ./node_modules/.bin/eslint . --ext .js,.jsx,.ts,.tsx
+          npm run lint
