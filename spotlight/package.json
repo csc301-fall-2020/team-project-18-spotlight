@@ -1,7 +1,8 @@
 {
   "main": "index.js",
   "scripts": {
-    "android": "react-native run-android",
+    "android-rn": "react-native run-android",
+    "android": "expo start",
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@types/react": "^16.9.56",
     "babel-jest": "~25.2.6",
     "jest": "~25.2.6",
     "react-test-renderer": "~16.13.1"
