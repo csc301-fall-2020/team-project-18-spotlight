@@ -1,0 +1,23 @@
+name: Continuous Integration
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  Setup-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+
+      - name: Install dependencies
+        run: |
+          cd spotlight
+          npm ci
+
+      - name: Run ESLint
+        run: |
+          cd spotlight
+          npm run lint
