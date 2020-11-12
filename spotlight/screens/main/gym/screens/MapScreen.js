@@ -4,11 +4,6 @@ import MapView, { AnimatedRegion } from "react-native-maps";
 import * as Location from "expo-location";
 import GymMarker from "../components/GymMarker";
 
-// dumbbell icon
-import { FontAwesome5 } from "@expo/vector-icons";
-
-import { region } from "../components/UserLocation";
-
 const MapScreen = ({ navigation }) => {
   /**
    * @typedef {Object} Marker

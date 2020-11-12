@@ -1,3 +1,4 @@
+// Use this to spoof location for map
 // Currently UofT location
 const region = {
   latitude: 43.662891,
