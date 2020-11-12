@@ -5,7 +5,7 @@ on:
       - master
 
 jobs:
-  setup-environment:
+  Setup-and-lint:
     runs-on: ubuntu-latest
     continue-on-failure: true
     steps:
