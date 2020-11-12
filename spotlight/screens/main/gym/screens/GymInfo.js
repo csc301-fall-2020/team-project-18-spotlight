@@ -4,10 +4,10 @@ import { IconButton, Colors } from "react-native-paper";
 
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
-  const { name, address } = route.params;
+  const { title, address } = route.params;
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{name}</Text>
+      <Text style={styles.header}>{title}</Text>
       <Text style={styles.description}>{address}</Text>
       <View style={styles.block}>
         <View style={styles.top} />

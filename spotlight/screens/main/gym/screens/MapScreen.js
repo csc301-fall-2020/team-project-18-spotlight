@@ -1,7 +1,11 @@
 import React, { Component, useEffect, useState } from "react";
 import { Text, View, StyleSheet, Alert } from "react-native";
-import MapView, { AnimatedRegion, Marker } from "react-native-maps";
+import MapView, { AnimatedRegion } from "react-native-maps";
 import * as Location from "expo-location";
+import GymMarker from "../components/GymMarker";
+
+// dumbbell icon
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { region } from "../components/UserLocation";
 
@@ -78,19 +82,18 @@ const MapScreen = ({ navigation }) => {
       {location ? (
         <MapView style={styles.map} region={location}>
           {markers.map((marker, i) => (
-            // TODO Add custom icon to marker: @expo/vector-icons maybe
-            <Marker
+            <GymMarker
               key={i}
+              title={marker.title}
+              address={marker.address}
               coordinate={{
                 latitude: marker.latitude,
                 longitude: marker.longitude,
               }}
-              title={marker.title}
-              description={marker.address}
               onCalloutPress={() =>
                 navigation.navigate("GymInfo", {
                   // Paramaters to pass to pop-up gym info screen
-                  name: marker.title,
+                  title: marker.title,
                   address: marker.address,
                 })
               }
