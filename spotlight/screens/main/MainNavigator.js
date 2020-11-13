@@ -7,7 +7,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import CalendarNav from "./calendar/CalendarNav";
 import CalendarScreen from "./calendar/screens/CalendarScreen";
 import ProfileScreen from "./profile/ProfileScreen";
-import GymScreeen from "./gym/GymScreen";
+import GymNavigator from "./gym/GymNavigator";
 import FriendsScreen from "./friends/FriendsScreen";
 
 const MainTab = createBottomTabNavigator();
@@ -50,7 +50,7 @@ const MainNavigator = () => {
       }}
     >
       <MainTab.Screen name="Profile" component={ProfileScreen} />
-      <MainTab.Screen name="Gym" component={GymScreeen} />
+      <MainTab.Screen name="Gym" component={GymNavigator} />
       <MainTab.Screen name="Calendar" component={CalendarNav} />
       <MainTab.Screen name="Friends" component={FriendsScreen} />
     </MainTab.Navigator>

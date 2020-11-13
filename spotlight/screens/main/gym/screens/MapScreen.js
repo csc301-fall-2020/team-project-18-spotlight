@@ -30,13 +30,18 @@ const MapScreen = ({ navigation }) => {
     },
   ]);
 
+  // This is called upon the first rendering of the screen
   useEffect(() => {
     const requestLocation = async () => {
+      // Try and request location permissions from user.
       const { status } = await Location.requestPermissionsAsync();
       if (status !== "granted") {
         console.warn("Permission to access location was denied");
         setErrorMessage("Permission to access location was denied");
+        return;
       }
+
+      // Get current location of user
       try {
         const {
           coords: { latitude, longitude },
