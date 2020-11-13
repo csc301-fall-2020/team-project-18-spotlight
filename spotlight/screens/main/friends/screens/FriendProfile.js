@@ -1,12 +1,11 @@
 import React from 'react';
 import { Text, View, StyleSheet} from 'react-native';
 
-
-const FriendsScreen = () => {
+const FriendProfile = () => {
     return(
         <View style={styles.container}>
             <Text>
-                {"Friends!"}
+                {"Friend Profile!"}
             </Text>
         </View>
     )
@@ -21,5 +20,4 @@ const styles = StyleSheet.create({
     },
   });
 
-export default FriendsScreen;
-  
+export default FriendProfile;
