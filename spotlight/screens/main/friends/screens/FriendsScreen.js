@@ -1,13 +1,13 @@
 import React from "react";
 import { Text, SafeAreaView, View, StyleSheet } from "react-native";
-import FriendsList from "../components/FriendsList"
-import FriendsHeader from "../components/FriendsHeader";
+import FriendsList from "../components/FriendsList";
+import { FriendsHeader } from "../components/Headers";
 
-const FriendsScreen = ({ navigation }) => {
+const FriendsScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FriendsHeader />
-      <FriendsList/>
+      <FriendsList />
     </SafeAreaView>
   );
 };
