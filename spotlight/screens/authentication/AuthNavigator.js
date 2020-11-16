@@ -17,7 +17,6 @@ const AuthNavigator = () => {
             <AuthStack.Screen name="Authentication" component={Authentication}/>
             <AuthStack.Screen name="EmailSignIn" component={EmailSignIn}/>
             <AuthStack.Screen name="EmailSignUp" component={EmailSignUp}/>
-            <AuthStack.Screen name="Main" component={MainNavigator} />
         </AuthStack.Navigator>
     )
 }
