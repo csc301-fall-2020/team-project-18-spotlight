@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProfileScreen from "./ProfileScreen";
-import AppNavigator from "../../AppNavigator";
+import Authentication from "../../authentication/Authentication";
 
 const ProfileStack = createStackNavigator();
 
@@ -14,7 +14,7 @@ const ProfileNavigator = () => {
       }}
     >
       <ProfileStack.Screen name="ProfileScreen" component={ProfileScreen} />
-      <ProfileStack.Screen name="AppNavigator" component={AppNavigator} />
+      <ProfileStack.Screen name="Authentication" component={Authentication} />
     </ProfileStack.Navigator>
   );
 };

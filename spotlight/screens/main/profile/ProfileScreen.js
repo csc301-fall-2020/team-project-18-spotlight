@@ -9,7 +9,7 @@ const ProfileScreen = ({ navigation }) => {
         firebase.auth()
         .signOut()
         .then(() => {
-            navigation.navigate('AppNavigator');
+            navigation.navigate('Authentication');
             console.log('User signed out!')
         });
     }
