@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, StyleSheet} from 'react-native';
+import SignOutBtn from '../../authentication/SignOut'
 
 
 const ProfileScreen = () => {
@@ -8,6 +9,7 @@ const ProfileScreen = () => {
             <Text>
                 {"Profile!"}
             </Text>
+            <SignOutBtn />
         </View>
     )
 }

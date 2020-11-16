@@ -9,6 +9,7 @@ import CalendarScreen from "./calendar/screens/CalendarScreen";
 import ProfileScreen from "./profile/ProfileScreen";
 import GymNavigator from "./gym/GymNavigator";
 import FriendsScreen from "./friends/FriendsScreen";
+import SignOut from "../authentication/SignOut";
 
 const MainTab = createBottomTabNavigator();
 
