@@ -1,16 +1,33 @@
 import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
-import SignOutBtn from '../../authentication/SignOut'
+import { StyleSheet} from 'react-native';
+import  {Container, Button, Text} from 'native-base';
+import * as firebase from 'firebase';
 
+const ProfileScreen = ({ navigation }) => {
 
-const ProfileScreen = () => {
+    const signOut = () => {
+        firebase.auth()
+        .signOut()
+        .then(() => {
+            navigation.navigate('AppNavigator');
+            console.log('User signed out!')
+        });
+    }
+
     return(
-        <View style={styles.container}>
+        <Container style={styles.container}>
             <Text>
                 {"Profile!"}
             </Text>
-            <SignOutBtn />
-        </View>
+            <Button style={{ marginTop: 20 }}
+            rounded
+            small
+            danger
+            onPress = {() => signOut()}
+            >
+                <Text>SignOut</Text>
+            </Button>
+        </Container>
     )
 }
 

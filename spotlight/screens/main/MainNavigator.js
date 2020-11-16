@@ -1,15 +1,10 @@
 import React from "react";
-import { Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
 import CalendarNav from "./calendar/CalendarNav";
-import CalendarScreen from "./calendar/screens/CalendarScreen";
-import ProfileScreen from "./profile/ProfileScreen";
+import ProfileNav from "./profile/ProfileNav";
 import FriendsNav from "./friends/FriendsNav";
 import GymNavigator from "./gym/GymNavigator";
-import FriendsScreen from "./friends/FriendsScreen";
 
 const MainTab = createBottomTabNavigator();
 
@@ -50,7 +45,7 @@ const MainNavigator = () => {
         showLabel: false,
       }}
     >
-      <MainTab.Screen name="Profile" component={ProfileScreen} />
+      <MainTab.Screen name="Profile" component={ProfileNav} />
       <MainTab.Screen name="Gym" component={GymNavigator} />
       <MainTab.Screen name="Calendar" component={CalendarNav} />
       <MainTab.Screen name="Friends" component={FriendsNav} />

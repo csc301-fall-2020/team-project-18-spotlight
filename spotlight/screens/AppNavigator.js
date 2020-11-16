@@ -49,7 +49,6 @@ const AppNavigator = () => {
         {user == null ? (
           <AppStack.Screen name="Auth" component={AuthNavigator} />
         ) : (
-          // <AppStack.Screen name="Auth" component={AuthNavigator} />
           <AppStack.Screen name="Main" component={MainNavigator} />
         )}
       </AppStack.Navigator>
