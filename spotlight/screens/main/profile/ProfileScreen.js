@@ -1,5 +1,5 @@
-import React from 'react';
-import { Icon, StyleSheet, Text, View, Image, ImageBackground, Button, TextInput, TouchableOpacity } from 'react-native';
+import React, { Component, useEffect, useState } from 'react';
+import { Icon, StyleSheet, Text, View, Image, ImageBackground, Button,ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import profilePic from "./images/profilePic.png"
 
 import editProfile from "./images/editProfile.png"
@@ -10,6 +10,14 @@ const textinfo = "Hey, I’m Laura! I love cycling and my dog Francis. I’m usu
 
 
 const ProfileScreen = () => {
+  const [profileInfo, setInfo] = useState(
+    {
+      name: "Laura",
+      gender: "F | 20",
+      description: textinfo,
+    }
+  );
+
     return (
         <View style={styles.container}>
             <Image source={profilePic} style={styles.background} />
@@ -22,13 +30,13 @@ const ProfileScreen = () => {
 
             <View style={styles.info}>
                 <Text style={{ fontSize: 40 }} >
-                    {"Laura"}
+                    {profileInfo.name}
                 </Text>
                 <Text style={styles.titleText} >
-                    {"F | 20"}
+                    {profileInfo.gender}
                 </Text>
                 <Text style={styles.titleText} >
-                    {textinfo}
+                    {profileInfo.description}
                 </Text>
 
 
