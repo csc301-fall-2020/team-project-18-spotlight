@@ -96,8 +96,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(162, 10, 10, 1)',
       borderRadius: 50,
   
-      width: 40,
-      height: 40
+      width: 60,
+      height: 60
     },
     info: {
       flexDirection: "column",
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     },
   
     buttonGroup: {
+      width: 200,
       top: 50,
       flexDirection: "row",
       // bottom: 40,
