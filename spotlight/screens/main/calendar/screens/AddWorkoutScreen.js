@@ -7,7 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
  */
 const AddWorkoutScreen = ({navigation}) => {
     const [muscles, onChangeItem] = React.useState('abs')
-    const [title, onChangeText] = React.useState('Exercise Name');
+    const [title, onChangeText] = React.useState('');
     return (
         <View style={styles.container}>
             <Text style={styles.header}>
@@ -62,6 +62,18 @@ const AddWorkoutScreen = ({navigation}) => {
                         dropDownStyle={{backgroundColor: '#fafafa'}}
                         onChangeItem={item => onChangeItem(item.value)}
                     />
+                </View>
+                <View style={{ flex: 0.1 }}>
+                    <TextInput 
+                        style={styles.input}
+                        onChangeText={text => onChangeText(text)}
+                        value={title}/>
+                </View>
+                <View style={{ flex: 0.1 }}>
+                    <TextInput 
+                        style={styles.input}
+                        onChangeText={text => onChangeText(text)}
+                        value={title}/>
                 </View>
             </View>
 
