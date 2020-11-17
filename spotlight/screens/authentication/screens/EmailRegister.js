@@ -1,48 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {StyleSheet} from 'react-native';
-import {auth} from 'firebase';
-import  {Container, Title, Content, Header, Form, Input, Item, Button, Label , Text} from 'native-base';
-  
-const EmailSignUp = ({ navigation }) => {
+import  {Container, Form, Input, Item, Button, Label , Text} from 'native-base';
+import { AuthContext } from '../EmailContext/AuthProvider';
 
+const EmailSignUp = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
-    const signUpUser = () => {
-        try{
-            if(password.length < 6){
-                alert("Please enter at least 6 characters");
-                return;
-            }
-
-            if(password !== confirmPassword){
-                alert("Password and Confirm Password is not the same!");
-                return;
-            }
-
-            auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                console.log('User account created & signed in!');
-            }).then(() => {
-                navigation.navigate("Main");
-            }).catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                alert('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                alert('That email address is invalid!');
-                }
-
-                alert(error);
-            });
-
-        } catch (error){
-            alert(error.toString());
-        }
-    }
+    const { emailRegister } = useContext(AuthContext);
 
     return (
         <Container style={styles.container}>
@@ -78,7 +43,7 @@ const EmailSignUp = ({ navigation }) => {
                 full
                 rounded 
                 primary
-                onPress = {() => signUpUser()}
+                onPress = {() => emailRegister(email, password, confirmPassword)}
                 >
                     <Text>Sign Up</Text>
                 </Button>

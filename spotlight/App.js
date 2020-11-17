@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import AppNavigator from './screens/AppNavigator';
-// import {useFonts, Raleway_600SemiBold} from '@expo-google-fonts/raleway'
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
 import * as firebase from 'firebase';
@@ -54,24 +53,3 @@ export default class App extends React.Component {
     }
   }
 }
-
-// export default function App() {
-
-//   let [fontsLoaded] = useFonts({Raleway_600SemiBold});
-
-//   if (!fontsLoaded){
-//       return <AppLoading/>
-//   }
-//   return (
-//     <AppNavigator />
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });

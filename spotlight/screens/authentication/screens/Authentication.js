@@ -10,7 +10,7 @@ const Authentication = ({ navigation }) => {
             <Button style={{ marginTop: 20 }}
             full
             rounded 
-            onPress = {() => navigation.navigate('EmailSignIn')}
+            onPress = {() => navigation.navigate('EmailLogIn')}
             >
                 <Text>Email Authentication</Text>
             </Button> 

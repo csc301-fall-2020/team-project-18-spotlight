@@ -1,18 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet} from 'react-native';
 import  {Container, Button, Text} from 'native-base';
-import * as firebase from 'firebase';
+import { AuthContext } from '../../authentication/EmailContext/AuthProvider';
 
 const ProfileScreen = ({ navigation }) => {
 
-    const signOut = () => {
-        firebase.auth()
-        .signOut()
-        .then(() => {
-            navigation.navigate('Authentication');
-            console.log('User signed out!')
-        });
-    }
+    const { emailLogout } = useContext(AuthContext);
 
     return(
         <Container style={styles.container}>
@@ -23,9 +16,9 @@ const ProfileScreen = ({ navigation }) => {
             rounded
             small
             danger
-            onPress = {() => signOut()}
+            onPress = {() => emailLogout()}
             >
-                <Text>SignOut</Text>
+                <Text>Log Out</Text>
             </Button>
         </Container>
     )

@@ -3,12 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import MainNavigator from "./main/MainNavigator";
 import AuthNavigator from "./authentication/AuthNavigator";
-import Loading from './shared/Loading';
 import { auth } from 'firebase';
 import { AppLoading } from 'expo';
-// import * as Font from 'expo-font';
 import {useFonts, Raleway_600SemiBold} from '@expo-google-fonts/raleway';
-
+import { AuthProvider } from './authentication/EmailContext/AuthProvider';
 
 const AppStack = createStackNavigator();
 
@@ -32,27 +30,25 @@ const AppNavigator = () => {
 
   if (initializing) return null;
 
-  if (loading) {
-      return <Loading />;
-    }
-
-  if (!fontsLoaded){
+  if (loading || !fontsLoaded){
     return <AppLoading/>
   }
   return (
-    <NavigationContainer>
-      <AppStack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        {user == null ? (
-          <AppStack.Screen name="Auth" component={AuthNavigator} />
-        ) : (
-          <AppStack.Screen name="Main" component={MainNavigator} />
-        )}
-      </AppStack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <AppStack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          {user == null ? (
+            <AppStack.Screen name="Auth" component={AuthNavigator} />
+          ) : (
+            <AppStack.Screen name="Main" component={MainNavigator} />
+          )}
+        </AppStack.Navigator>
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 

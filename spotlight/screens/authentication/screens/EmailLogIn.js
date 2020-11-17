@@ -1,42 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {StyleSheet} from 'react-native';
-import {auth} from 'firebase';
-import  {Container, Title, Content, Header, Form, Input, Item, Button, Label , Text} from 'native-base';
-  
+import  {Container, Form, Input, Item, Button, Label , Text} from 'native-base';
+import { AuthContext } from '../EmailContext/AuthProvider';
+
 const EmailSignIn = ({ navigation }) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    const logInUser = () => {
-        try{
-            if(password.length < 6){
-                alert("Please enter at least 6 characters");
-                return;
-            }
-
-            auth()
-            .signInWithEmailAndPassword(email, password)
-            .then(() => {
-                alert('User signed in!');
-            }).then(() => {
-                navigation.navigate("Main");
-            }).catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    alert('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                    alert('That email address is invalid!');
-                }
-
-                alert(error);
-            });
-
-        } catch (error){
-            alert(error.toString());
-        }
-    }
+    const { emailLogin } = useContext(AuthContext);
 
     return (
         <Container style={styles.container}>
@@ -63,7 +34,7 @@ const EmailSignIn = ({ navigation }) => {
                 full 
                 rounded 
                 success
-                onPress = {() => logInUser()}
+                onPress = {() => emailLogin(email, password)}
                 >
                     <Text>Sign In</Text>
                 </Button>    
