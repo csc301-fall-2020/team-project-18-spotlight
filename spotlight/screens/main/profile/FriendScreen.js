@@ -12,7 +12,7 @@ const textinfo = "Hey, I’m Laura! I love cycling and my dog Francis. I’m usu
 
 
 
-const ProfileScreen2 = () => {
+const FriendScreen = () => {
     return (
         <View style={styles.container}>
           <Image source={profilePic} style={styles.background} />
@@ -61,7 +61,10 @@ const ProfileScreen2 = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
       alignItems: 'center'
+
     },
     backButton: {
       position: 'absolute',
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(162, 10, 10, 1)',
       borderRadius: 50,
   
-      width: 85,
+      width: 40,
       height: 40
     },
     info: {
@@ -119,12 +122,14 @@ const styles = StyleSheet.create({
     },
   
     buttonGroup: {
+      top: 50,
       flexDirection: "row",
-      bottom: 40,
-      position: 'absolute',
+      // bottom: 40,
+      // position: 'absolute',
       flex: 1,
-      justifyContent: 'flex-end',
-      marginBottom: 20
+      justifyContent: 'space-between',
+      // marginBottom: 20
+      
     },
     titleText: {
   
@@ -134,4 +139,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default ProfileScreen2;
+export default FriendScreen;
