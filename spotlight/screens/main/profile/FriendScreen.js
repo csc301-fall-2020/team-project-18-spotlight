@@ -12,7 +12,7 @@ const textinfo = "Hey, I’m Laura! I love cycling and my dog Francis. I’m usu
 
 
 const FriendScreen = (props) => {
-  const [friendInfo, setInfo] = useState(
+  const [friendInfo, setFriendInfo] = useState(
     {
       name: "Laura",
       gender: "F | 20",
@@ -20,6 +20,21 @@ const FriendScreen = (props) => {
     }
   );
 
+  const [checkFriend, setCheckFriend] = useState(false);
+
+  let buttonTitle = "";
+  let friendButtons = "";
+  if (checkFriend ) {
+    friendButtons = <FriendButtonBar />;
+    buttonTitle = "Friends";
+  } else {
+    friendButtons = <Text style={{ position: 'relative', top: 70 }}>add to your Friend list to check info</Text>;
+    buttonTitle = "Add As Friend";
+  }
+
+  const onButtonPress = () => {
+    setCheckFriend(!checkFriend);
+  }
 
   return (
     <View style={styles.container}>
@@ -29,10 +44,10 @@ const FriendScreen = (props) => {
         <Image source={back} />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.editProfile} onPress={() => { alert("you clicked me") }}>
+      <TouchableOpacity style={styles.editProfile} onPress={onButtonPress}>
         <Image source={editProfile} />
         <Text style={{ color: "white", position: "absolute", fontSize: 30 }} >
-          {"Friends"}
+          {buttonTitle}
         </Text>
       </TouchableOpacity>
 
@@ -50,7 +65,7 @@ const FriendScreen = (props) => {
           {friendInfo.description}
         </Text>
 
-        <FriendButtonBar/>
+        {friendButtons}
 
 
       </View>
