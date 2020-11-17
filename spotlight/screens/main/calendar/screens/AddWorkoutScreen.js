@@ -20,26 +20,50 @@ const AddWorkoutScreen = ({navigation}) => {
                     navigation.navigate('Calendar Stack')}
                 />
 
-            <TextInput 
-                style={styles.input}
-                onChangeText={text => onChangeText(text)}
-                value={title}/>
-
-            <DropDownPicker
-                items={[
-                    {label: 'Abs', value: 'abs', hidden: true},
-                    {label: 'Biceps', value: 'biceps'},
-                    {label: 'Glutes', value: 'glutes'}
-                ]}
-                defaultValue={ muscles }
-                containerStyle={{height: 35, width: 150}}
-                style={{backgroundColor: '#fafafa', marginTop: 5}}
-                itemStyle={{
-                    justifyContent: 'flex-start'
+            
+            <View
+                style={{
+                    flexDirection: "row",
+                    height: 50,
+                    width: 300,
                 }}
-                dropDownStyle={{backgroundColor: '#fafafa'}}
-                onChangeItem={item => onChangeItem(item.value)}
-            />
+                >
+                    <Text style={{flex: 0.4, textAlign: 'center'}}>Title</Text>
+                    <Text style={{flex: 0.4, textAlign: 'center'}}>Muscles</Text>
+                    <Text style={{flex: 0.1, textAlign: 'center'}}>Rep</Text>
+                    <Text style={{flex: 0.1, textAlign: 'center'}}>Lbs</Text>
+            </View>
+
+            <View
+                style={{
+                    flexDirection: "row",
+                    height: 50,
+                    width: 300,
+                }}
+                >
+                <View style={{ flex: 0.4 }}>
+                    <TextInput 
+                        style={styles.input}
+                        onChangeText={text => onChangeText(text)}
+                        value={title}/>
+                </View>
+                <View style={{ flex: 0.4 }}>
+                    <DropDownPicker
+                        items={[
+                            {label: 'Abs', value: 'abs', hidden: true},
+                            {label: 'Biceps', value: 'biceps'},
+                            {label: 'Glutes', value: 'glutes'}
+                        ]}
+                        defaultValue={ muscles }
+                        style={styles.input}
+                        itemStyle={{
+                            justifyContent: 'flex-start'
+                        }}
+                        dropDownStyle={{backgroundColor: '#fafafa'}}
+                        onChangeItem={item => onChangeItem(item.value)}
+                    />
+                </View>
+            </View>
 
             <TouchableHighlight
                 style={styles.button}>
@@ -98,7 +122,7 @@ const styles = StyleSheet.create({
         marginTop: 22
     },
     button: {
-        backgroundColor: "#F194FF",
+        backgroundColor: "#000",
         borderRadius: 20,
         padding: 10,
         elevation: 2,
@@ -110,11 +134,12 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     input: { 
-        marginTop: 5,
-        height: 30,
-        width: 150,
         borderColor: '#d3d3d3', 
-        borderBottomWidth: 1
+        borderWidth: 1,
+        backgroundColor: "#fafafa",
+        borderRadius: 5,
+        height: 30,
+        margin: 5
     },
   });
 
