@@ -28,14 +28,18 @@ export const AuthProvider = ({ children }) => {
             .then(() => {
                 alert('User signed in!');
             }).catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    alert('That email address is already in use!');
-                }
+                // if (error.code === 'auth/email-already-in-use') {
+                //     alert('That email address is already in use!');
+                // }
 
-                if (error.code === 'auth/invalid-email') {
-                    alert('That email address is invalid!');
-                }
-                console.log(error);
+                // if (error.code === 'auth/invalid-email') {
+                //     alert('That email address is invalid!');
+                // }
+
+                // if (error.code === 'auth/invalid-password') {
+                //   alert('That email password is invalid!');
+                // }
+                alert(error);
             });
           } catch (e){
             console.error(e);

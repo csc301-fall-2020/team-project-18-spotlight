@@ -1,19 +1,20 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import  {Container, Button, Text} from 'native-base';
+import {StyleSheet, Text} from 'react-native';
+import  {Container} from 'native-base';
+import { Button } from 'react-native-paper';
 
 
 const Authentication = ({ navigation }) => {
     return (
         <Container style={styles.container}>
-            <Text>Authentication</Text>
-            <Button style={{ marginTop: 20 }}
-            full
-            rounded 
-            onPress = {() => navigation.navigate('EmailLogIn')}
-            >
-                <Text>Email Authentication</Text>
-            </Button> 
+            <Text style={styles.title}>AUTHENTICATION</Text>
+            
+            <Button 
+            icon="email" 
+            mode="contained" 
+            onPress={() => navigation.navigate('EmailLogIn')}>
+                EMAIL AUTHENTICATION
+            </Button>
         </Container>
       );
 }
@@ -25,6 +26,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 50,
     },
+    title:{
+        fontWeight:'bold', 
+        marginBottom:10, 
+        fontSize:20,
+        textAlign:"center"
+    }
 });
 
 export default Authentication;

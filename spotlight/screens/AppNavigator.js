@@ -1,20 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import MainNavigator from "./main/MainNavigator";
 import AuthNavigator from "./authentication/AuthNavigator";
-import { auth } from 'firebase';
 import { AppLoading } from 'expo';
-import {useFonts, Raleway_600SemiBold} from '@expo-google-fonts/raleway';
-import { AuthProvider } from './authentication/EmailContext/AuthProvider';
+import * as firebase from 'firebase';
+import { AuthContext } from './authentication/EmailContext/AuthProvider';
+
 
 const AppStack = createStackNavigator();
 
 const AppNavigator = () => {
-  const [user, setUser] = useState();
+  const {user, setUser} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(true);
-  let [fontsLoaded] = useFonts({Raleway_600SemiBold});
 
   // Handle user state changes
   function onAuthStateChanged(user) {
@@ -24,31 +23,30 @@ const AppNavigator = () => {
   }
 
   useEffect(() => {
-      const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+      const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
       return subscriber; // unsubscribe on unmount
   }, []);
 
   if (initializing) return null;
 
-  if (loading || !fontsLoaded){
+  if (loading){
     return <AppLoading/>
   }
+
   return (
-    <AuthProvider>
-      <NavigationContainer>
-        <AppStack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          {user == null ? (
-            <AppStack.Screen name="Auth" component={AuthNavigator} />
-          ) : (
-            <AppStack.Screen name="Main" component={MainNavigator} />
-          )}
-        </AppStack.Navigator>
-      </NavigationContainer>
-    </AuthProvider>
+    <NavigationContainer>
+      <AppStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        {user == null ? (
+          <AppStack.Screen name="Auth" component={AuthNavigator} />
+        ) : (
+          <AppStack.Screen name="Main" component={MainNavigator} />
+        )}
+      </AppStack.Navigator>
+    </NavigationContainer>
   );
 };
 
