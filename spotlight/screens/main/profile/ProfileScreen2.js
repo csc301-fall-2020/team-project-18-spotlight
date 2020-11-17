@@ -1,11 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Icon, StyleSheet, Text, View, Image, ImageBackground, Button, TextInput, TouchableOpacity } from 'react-native';
 import profilePic from "./images/profilePic.png"
-import book from "./images/book.png"
 import calender from "./images/calender.png"
-import friend from "./images/friend.png"
-import profile from "./images/profile.png"
 import editProfile from "./images/editProfile.png"
 import back from "./images/back.png"
 import location from "./images/location.png"
@@ -44,9 +40,8 @@ const ProfileScreen2 = () => {
             </Text>
     
     
-    
-    
             <View style={styles.buttonGroup}>
+
               <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
                 <Image source={location} />
               </TouchableOpacity>
@@ -56,6 +51,7 @@ const ProfileScreen2 = () => {
               <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
                 <Image source={calender} />
               </TouchableOpacity>
+              
             </View>
           </View>
         </View>
@@ -124,7 +120,7 @@ const styles = StyleSheet.create({
   
     buttonGroup: {
       flexDirection: "row",
-      bottom: 0,
+      bottom: 40,
       position: 'absolute',
       flex: 1,
       justifyContent: 'flex-end',

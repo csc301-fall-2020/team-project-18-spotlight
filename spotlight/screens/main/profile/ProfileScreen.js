@@ -1,11 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Icon, StyleSheet, Text, View, Image, ImageBackground, Button, TextInput, TouchableOpacity } from 'react-native';
 import profilePic from "./images/profilePic.png"
-import book from "./images/book.png"
-import calender from "./images/calender.png"
-import friend from "./images/friend.png"
-import profile from "./images/profile.png"
+
 import editProfile from "./images/editProfile.png"
 
 const textinfo = "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!"
@@ -36,21 +32,6 @@ const ProfileScreen = () => {
                 </Text>
 
 
-            </View>
-
-            <View style={styles.buttonGroup}>
-                <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
-                    <Image source={profile} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
-                    <Image source={book} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
-                    <Image source={calender} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
-                    <Image source={friend} />
-                </TouchableOpacity>
             </View>
         </View>
     );
@@ -94,7 +75,6 @@ const styles = StyleSheet.create({
       borderColor: 'black',
       borderWidth: 1.2,
       position: 'absolute',
-      // backgroundColor: 'white'
       zIndex: 3,
     },
     editProfile: {
