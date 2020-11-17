@@ -22,27 +22,12 @@ export const AuthProvider = ({ children }) => {
                 alert("Please enter at least 6 characters");
                 return;
             }
-
+              
             await firebase.auth()
             .signInWithEmailAndPassword(email, password)
-            .then(() => {
-                alert('User signed in!');
-            }).catch(error => {
-                // if (error.code === 'auth/email-already-in-use') {
-                //     alert('That email address is already in use!');
-                // }
 
-                // if (error.code === 'auth/invalid-email') {
-                //     alert('That email address is invalid!');
-                // }
-
-                // if (error.code === 'auth/invalid-password') {
-                //   alert('That email password is invalid!');
-                // }
-                alert(error);
-            });
           } catch (e){
-            console.error(e);
+            alert(e);
           }
         },
 
@@ -60,21 +45,21 @@ export const AuthProvider = ({ children }) => {
       
             await firebase.auth()
             .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-                console.log('User account created & signed in!');
-            }).catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                alert('That email address is already in use!');
-                }
+            // .then(() => {
+            //     console.log('User account created & signed in!');
+            // }).catch(error => {
+            //     if (error.code === 'auth/email-already-in-use') {
+            //     alert('That email address is already in use!');
+            //     }
       
-                if (error.code === 'auth/invalid-email') {
-                alert('That email address is invalid!');
-                }
+            //     if (error.code === 'auth/invalid-email') {
+            //     alert('That email address is invalid!');
+            //     }
       
-                console.log(error);
-            });
+            //     console.log(error);
+            // });
           } catch (e){
-            console.error(e);
+            alert(e);
           }
         },
 

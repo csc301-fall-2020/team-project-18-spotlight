@@ -4,11 +4,17 @@ import  {Container} from 'native-base';
 import { AuthContext } from '../EmailContext/AuthProvider';
 import { TextInput, Button } from 'react-native-paper';
 
-const EmailSignIn = ({ navigation }) => {
+const EmailLogIn = ({ navigation }) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { emailLogin } = useContext(AuthContext);
+    
+    const login = (email, password) => {
+        emailLogin(email, password);
+        setEmail("");
+        setPassword("");
+    }
 
     return (
         <Container style={styles.container}>
@@ -38,7 +44,7 @@ const EmailSignIn = ({ navigation }) => {
             style={styles.login}
             icon="login" 
             mode="contained" 
-            onPress = {() => emailLogin(email, password)}>
+            onPress = {() => login(email, password)}>
                 <Text style={{fontSize:15}}>Login</Text>
             </Button>
 
@@ -95,4 +101,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default EmailSignIn;
+export default EmailLogIn;

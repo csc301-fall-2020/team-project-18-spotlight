@@ -10,6 +10,13 @@ const EmailSignUp = ({ navigation }) => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const { emailRegister } = useContext(AuthContext);
 
+    const logout = (email, password, confirmPassword) => {
+        emailRegister(email, password, confirmPassword);
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+    }
+
     return (
         <Container style={styles.container}>
             <Text style={styles.title}>Register to Spotlight!</Text>
@@ -49,7 +56,7 @@ const EmailSignUp = ({ navigation }) => {
             style={styles.register}
             icon="account-plus" 
             mode="contained" 
-            onPress = {() => emailRegister(email, password, confirmPassword)}>
+            onPress = {() => logout(email, password, confirmPassword)}>
                 <Text style={{fontSize:15}}>Create Account</Text>
             </Button>
 
