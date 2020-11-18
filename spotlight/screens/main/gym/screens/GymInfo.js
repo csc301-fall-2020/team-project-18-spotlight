@@ -16,6 +16,7 @@ const GymInfo = ({ route, navigation }) => {
           style={{ paddingTop: "5%" }}
           title="Return to map"
           onPress={() => navigation.goBack()}
+          
         />
       </View>
     </View>
