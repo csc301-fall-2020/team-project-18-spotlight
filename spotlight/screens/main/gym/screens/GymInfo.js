@@ -10,10 +10,13 @@ const GymInfo = ({ route, navigation }) => {
       <Text style={styles.header}>{title}</Text>
       <Text style={styles.description}>{address}</Text>
       <View style={styles.block}>
-        <View style={styles.top} />
-        <View style={styles.middle} />
-        <View style={styles.bottom} />
-        <Button title="Return to map" onPress={() => navigation.goBack()} />
+        <View style={styles.profile} />
+        <View style={styles.data} />
+        <Button
+          style={{ paddingTop: "5%" }}
+          title="Return to map"
+          onPress={() => navigation.goBack()}
+        />
       </View>
     </View>
   );
@@ -26,10 +29,11 @@ const styles = StyleSheet.create({
   },
   block: {
     flex: 1,
-    justifyContent: "space-between",
     backgroundColor: "#fff",
-    padding: "5%",
-    margin: "5%",
+    paddingRight: "5%",
+    paddingLeft: "5%",
+    marginLeft: "5%",
+    marginRight: "5%",
   },
   header: {
     fontFamily: "Raleway_600SemiBold",
@@ -44,20 +48,19 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
     paddingLeft: "3%",
   },
-  top: {
+  profile: {
     flex: 0.3,
     backgroundColor: "#d3d3d3",
     borderRadius: 10,
+    paddingTop: "85%",
+    marginBottom: "5%",
   },
-  middle: {
+  data: {
     flex: 0.3,
     backgroundColor: "#d3d3d3",
     borderRadius: 10,
-  },
-  bottom: {
-    flex: 0.3,
-    backgroundColor: "#d3d3d3",
-    borderRadius: 10,
+    paddingBottom: "50%",
+    marginBottom: "5%",
   },
 });
 
