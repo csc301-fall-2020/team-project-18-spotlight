@@ -1,5 +1,4 @@
 import PropTypes, { number } from "prop-types";
-import { FontAwesome5 } from "@expo/vector-icons";
 import React from "react";
 import { Marker } from "react-native-maps";
 
@@ -9,9 +8,7 @@ const GymMarker = ({ title, address, coordinate, onCalloutPress }) => (
     title={title}
     description={address}
     onCalloutPress={onCalloutPress}
-  >
-    <FontAwesome5 name="dumbbell" size={24} color="black" />
-  </Marker>
+  />
 );
 
 GymMarker.propTypes = {
