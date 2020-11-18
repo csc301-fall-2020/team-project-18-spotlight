@@ -75,9 +75,7 @@ const MapScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.header}>Gyms Nearby</Text>
 
-      <Text style={styles.description}>
-        Find a workout partner at your local gym.
-      </Text>
+      <Text style={styles.description}>Find a gym near you.</Text>
 
       {location ? (
         <MapView style={styles.map} region={location}>
