@@ -29,14 +29,19 @@ const MapScreen = ({ navigation }) => {
       address: "55 yonge st",
     },
   ]);
-
+  
+  // This is called upon the first rendering of the screen
   useEffect(() => {
     const requestLocation = async () => {
+      // Try and request location permissions from user.
       const { status } = await Location.requestPermissionsAsync();
       if (status !== "granted") {
         console.warn("Permission to access location was denied");
         setErrorMessage("Permission to access location was denied");
+        return;
       }
+
+      // Get current location of user
       try {
         const {
           coords: { latitude, longitude },
@@ -69,11 +74,9 @@ const MapScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Gyms Nearby</Text>
-
       <Text style={styles.description}>
         Find a workout partner at your local gym.
       </Text>
-
       {location ? (
         <MapView style={styles.map} region={location}>
           {markers.map((marker, i) => (
