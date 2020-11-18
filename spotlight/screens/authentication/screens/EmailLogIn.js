@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {StyleSheet , Text} from 'react-native';
-import  {Container} from 'native-base';
+import { View, StyleSheet , Text} from 'react-native';
 import { AuthContext } from '../EmailContext/AuthProvider';
 import { TextInput, Button } from 'react-native-paper';
 
@@ -17,7 +16,7 @@ const EmailLogIn = ({ navigation }) => {
     }
 
     return (
-        <Container style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.title}>Welcome Back to Spotlight!</Text>
             <TextInput
             style={{marginBottom:10}}
@@ -63,7 +62,7 @@ const EmailLogIn = ({ navigation }) => {
             onPress = {() => navigation.navigate("Authentication")}>
                 Back
             </Button>
-        </Container>
+        </View>
     );
 }
 

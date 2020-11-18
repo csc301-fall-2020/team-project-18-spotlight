@@ -1,12 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
-import  {Container} from 'native-base';
+import {View, StyleSheet, Text} from 'react-native';
 import { Button } from 'react-native-paper';
 
 
 const Authentication = ({ navigation }) => {
     return (
-        <Container style={styles.container}>
+        <View style={styles.container}>
             <Text style={styles.title}>AUTHENTICATION</Text>
             
             <Button 
@@ -15,7 +14,7 @@ const Authentication = ({ navigation }) => {
             onPress={() => navigation.navigate('EmailLogIn')}>
                 EMAIL AUTHENTICATION
             </Button>
-        </Container>
+        </View>
       );
 }
 

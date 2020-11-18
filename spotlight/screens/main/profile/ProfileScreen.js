@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { StyleSheet, Text} from 'react-native';
-import  {Container} from 'native-base';
+import { View, StyleSheet, Text} from 'react-native';
 import { Button } from 'react-native-paper';
 import { AuthContext } from '../../authentication/EmailContext/AuthProvider';
 
@@ -9,18 +8,10 @@ const ProfileScreen = ({ navigation }) => {
     const { emailLogout } = useContext(AuthContext);
 
     return(
-        <Container style={styles.container}>
+        <View style={styles.container}>
             <Text>
                 {"Profile!"}
             </Text>
-            {/* <Button style={{ marginTop: 20 }}
-            rounded
-            small
-            danger
-            onPress = {() => emailLogout()}
-            >
-                <Text>Log Out</Text>
-            </Button> */}
             <Button
             style={styles.back}
             icon="logout" 
@@ -28,7 +19,7 @@ const ProfileScreen = ({ navigation }) => {
             onPress = {() => emailLogout()}>
                 <Text style={{fontSize:15}}>Logout</Text>
             </Button>
-        </Container>
+        </View>
     )
 }
 
