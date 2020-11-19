@@ -18,6 +18,12 @@ const DATA = [
 const FriendsList = ({ friends }) => {
   const navigation = useNavigation();
 
+  /**
+   * This function determines how to render each item in the list.
+   * Item corresponds to each element in the data array, and title
+   * corresponds to the title it belongs to.
+   */
+
   const renderItem = ({ item, section: { title } }) => {
     if (title === "Friend Requests") {
       return (
@@ -36,6 +42,38 @@ const FriendsList = ({ friends }) => {
     }
   };
 
+  const renderHeader = ({section: {title}}) =>{
+    if(title === "Friends" || title === "Friend Requests"){
+      return <Header title={title} size={24}/>
+    } else{
+      return <Header title={title} size={20}/>
+    }
+  }
+
+
+  const formatData = (friendData) => {
+    const sections = {};
+    friendData.forEach((friend) => {
+      // Group each people by the first letter of their nicknames
+      const c = friend.nickname.charAt(0);
+
+      // Do an upsert
+      if (!sections.hasOwnProperty(c)) {
+        sections[c] = [];
+      }
+      sections[c].push(friend);
+    });
+
+    // Formats the data into the required format
+    return Object.entries(sections).map(([title, data]) => ({
+      title,
+      // localeCompare compares each thing, TODO: If backwards, switch a and B
+      data: data.sort((a, b) => b.nickname.localeCompare(a.nickname)),
+    }));
+  };
+
+  const formattedFriendData = formatData(friends);
+
   return (
     <View style={styles.container}>
       <SectionList
@@ -46,14 +84,13 @@ const FriendsList = ({ friends }) => {
             data: [],
           },
           {
-            title: "Friends",
-            data: friends,
+            title: "Friends", 
+            data: []
           },
+          ...formattedFriendData,
         ]}
         renderItem={renderItem}
-        renderSectionHeader={({ section: { title } }) => {
-          return <Header title={title} />;
-        }}
+        renderSectionHeader={renderHeader}
         stickySectionHeadersEnabled={false}
       />
     </View>

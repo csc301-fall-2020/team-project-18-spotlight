@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 
-const Header = ({ title }) => {
+const Header = ({ title , size}) => {
   return (
     <View>
-      <Text style={styles.requestHeader}>{title}</Text>
+      <Text style={{fontSize: size, ...styles.header}}>{title}</Text>
     </View>
   );
 };
@@ -65,11 +65,10 @@ const Friend = ({ data, onPress }) => {
 };
 
 const styles = StyleSheet.create({
-  requestHeader: {
+    header: {
     fontFamily: "Raleway_600SemiBold",
-    fontSize: 24,
     fontStyle: "normal",
-    paddingBottom: "1%",
+    paddingBottom: "1.5%",
   },
   friendContainer: {
     flex: 1,
