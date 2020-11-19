@@ -3,11 +3,13 @@ import { Text, View, StyleSheet, Alert } from "react-native";
 import MapView, { AnimatedRegion } from "react-native-maps";
 import * as Location from "expo-location";
 import GymMarker from "../components/GymMarker";
+import { Button } from "native-base";
+import { Searchbar } from 'react-native-paper';
 
 const MapScreen = ({ navigation }) => {
   /**
    * @typedef {Object} Marker
-   * @property {number} longitude
+   * @property {number} i
    * @property {number} latitude
    * @property {string} title
    * @property {string} address
@@ -29,6 +31,7 @@ const MapScreen = ({ navigation }) => {
       address: "55 yonge st",
     },
   ]);
+
 
   // This is called upon the first rendering of the screen
   useEffect(() => {
@@ -71,14 +74,24 @@ const MapScreen = ({ navigation }) => {
       </View>
     );
   }
+
+  const [searchQuery, setSearchQuery] = React.useState('');
+  
+  const onChangeSearch = query => setSearchQuery(query);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Gyms Nearby</Text>
-
-      <Text style={styles.description}>
-        Find a workout partner at your local gym.
-      </Text>
-
+      
+      <Searchbar
+        placeholder="Search"
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+        showCancel={true}
+        iconColor={"#A20A0A"}
+      />
+    
+      
       {location ? (
         <MapView style={styles.map} region={location}>
           {markers.map((marker, i) => (
@@ -110,24 +123,33 @@ const MapScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 7,
+    padding: "5%",
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    marginTop: "40%",
+    marginTop: "50%",
     paddingBottom: "5%",
     marginLeft: "5%",
     marginRight: "5%",
     justifyContent: "flex-end",
     borderWidth: 1,
+   // borderColor: "#A20A0A",
+  },
+  search:{
+    paddingRight: "20%",
+    marginBottom: "5%",
+    marginLeft: "5%",
+    marginTop: "5%",
   },
   header: {
     fontFamily: "Raleway_600SemiBold",
     fontSize: 30,
+    color: "#A20A0A",
     fontStyle: "normal",
     textAlign: "left",
-    paddingTop: "20%",
+    paddingTop: "10%",
     paddingLeft: "3%",
+    marginBottom: "3%"
   },
   description: {
     fontFamily: "Raleway_600SemiBold",
