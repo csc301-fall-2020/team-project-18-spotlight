@@ -6,7 +6,7 @@ import getFriends from "../../../../services/friendsService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const FriendsScreen = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
