@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Text, View, Button, StyleSheet} from 'react-native';
 import WorkoutDetails  from '../components/WorkoutDetails';
 
-const AddWorkoutScreen = ({navigation}) => {
+const AddWorkoutScreen = ({ route, navigation }) => {
+    const { day } = route.params
     const muscles = ['Arms', 'Abs', 'Glutes']
     return (
         <View style={styles.container}>
             <Text style={styles.header}>
-                Add Workout!
+                {day}
             </Text>
             <Button
                 title="Back"
