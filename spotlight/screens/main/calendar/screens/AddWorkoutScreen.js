@@ -1,28 +1,12 @@
 import React, { useState } from 'react';
-import { Text, View, Button, StyleSheet} from 'react-native';
-import WorkoutDetails  from '../components/WorkoutDetails';
+import { Text, View, StyleSheet} from 'react-native';
 
-const AddWorkoutScreen = ({ route, navigation }) => {
-    const { day } = route.params
-    const muscles = ['Arms', 'Abs', 'Glutes']
+const AddWorkoutScreen = () => {
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>
-                {day}
+            <Text>
+                Add Workout!
             </Text>
-            <Button
-                title="Back"
-                color="#A20A0A"
-                onPress={() =>
-                    navigation.navigate('Calendar Stack')}
-                />
-
-            {muscles.map((muscle) => {
-                return (
-                    <WorkoutDetails muscle={muscle}/>
-                );
-            })}
-
         </View>
     )
 }
@@ -30,17 +14,17 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     header:{
         fontFamily: "Raleway_600SemiBold",
-        fontSize: 30,
+        fontSize: 40,
         fontStyle: "normal",
         textAlign: "center",
-        paddingTop: "21%"
+        paddingTop: 20,
+        paddingBottom: 20,
     },
     container: {
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'flex-start',
-      overflow: 'scroll',
     },
   });
 

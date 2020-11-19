@@ -1,27 +1,15 @@
 import React, { useState } from 'react';
-import { Text, SafeAreaView, Button, StyleSheet} from 'react-native';
+import { Text, SafeAreaView, StyleSheet} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import CustomCalendar from '../components/CustomCalendar'
-import { NavigationContainer, ThemeProvider } from '@react-navigation/native';
 
 
-const CalendarScreen = ({ navigation }) => {
-    const [selectedDate, setSelectedDate] = useState()
+const CalendarScreen = () => {
     
-    const updateSelectedDate = (date) => {
-      setSelectedDate(date)
-    }
-
     return(
         <SafeAreaView style={styles.container}>
             <Text style={styles.header}>Workouts</Text>
-            <Button
-                title="Add Workout"
-                color="#A20A0A"
-                onPress={() =>
-                    navigation.navigate('Add Workout', { day: selectedDate})}
-                />
-            <CustomCalendar updateSelected={updateSelectedDate}/>
+            <CustomCalendar />
         </SafeAreaView>
     )
 }
@@ -32,7 +20,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontStyle: "normal",
         textAlign: "center",
-        paddingTop: "16%"
+        paddingTop: "4%",
+        paddingBottom: "1%",
     },
     container: {
       flex: 1,
