@@ -60,7 +60,7 @@ const FriendsList = ({ friends }) => {
       const c = friend.nickname.charAt(0);
 
       // Initializes an empty list if there are no keys with the first letter.
-      if (!sections.hasOwnProperty(c)) {
+      if (!Object.prototype.hasOwnProperty(sections,c)) {
         sections[c] = [];
       }
       sections[c].push(friend);
