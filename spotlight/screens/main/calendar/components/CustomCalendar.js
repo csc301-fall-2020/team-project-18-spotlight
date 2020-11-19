@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
-const CustomCalender = ({ updateSelected }) => {
+const CustomCalender = () => {
     const [currSelected, setSelected] = useState(new Date().toLocaleDateString())
-
     return (
         <Calendar
                 markedDates={{
@@ -12,7 +10,7 @@ const CustomCalender = ({ updateSelected }) => {
                 }
                 }
                 onDayPress={
-                    (day) => {setSelected(day.dateString); updateSelected(day.dateString)}
+                    (day) => {setSelected(day.dateString)}
                 }
                 theme={{
                     todayTextColor: "#DE3535",
