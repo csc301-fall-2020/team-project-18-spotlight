@@ -60,7 +60,7 @@ const FriendsList = ({ friends }) => {
       const c = friend.nickname.charAt(0);
 
       // Initializes an empty list if there are no keys with the first letter.
-      if (!Object.prototype.hasOwnProperty.call(sections,c)) {
+      if (!Object.prototype.hasOwnProperty.call(sections, c)) {
         sections[c] = [];
       }
       sections[c].push(friend);
@@ -95,6 +95,7 @@ const FriendsList = ({ friends }) => {
         renderItem={renderItem}
         renderSectionHeader={renderHeader}
         stickySectionHeadersEnabled={false}
+        keyExtractor={(item, index) => item.userID}
       />
     </View>
   );
