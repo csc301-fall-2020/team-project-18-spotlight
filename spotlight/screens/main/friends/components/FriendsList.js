@@ -3,6 +3,7 @@ import React from "react";
 import { Text, View, SectionList, StyleSheet } from "react-native";
 import { FriendRequest, Header, Friend } from "./FriendsListComponent";
 
+// DUMMY DATA FOR TESTING
 const DATA = [
   {
     title: "Friend Requests",
@@ -14,21 +15,21 @@ const DATA = [
   },
 ];
 
-const FriendsList = () => {
+const FriendsList = ({ friends }) => {
   const navigation = useNavigation();
 
   const renderItem = ({ item, section: { title } }) => {
     if (title === "Friend Requests") {
       return (
         <FriendRequest
-          name={item}
+          data={item}
           onPress={() => navigation.navigate("Friend Profile", { data: item })}
         />
       );
     } else {
       return (
         <Friend
-          name={item}
+          data={item}
           onPress={() => navigation.navigate("Friend Profile", { data: item })}
         />
       );
@@ -39,7 +40,16 @@ const FriendsList = () => {
     <View style={styles.container}>
       <SectionList
         style={styles.list}
-        sections={DATA}
+        sections={[
+          {
+            title: "Friend Requests",
+            data: [],
+          },
+          {
+            title: "Friends",
+            data: friends,
+          },
+        ]}
         renderItem={renderItem}
         renderSectionHeader={({ section: { title } }) => {
           return <Header title={title} />;

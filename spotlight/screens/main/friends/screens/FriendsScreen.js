@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Text, SafeAreaView, View, StyleSheet } from "react-native";
 import FriendsList from "../components/FriendsList";
 import { FriendsHeader } from "../components/Headers";
+import getFriends from "../../../../services/friendsService";
+import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const FriendsScreen = () => {
+  const { user, setUser } = useContext(AuthContext);
+  const [friends, setFriends] = useState([]);
+
+  useEffect(() => {
+    const tryGetFriends = async () => {
+      const newFriends = await getFriends(user.uid);
+      setFriends(newFriends);
+    };
+    tryGetFriends();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <FriendsHeader />
-      <FriendsList />
+      <FriendsList friends={friends} />
     </SafeAreaView>
   );
 };

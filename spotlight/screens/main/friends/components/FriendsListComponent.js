@@ -15,7 +15,8 @@ const Header = ({ title }) => {
   );
 };
 
-const FriendRequest = ({ name, onPress }) => {
+const FriendRequest = ({ data, onPress }) => {
+  const { nickname } = data;
   return (
     <View style={styles.friendContainer}>
       <TouchableOpacity
@@ -24,11 +25,11 @@ const FriendRequest = ({ name, onPress }) => {
       >
         <Avatar.Text
           size={64}
-          label={name.slice(0, 3)}
+          label={nickname.slice(0, 3)}
           style={styles.avatarStyle}
           labelStyle={styles.avatarLabelStyle}
         />
-        <Text style={styles.friendName}>{name}</Text>
+        <Text style={styles.friendName}>{nickname}</Text>
       </TouchableOpacity>
       <Entypo
         name="check"
@@ -46,17 +47,18 @@ const FriendRequest = ({ name, onPress }) => {
   );
 };
 
-const Friend = ({ name, onPress }) => {
+const Friend = ({ data, onPress }) => {
+  const { nickname } = data;
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.friendContainer}>
         <Avatar.Text
           size={64}
-          label={name.slice(0, 3)}
+          label={nickname.slice(0, 3)}
           style={styles.avatarStyle}
           labelStyle={styles.avatarLabelStyle}
         />
-        <Text style={styles.friendName}>{name}</Text>
+        <Text style={styles.friendName}>{nickname}</Text>
       </View>
     </TouchableOpacity>
   );
