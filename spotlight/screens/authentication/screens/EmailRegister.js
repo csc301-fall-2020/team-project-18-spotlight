@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     backgroundColor: "green",
+
   },
   back: {
     marginBottom: 20,
