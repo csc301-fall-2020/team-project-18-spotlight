@@ -7,14 +7,30 @@ import { TextInput, Button } from "react-native-paper";
 const EmailLogIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const { emailLogin } = useContext(AuthContext); // Log-in with firebase
 
+  /**
+   * Return True if some basics checks for username/password validity are passed.
+   * @returns {Boolean}
+   */
+  const validateLogin = () => {
+    return email.length > 0 && password.length >= 6;
+  };
+
+  /**
+   * Show error message for 3 seconds
+   * @param {string} errorMsg
+   */
+  const showErrorMessage = (errorMsg) => {
+    setError(errorMsg);
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  };
+
   const login = () => {
-    if (password.length < 6) {
-      alert("Your password must be at least 6 characters long.");
-      return;
-    }
-    emailLogin(email, password);
+    emailLogin(email, password).catch((e) => showErrorMessage(e.message));
   };
 
   return (
@@ -47,6 +63,7 @@ const EmailLogIn = ({ navigation }) => {
         mode="contained"
         onPress={login}
         contentStyle={{ height: 50 }} // See issue #18
+        disabled={!validateLogin()}
       >
         <Text style={{ fontSize: 15 }}>Login</Text>
       </Button>
@@ -59,6 +76,7 @@ const EmailLogIn = ({ navigation }) => {
       >
         <Text>Create Account</Text>
       </Button>
+      {error && <Text style={styles.errorMessage}>{error}</Text>}
 
       <Button
         style={styles.back}
@@ -100,6 +118,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "grey",
     width: 120,
+  },
+  errorMessage: {
+    color: "red",
+    textAlign: "center",
   },
 });
 

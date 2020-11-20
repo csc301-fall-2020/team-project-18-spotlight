@@ -20,7 +20,15 @@ export const AuthProvider = ({ children }) => {
           try {
             await firebase.auth().signInWithEmailAndPassword(email, password);
           } catch (e) {
-            alert(e);
+            console.log(e);
+            switch (e.code) {
+              case "auth/invalid-email":
+                throw new Error("Invalid Email.");
+              case "auth/user-not-found":
+                throw new Error("User not found.");
+              case "auth/wrong-password":
+                throw new Error("Invalid password.");
+            }
           }
         },
 
