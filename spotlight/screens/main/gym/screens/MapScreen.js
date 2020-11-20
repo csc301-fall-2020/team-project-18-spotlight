@@ -5,6 +5,10 @@ import * as Location from "expo-location";
 import GymMarker from "../components/GymMarker";
 import { Button } from "native-base";
 import { Searchbar } from "react-native-paper";
+import {
+  requestLocationPermissions,
+  getLocation,
+} from "../../../../services/locationService";
 
 const MapScreen = ({ navigation }) => {
   /**
@@ -34,35 +38,16 @@ const MapScreen = ({ navigation }) => {
 
   // This is called upon the first rendering of the screen
   useEffect(() => {
-    const requestLocation = async () => {
-      // Try and request location permissions from user.
-      const { status } = await Location.requestPermissionsAsync();
-      if (status !== "granted") {
-        console.warn("Permission to access location was denied");
-        setErrorMessage("Permission to access location was denied");
-        return;
-      }
-
-      // Get current location of user
-      try {
-        const {
-          coords: { latitude, longitude },
-        } = await Location.getCurrentPositionAsync({
-          accuracy: 3,
-        });
-        console.log("current user latitude + longitude:", latitude, longitude);
+    requestLocationPermissions().catch((e) => setErrorMessage(e.message));
+    getLocation()
+      .then((coords) => {
         setLocation({
-          latitude,
-          longitude,
+          ...coords,
           latitudeDelta: 0.0922, // These two deltas determine how zoomed in the map is initially
-          longitudeDelta: 0.0421, // The larger the delta, the more zoomed out the map is
+          longitudeDelta: 0.0421, // The larger the delta, the more zoomed out the map is });
         });
-      } catch ({ code, message }) {
-        console.log(code, message);
-        setErrorMessage(`${code}: ${message}`);
-      }
-    };
-    requestLocation();
+      })
+      .catch((e) => setErrorMessage(e.message));
   }, []);
 
   if (errorMessage) {
@@ -74,7 +59,7 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const onChangeSearch = (query) => setSearchQuery(query);
 
