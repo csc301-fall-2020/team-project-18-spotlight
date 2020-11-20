@@ -1,21 +1,40 @@
 import React, { useState, useContext } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
 import { TextInput, Button } from "react-native-paper";
 
 const EmailLogIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { emailLogin } = useContext(AuthContext);
+  const [error, setError] = useState(null);
+  const { emailLogin } = useContext(AuthContext); // Log-in with firebase
 
-  const login = (email, password) => {
-    emailLogin(email, password);
-    setEmail("");
-    setPassword("");
+  /**
+   * Return True if some basic checks for username/password validity are passed.
+   * @returns {Boolean}
+   */
+  const validateCredentials = () => {
+    return email.length > 0 && password.length >= 6;
+  };
+
+  /**
+   * Show error message for 3 seconds
+   * @param {string} errorMsg
+   */
+  const showErrorMessage = (errorMsg) => {
+    setError(errorMsg);
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  };
+
+  const login = () => {
+    emailLogin(email, password).catch((e) => showErrorMessage(e.message));
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Welcome Back to Spotlight!</Text>
       <TextInput
         style={{ marginBottom: 10 }}
@@ -42,8 +61,9 @@ const EmailLogIn = ({ navigation }) => {
         style={styles.login}
         icon="login"
         mode="contained"
-        onPress={() => login(email, password)}
+        onPress={login}
         contentStyle={{ height: 50 }} // See issue #18
+        disabled={!validateCredentials()}
       >
         <Text style={{ fontSize: 15 }}>Login</Text>
       </Button>
@@ -56,6 +76,7 @@ const EmailLogIn = ({ navigation }) => {
       >
         <Text>Create Account</Text>
       </Button>
+      {error && <Text style={styles.errorMessage}>{error}</Text>}
 
       <Button
         style={styles.back}
@@ -65,7 +86,7 @@ const EmailLogIn = ({ navigation }) => {
       >
         Back
       </Button>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -97,6 +118,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "grey",
     width: 120,
+  },
+  errorMessage: {
+    color: "red",
+    textAlign: "center",
   },
 });
 
