@@ -56,6 +56,7 @@ const EmailSignUp = ({ navigation }) => {
         icon="account-plus"
         mode="contained"
         onPress={() => logout(email, password, confirmPassword)}
+        contentStyle={{ height: 50 }}
       >
         <Text style={{ fontSize: 15 }}>Create Account</Text>
       </Button>
@@ -106,8 +107,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     backgroundColor: "green",
-    alignItems: "center",
-    justifyContent: "center",
+
   },
   back: {
     marginBottom: 20,

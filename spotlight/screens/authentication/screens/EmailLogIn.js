@@ -43,6 +43,7 @@ const EmailLogIn = ({ navigation }) => {
         icon="login"
         mode="contained"
         onPress={() => login(email, password)}
+        contentStyle={{ height: 50 }} // See issue #18
       >
         <Text style={{ fontSize: 15 }}>Login</Text>
       </Button>
@@ -85,10 +86,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 30,
     marginBottom: 20,
-    height: 50,
     backgroundColor: "#0091EA",
-    alignItems: "center",
-    justifyContent: "center",
+
   },
   register: {
     borderRadius: 10,
