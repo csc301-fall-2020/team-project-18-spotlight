@@ -5,6 +5,10 @@ import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 
 const ProfileScreen = ({ navigation }) => {
   const { emailLogout } = useContext(AuthContext);
+  const logout = () => {
+    // TODO: Add toast notification
+    emailLogout();
+  };
 
   return (
     <View style={styles.container}>
@@ -13,7 +17,7 @@ const ProfileScreen = ({ navigation }) => {
         style={styles.back}
         icon="logout"
         mode="contained"
-        onPress={() => emailLogout()}
+        onPress={logout}
       >
         <Text style={{ fontSize: 15 }}>Logout</Text>
       </Button>

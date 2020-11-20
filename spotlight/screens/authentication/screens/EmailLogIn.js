@@ -10,6 +10,10 @@ const EmailLogIn = ({ navigation }) => {
   const { emailLogin } = useContext(AuthContext); // Log-in with firebase
 
   const login = () => {
+    if (password.length < 6) {
+      alert("Your password must be at least 6 characters long.");
+      return;
+    }
     emailLogin(email, password);
   };
 

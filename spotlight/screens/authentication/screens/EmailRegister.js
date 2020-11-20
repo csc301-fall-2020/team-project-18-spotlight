@@ -10,11 +10,20 @@ const EmailSignUp = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const { emailRegister } = useContext(AuthContext);
 
-  const logout = (email, password, confirmPassword) => {
-    emailRegister(email, password, confirmPassword);
-    setEmail("");
-    setPassword("");
-    setConfirmPassword("");
+  const register = () => {
+    if (password.length < 6) {
+      alert("Please enter at least 6 characters");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Password and Confirm Password is not the same!");
+      return;
+    }
+    emailRegister(email, password);
+    // setEmail("");
+    // setPassword("");
+    // setConfirmPassword("");
   };
 
   return (
@@ -56,7 +65,7 @@ const EmailSignUp = ({ navigation }) => {
         style={styles.register}
         icon="account-plus"
         mode="contained"
-        onPress={() => logout(email, password, confirmPassword)}
+        onPress={register}
         contentStyle={{ height: 50 }}
       >
         <Text style={{ fontSize: 15 }}>Create Account</Text>
