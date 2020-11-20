@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useContext, useEffect}from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FriendsList from "../components/FriendsList";
