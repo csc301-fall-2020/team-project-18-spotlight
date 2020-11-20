@@ -4,12 +4,12 @@ import MapView, { AnimatedRegion } from "react-native-maps";
 import * as Location from "expo-location";
 import GymMarker from "../components/GymMarker";
 import { Button } from "native-base";
-import { Searchbar } from 'react-native-paper';
+import { Searchbar } from "react-native-paper";
 
 const MapScreen = ({ navigation }) => {
   /**
    * @typedef {Object} Marker
-   * @property {number} i
+   * @property {number} longitude
    * @property {number} latitude
    * @property {string} title
    * @property {string} address
@@ -31,7 +31,6 @@ const MapScreen = ({ navigation }) => {
       address: "55 yonge st",
     },
   ]);
-
 
   // This is called upon the first rendering of the screen
   useEffect(() => {
@@ -75,14 +74,14 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
-  const [searchQuery, setSearchQuery] = React.useState('');
-  
-  const onChangeSearch = query => setSearchQuery(query);
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  const onChangeSearch = (query) => setSearchQuery(query);
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Gyms Nearby</Text>
-      
+
       <Searchbar
         placeholder="Search"
         onChangeText={onChangeSearch}
@@ -90,8 +89,7 @@ const MapScreen = ({ navigation }) => {
         showCancel={true}
         iconColor={"#A20A0A"}
       />
-    
-      
+
       {location ? (
         <MapView style={styles.map} region={location}>
           {markers.map((marker, i) => (
@@ -133,9 +131,9 @@ const styles = StyleSheet.create({
     marginRight: "5%",
     justifyContent: "flex-end",
     borderWidth: 1,
-   // borderColor: "#A20A0A",
+    // borderColor: "#A20A0A",
   },
-  search:{
+  search: {
     paddingRight: "20%",
     marginBottom: "5%",
     marginLeft: "5%",
@@ -149,7 +147,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     paddingTop: "10%",
     paddingLeft: "3%",
-    marginBottom: "3%"
+    marginBottom: "3%",
   },
   description: {
     fontFamily: "Raleway_600SemiBold",
