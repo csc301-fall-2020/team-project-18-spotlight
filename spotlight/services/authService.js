@@ -24,7 +24,7 @@ const emailLogin = async (email, password) => {
 
 const emailLogout = async () => {
   try {
-    await firebase.auth.signOut();
+    await firebase.auth().signOut();
   } catch (e) {
     // This should never happen.
     console.log(e);
