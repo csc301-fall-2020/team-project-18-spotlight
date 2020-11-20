@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginBottom: 20,
     backgroundColor: "#0091EA",
-
   },
   register: {
     borderRadius: 10,

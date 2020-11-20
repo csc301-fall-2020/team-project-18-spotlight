@@ -18,7 +18,7 @@ const EmailSignUp = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register to Spotlight!</Text>
+      <Text style={styles.title}>Register for Spotlight</Text>
       <TextInput
         style={{ marginBottom: 10 }}
         mode="outlined"
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     backgroundColor: "green",
-
   },
   back: {
     marginBottom: 20,
