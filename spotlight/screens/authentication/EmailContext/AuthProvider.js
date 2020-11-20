@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
-import * as firebase from "firebase";
+import firebase from "firebase";
+import { emailLogin } from "../../../services/authService";
 
 /**
  * This provider is created
@@ -16,22 +17,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         setUser,
-        emailLogin: async (email, password) => {
-          try {
-            await firebase.auth().signInWithEmailAndPassword(email, password);
-          } catch (e) {
-            console.log(e);
-            switch (e.code) {
-              case "auth/invalid-email":
-                throw new Error("Invalid Email.");
-              case "auth/user-not-found":
-                throw new Error("User not found.");
-              case "auth/wrong-password":
-                throw new Error("Invalid password.");
-            }
-          }
-        },
-
+        emailLogin,
         emailRegister: async (email, password) => {
           try {
             await firebase
