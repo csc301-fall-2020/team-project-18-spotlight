@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
 import { TextInput, Button } from "react-native-paper";
 
@@ -13,7 +14,7 @@ const EmailLogIn = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Welcome Back to Spotlight!</Text>
       <TextInput
         style={{ marginBottom: 10 }}
@@ -63,7 +64,7 @@ const EmailLogIn = ({ navigation }) => {
       >
         Back
       </Button>
-    </View>
+    </SafeAreaView>
   );
 };
 
