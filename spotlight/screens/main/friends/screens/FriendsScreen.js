@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Text, SafeAreaView, View, StyleSheet } from "react-native";
+import React from "react";
+import { Text, View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import FriendsList from "../components/FriendsList";
 import { FriendsHeader } from "../components/Headers";
 import getFriends from "../../../../services/friendsService";
