@@ -4,7 +4,8 @@ import MapView, { AnimatedRegion } from "react-native-maps";
 import * as Location from "expo-location";
 import GymMarker from "../components/GymMarker";
 import { Button } from "native-base";
-import { Searchbar } from 'react-native-paper';
+import { Searchbar } from "react-native-paper";
+import gymMarkers from "../gymCoordinates";
 
 const MapScreen = ({ navigation }) => {
   /**
@@ -17,33 +18,7 @@ const MapScreen = ({ navigation }) => {
 
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [markers, setMarkers] = useState([
-    {
-      longitude: -79.5353,
-      latitude: 43.7896,
-      title: "GoodLife Fitness Vaughan Metropolitian Centre",
-      address: "90 Interchange Way Concord ON",
-    },
-    {
-      longitude: -79.544792,
-      latitude: 43.790909,
-      title: "57 Northview Blvd. Vaughan ON",
-      address: "57 Northview Blvd. Vaughan ON",
-    },
-    {
-      longitude: -79.501129,
-      latitude: 43.798580,
-      title: "Goodlife Keele St.",
-      address: "7700 Keele St. Vaughan ON",
-    },
-    {
-      longitude: -79.551850,
-      latitude: 43.847000,
-      title: "201-3420 MAjor Mackenzie Dr W Woodbridge ON",
-      address: "201-3420 MAjor Mackenzie Dr W Woodbridge ON",
-    },
-  ]);
-
+  const [markers, setMarkers] = useState(gymMarkers);
 
   // This is called upon the first rendering of the screen
   useEffect(() => {
@@ -87,14 +62,14 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
-  const [searchQuery, setSearchQuery] = React.useState('');
-  
-  const onChangeSearch = query => setSearchQuery(query);
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  const onChangeSearch = (query) => setSearchQuery(query);
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Gyms Nearby</Text>
-      
+
       <Searchbar
         placeholder="Search"
         onChangeText={onChangeSearch}
@@ -102,8 +77,7 @@ const MapScreen = ({ navigation }) => {
         showCancel={true}
         iconColor={"#A20A0A"}
       />
-    
-      
+
       {location ? (
         <MapView style={styles.map} region={location}>
           {markers.map((marker, i) => (
@@ -146,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     borderWidth: 1,
   },
-  search:{
+  search: {
     paddingRight: "20%",
     marginBottom: "5%",
     marginLeft: "5%",
@@ -160,7 +134,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     paddingTop: "10%",
     paddingLeft: "3%",
-    marginBottom: "3%"
+    marginBottom: "3%",
   },
   description: {
     fontFamily: "Raleway_600SemiBold",
