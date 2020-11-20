@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState, useContext } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Icon,
   StyleSheet,
@@ -28,7 +29,7 @@ const ProfileScreen = ({ navigation }) => {
   const { emailLogout } = useContext(AuthContext);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Image source={profilePic} style={styles.background} />
       <TouchableOpacity
         style={styles.editProfile}
@@ -48,16 +49,16 @@ const ProfileScreen = ({ navigation }) => {
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
           {profileInfo.description}
         </Text>
-        <Button
-          style={styles.back}
-          icon="logout"
-          mode="contained"
-          onPress={() => emailLogout()}
-        >
-          <Text style={{ fontSize: 15 }}>Logout</Text>
-        </Button>
       </View>
-    </View>
+      <Button
+        style={styles.back}
+        icon="logout"
+        mode="contained"
+        onPress={emailLogout}
+      >
+        <Text style={{ fontSize: 15 }}>Logout</Text>
+      </Button>
+    </SafeAreaView>
   );
 };
 
@@ -68,10 +69,11 @@ const styles = StyleSheet.create({
   },
   background: {
     position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
+    flex: 1,
+    top: 30,
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
     height: 400,
     justifyContent: "flex-end",
   },
