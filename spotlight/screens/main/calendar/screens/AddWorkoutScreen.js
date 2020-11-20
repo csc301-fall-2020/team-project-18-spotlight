@@ -1,31 +1,41 @@
-import React, { useState } from 'react';
-import { Text, View, StyleSheet} from 'react-native';
+import React, { useState } from "react";
+import { Text, View, Button, StyleSheet } from "react-native";
+import WorkoutDetails from "../components/WorkoutDetails";
 
-const AddWorkoutScreen = () => {
-    return (
-        <View style={styles.container}>
-            <Text>
-                Add Workout!
-            </Text>
-        </View>
-    )
-}
+const AddWorkoutScreen = ({ route, navigation }) => {
+  const { day } = route.params;
+  const muscles = ["Arms", "Abs", "Glutes"];
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>{day}</Text>
+      <Button
+        title="Back"
+        color="#A20A0A"
+        onPress={() => navigation.navigate("Calendar Stack")}
+      />
+
+      {muscles.map((muscle) => {
+        return <WorkoutDetails muscle={muscle} />;
+      })}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    header:{
-        fontFamily: "Raleway_600SemiBold",
-        fontSize: 40,
-        fontStyle: "normal",
-        textAlign: "center",
-        paddingTop: 20,
-        paddingBottom: 20,
-    },
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'flex-start',
-    },
-  });
+  header: {
+    fontFamily: "Raleway_600SemiBold",
+    fontSize: 30,
+    fontStyle: "normal",
+    textAlign: "center",
+    paddingTop: "21%",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    overflow: "scroll",
+  },
+});
 
 export default AddWorkoutScreen;
