@@ -11,10 +11,10 @@ const EmailLogIn = ({ navigation }) => {
   const { emailLogin } = useContext(AuthContext); // Log-in with firebase
 
   /**
-   * Return True if some basics checks for username/password validity are passed.
+   * Return True if some basic checks for username/password validity are passed.
    * @returns {Boolean}
    */
-  const validateLogin = () => {
+  const validateCredentials = () => {
     return email.length > 0 && password.length >= 6;
   };
 
@@ -63,7 +63,7 @@ const EmailLogIn = ({ navigation }) => {
         mode="contained"
         onPress={login}
         contentStyle={{ height: 50 }} // See issue #18
-        disabled={!validateLogin()}
+        disabled={!validateCredentials()}
       >
         <Text style={{ fontSize: 15 }}>Login</Text>
       </Button>

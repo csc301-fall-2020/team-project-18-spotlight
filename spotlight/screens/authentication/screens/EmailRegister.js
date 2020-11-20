@@ -7,23 +7,45 @@ import { TextInput, Button } from "react-native-paper";
 const EmailSignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState("");
   const { emailRegister } = useContext(AuthContext);
 
-  const register = () => {
-    if (password.length < 6) {
-      alert("Please enter at least 6 characters");
-      return;
+  /**
+   * Return True if user has started confirming password and it is not the same as the actual password
+   * @returns {Boolean}
+   */
+  const confirmPasswordIsInvalid = () => {
+    if (confirmPassword === "") {
+      return false;
     }
 
-    if (password !== confirmPassword) {
-      alert("Password and Confirm Password is not the same!");
-      return;
-    }
-    emailRegister(email, password);
-    // setEmail("");
-    // setPassword("");
-    // setConfirmPassword("");
+    return password !== confirmPassword;
+  };
+
+  /**
+   * Return True if some basic checks for username/password validity are passed.
+   * @returns {Boolean}
+   */
+  const validateCredentials = () => {
+    return (
+      email.length > 0 && password.length >= 6 && password === confirmPassword
+    );
+  };
+
+  /**
+   * Show error message for 3 seconds
+   * @param {string} errorMsg
+   */
+  const showErrorMessage = (errorMsg) => {
+    setError(errorMsg);
+    setTimeout(() => {
+      setError(null);
+    }, 3000);
+  };
+
+  const register = () => {
+    emailRegister(email, password).catch((e) => showErrorMessage(e.message));
   };
 
   return (
@@ -53,7 +75,12 @@ const EmailSignUp = ({ navigation }) => {
       />
       <TextInput
         mode="outlined"
-        label="Confirm your Password"
+        label={
+          confirmPasswordIsInvalid()
+            ? "Passwords do not match"
+            : "Confirm Password"
+        }
+        error={confirmPasswordIsInvalid()}
         value={confirmPassword}
         secureTextEntry={true}
         autoCorrect={false}
@@ -67,6 +94,7 @@ const EmailSignUp = ({ navigation }) => {
         mode="contained"
         onPress={register}
         contentStyle={{ height: 50 }}
+        disabled={!validateCredentials()}
       >
         <Text style={{ fontSize: 15 }}>Create Account</Text>
       </Button>
@@ -80,6 +108,8 @@ const EmailSignUp = ({ navigation }) => {
       >
         <Text>Login</Text>
       </Button>
+
+      {error && <Text style={styles.errorMessage}>{error}</Text>}
 
       <Button
         style={styles.back}
@@ -110,6 +140,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     backgroundColor: "#0091EA",
+  },
+  errorMessage: {
+    color: "red",
+    textAlign: "center",
   },
   register: {
     marginTop: 30,
