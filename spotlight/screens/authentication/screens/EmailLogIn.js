@@ -6,12 +6,10 @@ import { TextInput, Button } from "react-native-paper";
 const EmailLogIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { emailLogin } = useContext(AuthContext);
+  const { emailLogin } = useContext(AuthContext); // Log-in with firebase
 
-  const login = (email, password) => {
+  const login = () => {
     emailLogin(email, password);
-    setEmail("");
-    setPassword("");
   };
 
   return (
@@ -42,7 +40,7 @@ const EmailLogIn = ({ navigation }) => {
         style={styles.login}
         icon="login"
         mode="contained"
-        onPress={() => login(email, password)}
+        onPress={login}
         contentStyle={{ height: 50 }} // See issue #18
       >
         <Text style={{ fontSize: 15 }}>Login</Text>
