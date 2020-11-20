@@ -5,14 +5,14 @@ import { Button } from "react-native-paper";
 const AuthenticationScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>AUTHENTICATION</Text>
+      <Text style={styles.title}>Spotlight</Text>
 
       <Button
         icon="email"
         mode="contained"
         onPress={() => navigation.navigate("EmailLogIn")}
       >
-        EMAIL AUTHENTICATION
+        Sign in with Email
       </Button>
     </View>
   );
