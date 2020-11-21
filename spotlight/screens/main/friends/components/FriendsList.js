@@ -3,48 +3,99 @@ import React from "react";
 import { Text, View, SectionList, StyleSheet } from "react-native";
 import { FriendRequest, Header, Friend } from "./FriendsListComponent";
 
-const DATA = [
-  {
-    title: "Friend Requests",
-    data: ["Laura", "Ala"],
-  },
-  {
-    title: "Friends",
-    data: ["Moe", "ZengHao", "Patrick", "Jennifer", "Olivia", "Samuel", "Alan"],
-  },
-];
-
-const FriendsList = () => {
+const FriendsList = ({ friends }) => {
   const navigation = useNavigation();
 
+  /**
+   * This function determines how to render each item in the list.
+   * Item corresponds to each element in the data array, and title
+   * corresponds to the title it belongs to.
+   */
   const renderItem = ({ item, section: { title } }) => {
     if (title === "Friend Requests") {
       return (
         <FriendRequest
-          name={item}
+          data={item}
           onPress={() => navigation.navigate("Friend Profile", { data: item })}
         />
       );
     } else {
       return (
         <Friend
-          name={item}
+          data={item}
           onPress={() => navigation.navigate("Friend Profile", { data: item })}
         />
       );
     }
   };
 
+  /**
+   * This function determines how to render each section header.
+   */
+  const renderHeader = ({ section: { title } }) => {
+    if (title === "Friends" || title === "Friend Requests") {
+      return <Header title={title} size={24} />;
+    } else {
+      return <Header title={title} size={20} />;
+    }
+  };
+
+  /**
+   * Formats the data passed into a form that will be accepted by sectionlist.
+   * It looks like:
+   * [
+   *  {
+   *    title: string,
+   *    data: [Obj]
+   *  }
+   * ]
+   */
+  const formatData = (friendData) => {
+    // Thanks to my good friend Oliver Daniel for helping me with this code.
+    // The comments are added for future reference for future me with JS problems.
+
+    const sections = {};
+    friendData.forEach((friend) => {
+      // Group each people by the first letter of their nicknames.
+      const c = friend.nickname.charAt(0);
+
+      // Initializes an empty list if there are no keys with the first letter.
+      if (!Object.prototype.hasOwnProperty.call(sections, c)) {
+        sections[c] = [];
+      }
+      sections[c].push(friend);
+    });
+
+    // Formats the data into the required format
+    return Object.entries(sections).map(([title, data]) => ({
+      title, // equivalent to title: title
+
+      // TODO: If backwards, switch a and B
+      data: data.sort((a, b) => a.nickname.localeCompare(b.nickname)),
+    }));
+  };
+
+  const formattedFriendData = formatData(friends);
+
   return (
     <View style={styles.container}>
       <SectionList
         style={styles.list}
-        sections={DATA}
+        sections={[
+          {
+            title: "Friend Requests",
+            data: [],
+          },
+          {
+            title: "Friends",
+            data: [],
+          },
+          ...formattedFriendData,
+        ]}
         renderItem={renderItem}
-        renderSectionHeader={({ section: { title } }) => {
-          return <Header title={title} />;
-        }}
+        renderSectionHeader={renderHeader}
         stickySectionHeadersEnabled={false}
+        keyExtractor={(item, index) => item.userID}
       />
     </View>
   );
