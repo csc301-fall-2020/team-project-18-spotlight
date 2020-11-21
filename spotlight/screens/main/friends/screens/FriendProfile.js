@@ -1,14 +1,15 @@
 import React from "react";
-import { Text, View, SafeAreaView, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ProfileHeader } from "../components/Headers";
 
 const FriendProfile = ({ navigation, route }) => {
-  const name = route.params.data;
+  const data = route.params.data;
 
   return (
     <SafeAreaView style={styles.container}>
       <ProfileHeader
-        name={name}
+        name={data.nickname}
         onPressBack={() => navigation.navigate("Friends Screen")}
       />
     </SafeAreaView>

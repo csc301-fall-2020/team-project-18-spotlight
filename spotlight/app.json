@@ -7,6 +7,15 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "bundleIdentifier": "com.spotlight",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.spotlight",
+      "versionCode": 1
+    }
+
   }
 }
