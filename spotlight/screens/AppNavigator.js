@@ -1,36 +1,39 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import MainNavigator from "./main/MainNavigator";
 import AuthNavigator from "./authentication/AuthNavigator";
-import { AppLoading } from 'expo';
-import * as firebase from 'firebase';
-import { AuthContext } from './authentication/EmailContext/AuthProvider';
-
+import { AppLoading } from "expo";
+import * as firebase from "firebase";
+import { AuthContext } from "./authentication/EmailContext/AuthProvider";
+import { createNewUser } from "../services/userService";
 
 const AppStack = createStackNavigator();
 
 const AppNavigator = () => {
-  const {user, setUser} = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(true);
 
   // Handle user state changes
   function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) setInitializing(false);
-    setLoading(false);
+    (async () => {
+      setUser(user);
+      if (initializing) setInitializing(false);
+      await createNewUser(user.uid);
+      setLoading(false);
+    })();
   }
 
   useEffect(() => {
-      const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
-      return subscriber; // unsubscribe on unmount
+    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
   }, []);
 
   if (initializing) return null;
 
-  if (loading){
-    return <AppLoading/>
+  if (loading) {
+    return <AppLoading />;
   }
 
   return (

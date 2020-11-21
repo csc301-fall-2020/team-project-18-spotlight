@@ -1,28 +1,24 @@
 import * as firebase from "firebase";
 import "firebase/firestore";
 
-const db = firebase.firestore();
-
 const createNewUser = async (userID) => {
-  const data = {userID: userID};
-
-  try{
+  console.log("Trying to add user", userID);
+  const data = { userID: userID };
+  const db = firebase.firestore();
+  try {
     const userRef = db.collection("users").doc(userID);
-    userRef.get().then( 
-      (doc) => {
-        if(!doc.exists()){
-          doc.set(data);
-        }
+    userRef.get().then((doc) => {
+      if (!doc.exists) {
+        userRef.set(data);
       }
-    )
-  }
-  catch (e){
+    });
+  } catch (e) {
     console.log(e);
   }
-}
+};
 
 const getAllUsers = () => {
   return [];
 };
 
-export { getAllUsers };
+export { getAllUsers, createNewUser };
