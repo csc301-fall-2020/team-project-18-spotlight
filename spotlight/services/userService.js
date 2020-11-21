@@ -1,5 +1,5 @@
-export default {
-  getAllUsers: () => {
-    return [];
-  },
+const getAllUsers = () => {
+  return [];
 };
+
+export { getAllUsers };

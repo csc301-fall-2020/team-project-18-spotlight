@@ -1,11 +1,13 @@
 import React from "react";
 import { render } from "react-dom";
-import { Text, View, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { Text, View, StyleSheet, Alert } from "react-native";
+import { Button } from "react-native-paper"
+import CurrentGym from "../components/CurrentGym";
+
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
   const { title, address } = route.params;
-
+  
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{title}</Text>
@@ -13,15 +15,24 @@ const GymInfo = ({ route, navigation }) => {
       <View style={styles.block}>
         <View style={styles.profile} />
         <View style={styles.data} />
-        <Button
-          title="Return to map"
-          onPress={() => navigation.goBack()}
-          color="#A20A0A"
-          mode={"outlined"}
-          backgroundColor="#A20A0A"
-        >
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+         <Button
+            title="attend"
+            onPress={() => null}
+            color="#A20A0A"
+            mode={"outlined"}
+            >
+          attend
+          </Button>
+          <Button
+            title="Return to map"
+            onPress={() => navigation.goBack()}
+            color="#A20A0A"
+            mode={"outlined"}
+            >
           Return to map
-        </Button>
+          </Button>
+        </View>
       </View>
     </View>
   );
