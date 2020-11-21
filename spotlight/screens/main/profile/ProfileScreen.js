@@ -67,9 +67,9 @@ const styles = StyleSheet.create({
   background: {
     position: "absolute",
     flex: 1,
-    top: 30,
+    top: 0,
     width: '100%',
-    height: 400,
+    height: 460,
     justifyContent: "flex-end",
   },
   info: {
