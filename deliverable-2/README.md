@@ -1,42 +1,75 @@
-# YOUR PRODUCT/TEAM NAME
+# Spotlight
 
-> _Note:_ This document is intended to be relatively short. Be concise and precise. Assume the reader has no prior knowledge of your application and is non-technical. 
+- [Spotlight](#spotlight)
+  - [Description](#description)
+  - [Key Features](#key-features)
+  - [Instructions](#instructions)
+  - [Development requirements](#development-requirements)
+  - [Deployment and Github Workflow](#deployment-and-github-workflow)
+  - [License](#license)
 
-## Description 
- * Provide a high-level description of your application and it's value from an end-user's perspective
- * What is the problem you're trying to solve?
- * Is there any context required to understand **why** the application solves this problem?
+## Description
+
+Spotlight is a gym networking app which aims to be an all-in-one tool for gym-goers to make friends, find ideal times to go to the gym, and share workouts. One of the biggest pet peeves of people who go to the gym is when the gym is overcrowded and no equipment is available. Spotlight will show gyms in your area and help you plan your workouts to better your gym experience.
 
 ## Key Features
- * Described the key features in the application that the user can access
- * Provide a breakdown or detail for each feature that is most appropriate for your application
- * This section will be used to assess the value of the features built
+
+The development of Spotlight is divided into 5 features: Authentication, Profile, Map, Calendar, and Friends List.
+
+Firstly, authentication systems allow users to register a new account or log in, if they already have an account. There will be a profile section for the user profile. In the map section, you can see four gyms in Toronto that users can check the status and let other users know that the user is attending the specific gym. After clicking a specific gym, the user will be able to see other users that are at the gym and the age range etc.. The user will also be able to checkout other users by using search bar on the map screen. In the calendar section, users can add workouts and name it themselves. There is a friends section where the user can see all of their friends and check out their profiles. Users should be able to add new friends by searching their name. 
 
 ## Instructions
- * Clear instructions for how to use the application from the end-user's perspective
- * How do you access it? Are accounts pre-created or does a user register? Where do you start? etc. 
- * Provide clear steps for using each feature described above
- * This section is critical to testing your application and must be done carefully and thoughtfully
- 
+
+Download the apk from our repository first.
+
+1. Users must first register an account if they haven’t already done so. Go to sign in with email -> create account. Enter the credentials and press create account. If a user has already created an account beforehand, they can enter their credentials in the login page and login. For demo purposes, you can use the following credentials: samuelvedrik@gmail.com, password: hellospotlight
+2. Once logged in, there are 4 screens that are available. Profile, map, calendar, friends. The profile screen is currently a mock of what we’re imagining the future profile screen to look like. 
+3. The profile screen will display the information of the user. Includes their profile image, name, gender, age and a short description about themselves. Currently there is no data for the profile. So the user data in the profile page is hard coded.
+4. The gym screen displays a map with the available gyms that are supported. Clicking on a pin creates a pop up that displays information about the gym. Once you click the pop up, you can access detailed information about that gym. Currently there is no available data yet, so the information page is blank. There is also a search bar available that we’re planning to use to find other users, as per our partner’s request. This has yet to be implemented.
+5. The calendar screen displays a calendar that the user can select any date to highlight. If a date is highlighted, and “Add Workout” is pressed, the user will navigate to a screen where workout details can be added to that day’s workout (in this version, if no date is selected, users can still do this, but in the future this will not be the case). Currently, this information is not stored in a database, but users can see what it will feel like to add or remove workout information (type in details and press “Add” to add an exercise to a specific body part, press the exercise to remove it from your workout plan).
+6. The friends screen displays friend requests and friends, which are listed alphabetically. Clicking on a friend will display their profile. The profiles are currently blank slates. Friend requests are currently unimplemented, and will display similarly to friends.
+
  ## Development requirements
- * If a developer were to set this up on their machine or a remote server, what are the technical requirements (e.g. OS, libraries, etc.)?
- * Briefly describe instructions for setting up and running the application (think a true README).
- 
+
+Computer configuration setup:
+
+1. Make sure that expo-cli is installed globally:
+
+   ```bash
+   npm install --global expo-cli
+   ```
+
+2. Traverse to our github page and clone the project:
+
+    ```bash
+    git clone https://github.com/csc301-fall-2020/team-project-18-spotlight
+    ```
+
+3. Install dependencies.
+
+    ```bash
+    cd team-project-18-spotlight/spotlight
+    npm i
+    ```
+
+4. Start a development server with ``expo start``. Follow the instructions on the cli and/or webpage to set up the app.
+
+5. Mobile phone configuration setup:
+
+    - Install the expo app on your phone.
+
+Step-by-step development process:
+
+1. Type ``expo start`` in the terminal. A tab should open in your browser with devtools.
+2. (Recommended) Using the expo app on your phone, scan the qr code in the devtools tab.
+
+    - Note: If nothing happens for a long time, close the app instance on your phone, reopen expo, and scan the code again.
+    - Expo was really buggy for us, sorry for any inconvenience.
+
  ## Deployment and Github Workflow
 
-Describe your Git / GitHub workflow. Essentially, we want to understand how your team members shares a codebase, avoid conflicts and deploys the application.
+Each person creates their own branch when working on the project. When someone finishes their work. They will do a pull request and notify other members to review his/her code. After reviewing and if there is no merge conflict, other members will approve the pull request. Throughout the whole development process, we are using camelcase naming convention as we feel that it is easier to read and understand.
 
- * Be concise, yet precise. For example, "we use pull-requests" is not a precise statement since it leaves too many open questions - Pull-requests from where to where? Who reviews the pull-requests? Who is responsible for merging them? etc.
- * If applicable, specify any naming conventions or standards you decide to adopt.
- * Describe your overall deployment process from writing code to viewing a live applicatioon
- * What deployment tool(s) are you using and how
- * Don't forget to **briefly explain why** you chose this workflow or particular aspects of it!
+## License
 
- ## Licenses 
-
- Keep this section as brief as possible. You may read this [Github article](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/licensing-a-repository) for a start.
-
- * What type of license will you apply to your codebase?
- * What affect does it have on the development and use of your codebase?
- * Why did you or your partner make this choice?
-
+We’ll be applying the Apache License 2.0, meaning users of our open-source code must state changes made to our codebase. We made this decision as it was restrictive enough so that the work we created would be somewhat preserved as development on the code continues.
