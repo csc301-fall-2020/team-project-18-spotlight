@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Text, SafeAreaView, Button, StyleSheet } from "react-native";
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableHighlight,
+} from "react-native";
 import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import CustomCalendar from "../components/CustomCalendar";
 import { NavigationContainer, ThemeProvider } from "@react-navigation/native";
@@ -14,14 +19,24 @@ const CalendarScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Workouts</Text>
-      <Button
-        title="Add Workout"
-        color="#A20A0A"
-        onPress={() =>
-          navigation.navigate("Add Workout", { day: selectedDate })
-        }
-      />
       <CustomCalendar updateSelected={updateSelectedDate} />
+
+      {selectedDate && (
+        <TouchableHighlight
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate("Add Workout", { day: selectedDate })
+          }
+        >
+          <Text style={styles.textStyle}>Add Workout</Text>
+        </TouchableHighlight>
+      )}
+
+      {!selectedDate && (
+        <TouchableHighlight style={styles.buttonLocked}>
+          <Text style={styles.textStyleLocked}>Select A Date</Text>
+        </TouchableHighlight>
+      )}
     </SafeAreaView>
   );
 };
@@ -29,16 +44,52 @@ const CalendarScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   header: {
     fontFamily: "Raleway_600SemiBold",
-    fontSize: 30,
+    fontSize: 50,
     fontStyle: "normal",
     textAlign: "center",
-    paddingTop: "16%",
+    paddingTop: "20%",
   },
   container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
+  },
+  button: {
+    backgroundColor: "#000",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: 260,
+    height: 50,
+    borderRadius: 5,
+    elevation: 2,
+    marginTop: 10,
+    marginBottom: 5,
+  },
+  buttonLocked: {
+    backgroundColor: "#fff",
+    borderColor: "#d3d3d3",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: 260,
+    height: 50,
+    borderRadius: 5,
+    elevation: 2,
+    marginTop: 10,
+    marginBottom: 5,
+    borderWidth: 1,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 16,
+  },
+  textStyleLocked: {
+    color: "#d3d3d3",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 16,
   },
 });
 
