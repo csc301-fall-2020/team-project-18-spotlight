@@ -29,7 +29,7 @@ Download the apk from our repository first.
 5. The calendar screen displays a calendar that the user can select any date to highlight. If a date is highlighted, and “Add Workout” is pressed, the user will navigate to a screen where workout details can be added to that day’s workout (in this version, if no date is selected, users can still do this, but in the future this will not be the case). Currently, this information is not stored in a database, but users can see what it will feel like to add or remove workout information (type in details and press “Add” to add an exercise to a specific body part, press the exercise to remove it from your workout plan).
 6. The friends screen displays friend requests and friends, which are listed alphabetically. Clicking on a friend will display their profile. The profiles are currently blank slates. Friend requests are currently unimplemented, and will display similarly to friends.
 
- ## Development requirements
+## Development requirements
 
 Computer configuration setup:
 
