@@ -71,7 +71,7 @@ const FriendsList = ({ friends }) => {
       title, // equivalent to title: title
 
       // TODO: If backwards, switch a and B
-      data: data.sort((a, b) => b.nickname.localeCompare(a.nickname)),
+      data: data.sort((a, b) => a.nickname.localeCompare(b.nickname)),
     }));
   };
 
