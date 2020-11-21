@@ -3,10 +3,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import MainNavigator from "./main/MainNavigator";
 import AuthNavigator from "./authentication/AuthNavigator";
-import { AppLoading } from "expo";
 import * as firebase from "firebase";
 import { AuthContext } from "./authentication/EmailContext/AuthProvider";
 import { createNewUser } from "../services/userService";
+import {ActivityIndicator} from 'react-native';
+
 
 const AppStack = createStackNavigator();
 
@@ -35,7 +36,8 @@ const AppNavigator = () => {
   if (initializing) return null;
 
   if (loading) {
-    return <AppLoading />;
+    return <ActivityIndicator size="large"/>;
+
   }
 
   return (
