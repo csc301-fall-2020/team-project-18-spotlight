@@ -10,9 +10,12 @@ import {
   getLocation,
 } from "../../../../services/locationService";
 
+import gymMarkers from "../gymCoordinates";
+
 const MapScreen = ({ navigation }) => {
   /**
    * @typedef {Object} Marker
+   * @property {number} i
    * @property {number} longitude
    * @property {number} latitude
    * @property {string} title
@@ -23,16 +26,28 @@ const MapScreen = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [markers, setMarkers] = useState([
     {
-      longitude: -79.4152,
-      latitude: 43.82873,
-      title: "Placeholder gym",
-      address: "69 bayview ave",
+      longitude: -79.5353,
+      latitude: 43.7896,
+      title: "GoodLife Fitness Vaughan Metropolitian Centre",
+      address: "90 Interchange Way Concord ON",
     },
     {
-      longitude: -79.414075,
-      latitude: 43.831143,
-      title: "Placeholder gym 2",
-      address: "55 yonge st",
+      longitude: -79.544792,
+      latitude: 43.790909,
+      title: "57 Northview Blvd. Vaughan ON",
+      address: "57 Northview Blvd. Vaughan ON",
+    },
+    {
+      longitude: -79.501129,
+      latitude: 43.798580,
+      title: "Goodlife Keele St.",
+      address: "7700 Keele St. Vaughan ON",
+    },
+    {
+      longitude: -79.551850,
+      latitude: 43.847000,
+      title: "201-3420 MAjor Mackenzie Dr W Woodbridge ON",
+      address: "201-3420 MAjor Mackenzie Dr W Woodbridge ON",
     },
   ]);
 
@@ -116,7 +131,6 @@ const styles = StyleSheet.create({
     marginRight: "5%",
     justifyContent: "flex-end",
     borderWidth: 1,
-    // borderColor: "#A20A0A",
   },
   search: {
     paddingRight: "20%",
