@@ -1,16 +1,16 @@
 {
-  "name": "spotlight",
-  "displayName": "spotlight",
+  "name": "Spotlight",
+  "displayName": "Spotlight",
   "expo": {
-    "name": "spotlight",
-    "slug": "spotlight",
+    "name": "Spotlight",
+    "slug": "Spotlight",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "bundleIdentifier": "com.spotlight",
-      "buildNumber": "1.0.0"
+      "buildNumber": "0.0.1"
     },
     "android": {
       "package": "com.spotlight",
