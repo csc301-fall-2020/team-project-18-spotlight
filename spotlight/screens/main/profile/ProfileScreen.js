@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   Icon,
