@@ -66,7 +66,10 @@ const googleLogin = async () => {
 
     if (result.type === 'success') {
       onSignIn(result);
-      return result.accessToken;
+      return {
+        accessToken: result.accessToken,
+        cancelled: false
+      };
     } else {
       return { cancelled: true };
     }
@@ -76,7 +79,7 @@ const googleLogin = async () => {
 }
 
 const onSignIn = (googleUser) => {
-  console.log('Google Auth Response', googleUser);
+  // console.log('Google Auth Response', googleUser);
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
   let unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
     unsubscribe();

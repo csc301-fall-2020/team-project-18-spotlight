@@ -21,9 +21,12 @@ const AuthenticationScreen = ({ navigation }) => {
         icon="google"
         mode="contained"
         style={styles.google}
-        onPress={() => {
-          googleLogin();
+        onPress={async () => {
           navigation.navigate("Loading");
+          const result = await googleLogin();
+          if(result.cancelled === true){
+            navigation.navigate("Authentication");
+          }
         }}
       >
         Sign in with Google
