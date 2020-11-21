@@ -68,7 +68,12 @@ Step-by-step development process:
 
  ## Deployment and Github Workflow
 
-Each person creates their own branch when working on the project. When someone finishes their work. They will do a pull request and notify other members to review his/her code. After reviewing and if there is no merge conflict, other members will approve the pull request. Throughout the whole development process, we are using camelcase naming convention as we feel that it is easier to read and understand.
+Each person creates their own branch for each feature/bugfix they work on. Sometimes, a backend + frontend person will work together on the same branch.
+When someone finishes their work, they will submit a pull request and notify other members to review his/her code. After reviewing and resolving any potential merge conflicts, other members will approve the pull request. We try to get at least one other person to review each pull request, but this is not a hard rule. If the change is trivial enough, the person who made the PR can merge it themselves. Throughout the whole development process, we are using camelcase naming convention as we feel that it is easier to read and understand.
+
+In terms of CI/CD, we have two separate github actions workflows. 
+CI.yml runs a linter upon every pull request to master. In the future, it will also run a suite of unit tests. On the subject of linting, we also have pre-commit hooks which run prettier (to format) and ESlint (to lint) before every commit. This ensures consistent code quality throughout our repository.
+CD.yml will build the apk and publish it as a release on every push to master with a version tag. This will ensure that we aren't building the app on every change, which would be a huge waste of time and resources. 
 
 ## License
 
