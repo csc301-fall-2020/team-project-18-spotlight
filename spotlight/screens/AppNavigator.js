@@ -18,9 +18,11 @@ const AppNavigator = () => {
   // Handle user state changes
   function onAuthStateChanged(user) {
     (async () => {
-      setUser(user);
+      await setUser(user);
       if (initializing) setInitializing(false);
-      await createNewUser(user.uid);
+      if (user) {
+        await createNewUser(user.uid);
+      }
       setLoading(false);
     })();
   }
