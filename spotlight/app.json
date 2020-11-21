@@ -14,8 +14,12 @@
     },
     "android": {
       "package": "com.spotlight",
-      "versionCode": 1
+      "versionCode": 1,
+      "config": {
+        "googleMaps": {
+          "apiKey": "1074492684065-690bsgv4jnmmr8q4eu5vld50l7988ftk"
+        }
+      }
     }
-
   }
 }
