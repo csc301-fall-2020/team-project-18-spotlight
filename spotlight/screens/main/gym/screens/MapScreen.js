@@ -1,14 +1,9 @@
-import React, { Component, useEffect, useState } from "react";
-import { Text, View, StyleSheet, Alert } from "react-native";
-import MapView, { AnimatedRegion } from "react-native-maps";
-import * as Location from "expo-location";
+import React, { useEffect, useState } from "react";
+import { Text, View, StyleSheet } from "react-native";
+import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
-import { Button } from "native-base";
 import { Searchbar } from "react-native-paper";
-import {
-  requestLocationPermissions,
-  getLocation,
-} from "../../../../services/locationService";
+import { getLocation } from "../../../../services/locationService";
 
 import gymMarkers from "../gymCoordinates";
 
@@ -24,36 +19,10 @@ const MapScreen = ({ navigation }) => {
 
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [markers, setMarkers] = useState([
-    {
-      longitude: -79.5353,
-      latitude: 43.7896,
-      title: "GoodLife Fitness Vaughan Metropolitian Centre",
-      address: "90 Interchange Way Concord ON",
-    },
-    {
-      longitude: -79.544792,
-      latitude: 43.790909,
-      title: "57 Northview Blvd. Vaughan ON",
-      address: "57 Northview Blvd. Vaughan ON",
-    },
-    {
-      longitude: -79.501129,
-      latitude: 43.798580,
-      title: "Goodlife Keele St.",
-      address: "7700 Keele St. Vaughan ON",
-    },
-    {
-      longitude: -79.551850,
-      latitude: 43.847000,
-      title: "201-3420 MAjor Mackenzie Dr W Woodbridge ON",
-      address: "201-3420 MAjor Mackenzie Dr W Woodbridge ON",
-    },
-  ]);
+  const [markers, setMarkers] = useState(gymMarkers);
 
   // This is called upon the first rendering of the screen
   useEffect(() => {
-    requestLocationPermissions().catch((e) => setErrorMessage(e.message));
     getLocation()
       .then((coords) => {
         setLocation({
