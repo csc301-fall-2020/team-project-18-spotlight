@@ -1,32 +1,20 @@
 import * as Location from "expo-location";
 
 /**
- * Prompt user for location permissions.
- * @throws {Error} if permission is not granted.
- */
-const requestLocationPermissions = async () => {
-  // Try and request location permissions from user.
-  const { status } = await Location.requestPermissionsAsync();
-  if (status !== "granted") {
-    console.log("Permission to access location was denied");
-    throw new Error("Permission to access location was denied");
-  }
-};
-
-/**
- * @typedef {Object} LocationCoordinates
- * @property {number} latitude,
- * @property {number} longitude
- */
-
-/**
- * PRECONDITION: Must have already gotten location permissions from user
+ * Gets current location of user, requesting permission if needed
  * Usage:
  * getLocation().then(location => useLocation(location))
  * @return {Promise<LocationCoordinates>}
  * @throws {Error} if something wack happens
  */
 const getLocation = async () => {
+  // Request location permissions
+  const { status } = await Location.requestPermissionsAsync();
+  if (status !== "granted") {
+    console.log("Permission to access location was denied");
+    throw new Error("Permission to access location was denied");
+  }
+
   // Get current location of user
   try {
     const {
@@ -45,4 +33,4 @@ const getLocation = async () => {
   }
 };
 
-export { requestLocationPermissions, getLocation };
+export { getLocation };

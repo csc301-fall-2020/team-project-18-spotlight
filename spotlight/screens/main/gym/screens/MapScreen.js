@@ -3,10 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { Searchbar } from "react-native-paper";
-import {
-  requestLocationPermissions,
-  getLocation,
-} from "../../../../services/locationService";
+import { getLocation } from "../../../../services/locationService";
 
 import gymMarkers from "../gymCoordinates";
 
@@ -26,7 +23,6 @@ const MapScreen = ({ navigation }) => {
 
   // This is called upon the first rendering of the screen
   useEffect(() => {
-    requestLocationPermissions().catch((e) => setErrorMessage(e.message));
     getLocation()
       .then((coords) => {
         setLocation({
