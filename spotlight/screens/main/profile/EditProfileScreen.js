@@ -1,17 +1,11 @@
 import React, { useState, useContext } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import {
     StyleSheet,
     Text,
     View,
-    Image,
-    TouchableOpacity,
     TextInput
 } from "react-native";
 import { Button } from "react-native-paper";
-import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
-import profilePic from "./images/profilePic.png";
-import editProfile from "./images/editProfile.png";
 
 
 
@@ -37,7 +31,7 @@ const EditProfileScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.changePassword}>
+            {/* <View style={styles.changePassword}>
                 <View style={styles.textInput}>
                     <Text>
                         Change password:
@@ -60,7 +54,7 @@ const EditProfileScreen = ({ navigation }) => {
                     Save
                 </Button>
 
-            </View>
+            </View> */}
 
 
             <View style={styles.changeInfo}>
@@ -109,7 +103,7 @@ const EditProfileScreen = ({ navigation }) => {
                     />
                 </View>
 
-                
+
                 <Button>
                     Save
                 </Button>
@@ -126,6 +120,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     textInput: {
+        marginBottom: 20,
     },
     input: {
         borderWidth: 1,
@@ -135,7 +130,25 @@ const styles = StyleSheet.create({
         top: 80,
     },
     changeInfo: {
-        top: 100,
+        flexDirection: "column",
+        top: 150,
+        alignItems: "center",
+        justifyContent: "center",
+        borderColor: "grey",
+        borderWidth: 2,
+        borderRadius: 40,
+        backgroundColor: 'white',
+        width: '95%',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
+        zIndex: 3,
+        padding: 10,
     }
 });
 
