@@ -14,8 +14,10 @@
     },
     "android": {
       "package": "com.spotlight",
-      "versionCode": 1
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+      }
     }
-
   }
 }
