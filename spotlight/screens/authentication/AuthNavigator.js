@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import EmailLogIn from "./screens/EmailLogIn";
 import EmailRegister from "./screens/EmailRegister";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
+import Loading from "../shared/Loading";
 
 const AuthStack = createStackNavigator();
 
@@ -20,6 +21,7 @@ const AuthNavigator = () => {
       />
       <AuthStack.Screen name="EmailLogIn" component={EmailLogIn} />
       <AuthStack.Screen name="EmailRegister" component={EmailRegister} />
+      <AuthStack.Screen name="Loading" component={Loading} />
     </AuthStack.Navigator>
   );
 };

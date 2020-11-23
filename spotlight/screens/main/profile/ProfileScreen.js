@@ -1,12 +1,6 @@
 import React, { useState, useContext } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { Button } from "react-native-paper";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
@@ -32,7 +26,7 @@ const ProfileScreen = ({ navigation }) => {
         onPress={() => {
           alert("you clicked me");
         }}
-      >           
+      >
         <Image source={editProfile} />
         <Text style={{ color: "white", position: "absolute", fontSize: 30 }}>
           {"Edit Profile"}
@@ -49,7 +43,9 @@ const ProfileScreen = ({ navigation }) => {
           style={styles.back}
           icon="logout"
           mode="contained"
-          onPress={emailLogout}
+          onPress={() => {
+            emailLogout();
+          }}
         >
           <Text style={{ fontSize: 15 }}>Logout</Text>
         </Button>
@@ -62,13 +58,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-
   },
   background: {
     position: "absolute",
     flex: 1,
     top: 0,
-    width: '100%',
+    width: "100%",
     height: 460,
     justifyContent: "flex-end",
   },
@@ -81,9 +76,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderBottomRightRadius: 40,
     borderBottomLeftRadius: 40,
-    backgroundColor: 'white',
-    width: '95%',
-    height: '42%',
+    backgroundColor: "white",
+    width: "95%",
+    height: "42%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -94,7 +89,6 @@ const styles = StyleSheet.create({
     elevation: 3,
     zIndex: 3,
     padding: 10,
-
   },
   editProfile: {
     flexDirection: "column",

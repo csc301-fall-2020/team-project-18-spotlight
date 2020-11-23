@@ -3,29 +3,56 @@ import { render } from "react-dom";
 import { Text, View, StyleSheet, Alert } from "react-native";
 import { Button } from "react-native-paper";
 import CurrentGym from "../components/CurrentGym";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
   const { title, address, isFavorite } = route.params;
 
+  function add_member(name) {
+    // editJsonFile = require("edit-json-file");
+    // let file = editJsonFile(`../components/CurrentGym.json`);
+    // var data = JSON.parse(fs.readFileSync("../components/CurrentGym.json").toString());
+    // data[0]["member"].push("name")
+    // fs.writeFile("../components/CurrentGym.json", JSON.stringify(data))
+
+    Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
+      cancelable: false,
+    });
+  }
+
+  function add_favourite() {
+    Alert.alert("", "You have favourited this gym!", [{ text: "OK" }], {
+      cancelable: false,
+    });
+  }
+
   return (
     <View style={styles.container}>
+      <Button
+        icon="heart-outline"
+        iconSize="50"
+        labelStyle={{ color: "#A20A0A", fontSize: 30 }}
+        paddingTop="5%"
+        paddingLeft="75%"
+        marginRight="5%"
+        title="favourite"
+        onPress={() => add_favourite()}
+      ></Button>
+
       <Text style={styles.header}>{title}</Text>
       <Text style={styles.description}>{address}</Text>
-      <Text style={styles.description}>
-        {isFavorite ? "You favorited this gym." : ""}
-      </Text>
       <View style={styles.block}>
         <View style={styles.profile} />
         <View style={styles.data} />
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <Button
             title="attend"
-            onPress={() => null}
+            onPress={() => add_member("olivia")}
             color="#A20A0A"
             mode={"outlined"}
           >
-            attend
+            Attend
           </Button>
           <Button
             title="Return to map"
@@ -59,7 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontStyle: "normal",
     textAlign: "center",
-    paddingTop: "20%",
+    paddingTop: "3%",
   },
   description: {
     fontFamily: "Raleway_600SemiBold",
@@ -81,6 +108,7 @@ const styles = StyleSheet.create({
     paddingBottom: "50%",
     marginBottom: "5%",
   },
+  favourite: {},
 });
 
 export default GymInfo;

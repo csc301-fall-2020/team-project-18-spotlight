@@ -1,9 +1,9 @@
 import React, { createContext, useState } from "react";
-import firebase from "firebase";
 import {
   emailLogin,
   emailRegister,
   emailLogout,
+  googleLogin,
 } from "../../../services/authService";
 
 /**
@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
         emailLogin,
         emailRegister,
         emailLogout,
+        googleLogin,
       }}
     >
       {children}
