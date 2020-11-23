@@ -12,23 +12,48 @@ import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
 import editProfile from "./images/editProfile.png";
 
+
 const textinfo =
   "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ route, navigation }) => {
   const [profileInfo, setInfo] = useState({
+    nickname: "Aura",
     name: "Laura",
     gender: "F | 20",
     description: textinfo,
+    birthday:"2000 01 01"
   });
   const { emailLogout } = useContext(AuthContext);
+
+  const sendToEdit = () => {
+    cond = true;
+    navigation.navigate("EditProfileScreen", {nickname:profileInfo.nickname, name:profileInfo.name, gender:profileInfo.gender, description:profileInfo.description, birthday:profileInfo.birthday})
+  };
+
+
+
+  if (route.params != undefined) {
+    const {nickname, name, gender, description, birthday} = route.params;
+    const newInfo = {
+      nickname: nickname,
+      name: name,
+      gender: gender,
+      description: description,
+      birthday: birthday
+    }   
+    setInfo(newInfo); 
+    route.params = undefined;
+  }
+
+
 
   return (
     <SafeAreaView style={styles.container}>
       <Image source={profilePic} style={styles.background} />
       <TouchableOpacity
         style={styles.editProfile}
-        onPress={() => navigation.navigate("EditProfileScreen")}
+        onPress={() => sendToEdit()}
       >           
         <Image source={editProfile} />
         <Text style={{ color: "white", position: "absolute", fontSize: 30 }}>

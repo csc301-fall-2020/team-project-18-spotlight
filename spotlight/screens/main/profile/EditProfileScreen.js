@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
     StyleSheet,
     Text,
@@ -6,28 +6,43 @@ import {
     TextInput,
     Button
 } from "react-native";
-
-
+import { Value } from "react-native-reanimated";
 
 const textinfo =
     "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
 
-const EditProfileScreen = ({ navigation }) => {
-    const [profileInfo, setInfo] = useState({
-        email: "laura.la@utoronto.ca",
-        phone: "647-666-6666",
-        password: "123456",
+const EditProfileScreen = ({ route, navigation }) => {
+
+    const [nickname, setNickname] = useState("");
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("");
+    const [description, setDescription] = useState("");
+    const [birthday, setBirthday] = useState("");
 
 
-        nickname: "Lara",
-        name: "Laura",
-        birthday: "2000-01-01",
-        gender: "F",
-        age_lower: 20,
-        age_upper: 25,
-        description: textinfo,
+    const save = () => {
+        cond = true;
+        const info = {nickname:nickname, name:name, gender:gender, description:description, birthday:birthday}
+        setNickname("")
+        setName("")
+        setGender("")
+        setDescription("")
+        setBirthday("")
 
-    });
+        navigation.navigate("ProfileScreen", {nickname:nickname, name:name, gender:gender, description:description, birthday:birthday})
+      };
+
+      if (route.params != undefined) {
+        const {nickname, name, gender, description, birthday} = route.params;
+        setNickname(nickname)
+        setName(name)
+        setGender(gender)
+        setDescription(description)
+        setBirthday(birthday)
+        route.params = undefined;
+
+      }
+    
 
     return (
         <View style={styles.container}>
@@ -64,7 +79,9 @@ const EditProfileScreen = ({ navigation }) => {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={profileInfo.nickname}
+                        placeholder={nickname}
+                        onChangeText={(value)=> {setNickname(value)}}
+                        value = {nickname}
                     />
                 </View>
 
@@ -74,7 +91,9 @@ const EditProfileScreen = ({ navigation }) => {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={profileInfo.name}
+                        placeholder={name}
+                        onChangeText={(value)=> {setName(value)}}
+                        value = {name}
                     />
                 </View>
 
@@ -84,7 +103,9 @@ const EditProfileScreen = ({ navigation }) => {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={profileInfo.birthday}
+                        placeholder={birthday}
+                        onChangeText={(value)=> {setBirthday(value)}}
+                        value = {birthday}
                     />
                 </View>
 
@@ -94,7 +115,9 @@ const EditProfileScreen = ({ navigation }) => {
                     </Text>
                     <TextInput
                         style={styles.input}
-                        placeholder={profileInfo.gender}
+                        placeholder={gender}
+                        onChangeText={(value)=> {setGender(value)}}
+                        value = {gender}
                     />
                 </View>
 
@@ -104,7 +127,9 @@ const EditProfileScreen = ({ navigation }) => {
                     </Text>
                     <TextInput
                         style={styles.description}
-                        placeholder={profileInfo.description}
+                        placeholder={description}
+                        onChangeText={(value)=> {setDescription(value)}}
+                        value = {description}
                     />
                 </View>
 
@@ -112,6 +137,7 @@ const EditProfileScreen = ({ navigation }) => {
                 <Button 
                     title="SAVE"
                     color="#A20A0A"
+                    onPress={()=> save()}
                 />
                    
 
@@ -127,6 +153,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#A20A0A",
         flex: 1,
+        position: "absolute"
 
     },
     textInput: {
