@@ -3,9 +3,9 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput
+    TextInput,
+    Button
 } from "react-native";
-import { Button } from "react-native-paper";
 
 
 
@@ -16,8 +16,8 @@ const EditProfileScreen = ({ navigation }) => {
     const [profileInfo, setInfo] = useState({
         email: "laura.la@utoronto.ca",
         phone: "647-666-6666",
-
         password: "123456",
+
 
         nickname: "Lara",
         name: "Laura",
@@ -59,54 +59,61 @@ const EditProfileScreen = ({ navigation }) => {
 
             <View style={styles.changeInfo}>
                 <View style={styles.textInput}>
-                    <Text>
+                    <Text style={styles.text}>
                         Change nickname:
                     </Text>
                     <TextInput
                         style={styles.input}
+                        placeholder={profileInfo.nickname}
                     />
                 </View>
 
                 <View style={styles.textInput}>
-                    <Text>
+                    <Text style={styles.text}>
                         Change name:
                     </Text>
                     <TextInput
                         style={styles.input}
+                        placeholder={profileInfo.name}
                     />
                 </View>
 
                 <View style={styles.textInput}>
-                    <Text>
+                    <Text style={styles.text}>
                         Change birthday:
                     </Text>
                     <TextInput
                         style={styles.input}
+                        placeholder={profileInfo.birthday}
                     />
                 </View>
 
                 <View style={styles.textInput}>
-                    <Text>
+                    <Text style={styles.text}>
                         Change gender:
                     </Text>
                     <TextInput
                         style={styles.input}
+                        placeholder={profileInfo.gender}
                     />
                 </View>
 
                 <View style={styles.textInput}>
-                    <Text>
+                    <Text style={styles.text}>
                         Change description:
                     </Text>
                     <TextInput
-                        style={styles.input}
+                        style={styles.description}
+                        placeholder={profileInfo.description}
                     />
                 </View>
 
 
-                <Button>
-                    Save
-                </Button>
+                <Button 
+                    title="SAVE"
+                    color="#A20A0A"
+                />
+                   
 
             </View>
         </View>
@@ -117,7 +124,10 @@ const EditProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "#A20A0A",
+        flex: 1,
+
     },
     textInput: {
         marginBottom: 20,
@@ -125,13 +135,20 @@ const styles = StyleSheet.create({
     input: {
         borderWidth: 1,
         width: 300,
+        color: "grey",
+    },
+    description: {
+        borderWidth: 1,
+        width: 300,
+        color: "grey",
+        height: 200,
     },
     changePassword: {
         top: 80,
     },
     changeInfo: {
         flexDirection: "column",
-        top: 150,
+        top: 20,
         alignItems: "center",
         justifyContent: "center",
         borderColor: "grey",
@@ -149,7 +166,10 @@ const styles = StyleSheet.create({
         elevation: 3,
         zIndex: 3,
         padding: 10,
-    }
+    },
+    text: {
+        color: "#A20A0A",
+    },
 });
 
 export default EditProfileScreen;
