@@ -11,7 +11,6 @@ import { Button } from "react-native-paper";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
 import editProfile from "./images/editProfile.png";
-// import { LinearGradient } from 'expo-linear-gradient';
 
 const textinfo =
   "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
@@ -29,9 +28,7 @@ const ProfileScreen = ({ navigation }) => {
       <Image source={profilePic} style={styles.background} />
       <TouchableOpacity
         style={styles.editProfile}
-        onPress={() => {
-          alert("you clicked me");
-        }}
+        onPress={() => navigation.navigate("EditProfileScreen")}
       >           
         <Image source={editProfile} />
         <Text style={{ color: "white", position: "absolute", fontSize: 30 }}>
