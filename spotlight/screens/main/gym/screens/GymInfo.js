@@ -45,10 +45,11 @@ const GymInfo = ({ route, navigation }) => {
       <ToggleButton
         icon={checked ? "heart" : "heart-outline"}
         iconSize="50"
-        labelStyle={{ color: "#A20A0A", fontSize: 30 }}
-        paddingTop="5%"
-        paddingLeft="75%"
-        marginRight="5%"
+        labelStyle={{ fontSize: 30 }}
+        color="#A20A0A"
+        marginTop="8%"
+        marginLeft="80%"
+        marginRight="10%"
         title="favourite"
         onPress={toggleFavorite}
         status={checked ? "checked" : "unchecked"}
