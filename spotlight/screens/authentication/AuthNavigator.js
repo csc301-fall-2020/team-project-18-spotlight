@@ -3,8 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import EmailLogIn from "./screens/EmailLogIn";
 import EmailRegister from "./screens/EmailRegister";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
-import Loading from '../shared/Loading';
-
+import Loading from "../shared/Loading";
 
 const AuthStack = createStackNavigator();
 

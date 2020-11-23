@@ -1,35 +1,49 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { render } from "react-dom";
 import { Text, View, StyleSheet, Alert } from "react-native";
-import { Button } from "react-native-paper";
+import { ToggleButton, Button } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import CurrentGym from "../components/CurrentGym";
 import Icon from "react-native-vector-icons/FontAwesome";
-
-function add_member(name) {
-  // editJsonFile = require("edit-json-file");
-  // let file = editJsonFile(`../components/CurrentGym.json`);
-  // var data = JSON.parse(fs.readFileSync("../components/CurrentGym.json").toString());
-  // data[0]["member"].push("name")
-  // fs.writeFile("../components/CurrentGym.json", JSON.stringify(data))
-
-  Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
-    cancelable: false,
-  });
-}
-
-function add_favourite() {
-  Alert.alert("", "You have favourited this gym!", [{ text: "OK" }], {
-    cancelable: false,
-  });
-}
+import {
+  isGymFavorited,
+  getGymByAddress,
+} from "../../../../services/gymService";
+import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
-  const { title, address } = route.params;
+  const { title, address, isFavorite } = route.params;
+  const { user } = useContext(AuthContext);
+  const [checked, setChecked] = useState(isFavorite);
+
+  function add_member(name) {
+    // editJsonFile = require("edit-json-file");
+    // let file = editJsonFile(`../components/CurrentGym.json`);
+    // var data = JSON.parse(fs.readFileSync("../components/CurrentGym.json").toString());
+    // data[0]["member"].push("name")
+    // fs.writeFile("../components/CurrentGym.json", JSON.stringify(data))
+
+    Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
+      cancelable: false,
+    });
+  }
+
+  const toggleFavorite = () => {
+    if (checked) {
+      // remove gym from favorites
+      console.log("Removing gym from favorites.");
+    } else {
+      // add gym to favorites
+      console.log("Adding gym to favorites.");
+    }
+    setChecked(!checked);
+  };
 
   return (
-    <View style={styles.container}>
-      <Button
-        icon="heart-outline"
+    <SafeAreaView style={styles.container}>
+      <ToggleButton
+        icon={checked ? "heart" : "heart-outline"}
         iconSize="50"
         labelStyle={{ fontSize: 30 }}
         color="#A20A0A"
@@ -37,12 +51,12 @@ const GymInfo = ({ route, navigation }) => {
         marginLeft="80%"
         marginRight="10%"
         title="favourite"
-        onPress={() => add_favourite()}
-      ></Button>
+        onPress={toggleFavorite}
+        status={checked ? "checked" : "unchecked"}
+      ></ToggleButton>
 
       <Text style={styles.header}>{title}</Text>
       <Text style={styles.description}>{address}</Text>
-
       <View style={styles.block}>
         <View style={styles.profile} />
         <View style={styles.data} />
@@ -65,7 +79,7 @@ const GymInfo = ({ route, navigation }) => {
           </Button>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

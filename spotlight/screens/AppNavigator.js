@@ -6,8 +6,7 @@ import AuthNavigator from "./authentication/AuthNavigator";
 import * as firebase from "firebase";
 import { AuthContext } from "./authentication/EmailContext/AuthProvider";
 import { createNewUser } from "../services/userService";
-import {ActivityIndicator} from 'react-native';
-
+import { ActivityIndicator } from "react-native";
 
 const AppStack = createStackNavigator();
 
@@ -36,8 +35,7 @@ const AppNavigator = () => {
   if (initializing) return null;
 
   if (loading) {
-    return <ActivityIndicator size="large"/>;
-
+    return <ActivityIndicator size="large" />;
   }
 
   return (

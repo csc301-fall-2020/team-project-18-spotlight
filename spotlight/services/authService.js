@@ -1,6 +1,11 @@
 import firebase from "firebase";
-import * as Google from 'expo-google-app-auth';
-import { androidExpoClientId, iosExpoClientIdAuth, androidStandaloneAppClientId, iosStandaloneAppClientId } from '../config';
+import * as Google from "expo-google-app-auth";
+import {
+  androidExpoClientId,
+  iosExpoClientIdAuth,
+  androidStandaloneAppClientId,
+  iosStandaloneAppClientId,
+} from "../config";
 
 /**
  * @param {string} email
@@ -62,8 +67,8 @@ const googleLogin = async () => {
       iosClientId: iosExpoClientIdAuth,
       androidStandaloneAppClientId: androidStandaloneAppClientId,
       iosStandaloneAppClientId: iosStandaloneAppClientId,
-      scopes: ['profile', 'email'],
-      behaviour: 'web'
+      scopes: ["profile", "email"],
+      behaviour: "web",
     });
 
     if (result.type === "success") {

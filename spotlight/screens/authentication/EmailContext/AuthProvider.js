@@ -3,7 +3,7 @@ import {
   emailLogin,
   emailRegister,
   emailLogout,
-  googleLogin
+  googleLogin,
 } from "../../../services/authService";
 
 /**
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         emailLogin,
         emailRegister,
         emailLogout,
-        googleLogin
+        googleLogin,
       }}
     >
       {children}

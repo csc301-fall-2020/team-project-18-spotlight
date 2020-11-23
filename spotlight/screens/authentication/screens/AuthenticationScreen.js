@@ -24,7 +24,7 @@ const AuthenticationScreen = ({ navigation }) => {
         onPress={async () => {
           navigation.navigate("Loading");
           const result = await googleLogin();
-          if(result.cancelled === true){
+          if (result.cancelled === true) {
             navigation.navigate("Authentication");
           }
         }}
@@ -48,13 +48,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
-  email:{
-    marginBottom: 10
+  email: {
+    marginBottom: 10,
   },
   google: {
-    backgroundColor: 'green',
-    marginBottom: 10
-  }
+    backgroundColor: "green",
+    marginBottom: 10,
+  },
 });
 
 export default AuthenticationScreen;
