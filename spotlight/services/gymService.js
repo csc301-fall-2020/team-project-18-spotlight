@@ -1,5 +1,6 @@
 import * as firebase from "firebase";
 import "firebase/firestore";
+import useFirestoreQuery from "../hooks/useFirestoreQuery";
 
 /**
  * @typedef {Object} GymCoordinate
@@ -8,6 +9,7 @@ import "firebase/firestore";
  * @property {string} title
  * @property {string} address
  * @property {boolean} isFavorite
+ * @property {array} users
  */
 
 /**
@@ -18,6 +20,8 @@ import "firebase/firestore";
  */
 const isGymFavorited = async (gymID, userID) => {
   const db = firebase.firestore();
+  const userRef = await db.collection("users").doc(userID);
+  userRef.onSnapshot;
   const user = await db.collection("users").doc(userID).get();
   if (!user.exists) {
     throw new Error("User does not exist.");
@@ -37,15 +41,18 @@ const processGymDocument = async (gymDocument, userID) => {
   const gymObj = gymDocument.data();
   const isFavorite = await isGymFavorited(gymDocument.id, userID);
   return {
+    id: gymDocument.id,
     title: gymObj.title,
     address: gymObj.address,
     longitude: gymObj.longlat.longitude,
     latitude: gymObj.longlat.latitude,
     isFavorite,
+    users: gymObj.users,
   };
 };
 /**
  * Get an array of gyms which includes whether the gym is favorited by the user.
+ *
  * @param {string} userID
  * @returns {GymCoordinate[]}
  * @throws {Error} if something goes wrong
