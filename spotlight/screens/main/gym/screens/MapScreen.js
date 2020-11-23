@@ -1,27 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { Searchbar } from "react-native-paper";
 import { getLocation } from "../../../../services/locationService";
-
-import gymMarkers from "../gymCoordinates";
+import { getAllGyms } from "../../../../services/gymService";
+import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const MapScreen = ({ navigation }) => {
-  /**
-   * @typedef {Object} Marker
-   * @property {number} i
-   * @property {number} longitude
-   * @property {number} latitude
-   * @property {string} title
-   * @property {string} address
-   */
-
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [markers, setMarkers] = useState(gymMarkers);
+  const [markers, setMarkers] = useState([]);
+  const { user } = useContext(AuthContext);
 
-  // This is called upon the first rendering of the screen
+  // Get location of user
   useEffect(() => {
     getLocation()
       .then((coords) => {
@@ -32,6 +24,16 @@ const MapScreen = ({ navigation }) => {
         });
       })
       .catch((e) => setErrorMessage(e.message));
+  }, []);
+
+  // Get list of gyms from firestore
+  useEffect(() => {
+    getAllGyms(user.uid)
+      .then((gyms) => {
+        setMarkers(gyms);
+        console.log(gyms);
+      })
+      .catch((e) => setErrorMessage(e));
   }, []);
 
   if (errorMessage) {
@@ -77,6 +79,7 @@ const MapScreen = ({ navigation }) => {
                   address: marker.address,
                 })
               }
+              isFavorite={marker.isFavorite}
             />
           ))}
         </MapView>
