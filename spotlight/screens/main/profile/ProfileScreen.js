@@ -20,27 +20,28 @@ const ProfileScreen = ({ route, navigation }) => {
   const [profileInfo, setInfo] = useState({
     nickname: "Aura",
     name: "Laura",
-    gender: "F | 20",
+    gender: "F",
     description: textinfo,
-    birthday:"2000 01 01"
+    birthday:"2000 01 01",
+    age: "20"
   });
   const { emailLogout } = useContext(AuthContext);
 
   const sendToEdit = () => {
-    cond = true;
-    navigation.navigate("EditProfileScreen", {nickname:profileInfo.nickname, name:profileInfo.name, gender:profileInfo.gender, description:profileInfo.description, birthday:profileInfo.birthday})
+    navigation.navigate("EditProfileScreen", {nickname:profileInfo.nickname, name:profileInfo.name, gender:profileInfo.gender, description:profileInfo.description, birthday:profileInfo.birthday, age:profileInfo.age})
   };
 
 
 
   if (route.params != undefined) {
-    const {nickname, name, gender, description, birthday} = route.params;
+    const {nickname, name, gender, description, birthday, age} = route.params;
     const newInfo = {
       nickname: nickname,
       name: name,
       gender: gender,
       description: description,
-      birthday: birthday
+      birthday: birthday,
+      age: age
     }   
     setInfo(newInfo); 
     route.params = undefined;
@@ -63,7 +64,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
       <View style={styles.info}>
         <Text style={{ fontSize: 40 }}>{profileInfo.name}</Text>
-        <Text style={styles.titleText}>{profileInfo.gender}</Text>
+        <Text style={styles.titleText}>{profileInfo.gender + " | " + profileInfo.age}</Text>
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
           {profileInfo.description}
         </Text>

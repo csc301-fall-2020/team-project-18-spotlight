@@ -4,9 +4,12 @@ import {
     Text,
     View,
     TextInput,
-    Button
+    Button,
+    KeyboardAvoidingView
 } from "react-native";
 import { Value } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 const textinfo =
     "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
@@ -18,34 +21,37 @@ const EditProfileScreen = ({ route, navigation }) => {
     const [gender, setGender] = useState("");
     const [description, setDescription] = useState("");
     const [birthday, setBirthday] = useState("");
+    const [age, setAge] = useState("");
+
 
 
     const save = () => {
-        cond = true;
-        const info = {nickname:nickname, name:name, gender:gender, description:description, birthday:birthday}
         setNickname("")
         setName("")
         setGender("")
         setDescription("")
         setBirthday("")
+        setAge("")
 
-        navigation.navigate("ProfileScreen", {nickname:nickname, name:name, gender:gender, description:description, birthday:birthday})
-      };
+        navigation.navigate("ProfileScreen", { nickname: nickname, name: name, gender: gender, description: description, birthday: birthday, age:age })
+    };
 
-      if (route.params != undefined) {
-        const {nickname, name, gender, description, birthday} = route.params;
+    if (route.params != undefined) {
+        const { nickname, name, gender, description, birthday, age } = route.params;
         setNickname(nickname)
         setName(name)
         setGender(gender)
         setDescription(description)
         setBirthday(birthday)
+        setAge(age)
+
         route.params = undefined;
 
-      }
-    
+    }
+
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             {/* <View style={styles.changePassword}>
                 <View style={styles.textInput}>
                     <Text>
@@ -72,7 +78,7 @@ const EditProfileScreen = ({ route, navigation }) => {
             </View> */}
 
 
-            <View style={styles.changeInfo}>
+            <SafeAreaView style={styles.changeInfo}>
                 <View style={styles.textInput}>
                     <Text style={styles.text}>
                         Change nickname:
@@ -80,8 +86,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                     <TextInput
                         style={styles.input}
                         placeholder={nickname}
-                        onChangeText={(value)=> {setNickname(value)}}
-                        value = {nickname}
+                        onChangeText={(value) => { setNickname(value) }}
+                        value={nickname}
                     />
                 </View>
 
@@ -92,8 +98,8 @@ const EditProfileScreen = ({ route, navigation }) => {
                     <TextInput
                         style={styles.input}
                         placeholder={name}
-                        onChangeText={(value)=> {setName(value)}}
-                        value = {name}
+                        onChangeText={(value) => { setName(value) }}
+                        value={name}
                     />
                 </View>
 
@@ -104,22 +110,38 @@ const EditProfileScreen = ({ route, navigation }) => {
                     <TextInput
                         style={styles.input}
                         placeholder={birthday}
-                        onChangeText={(value)=> {setBirthday(value)}}
-                        value = {birthday}
+                        onChangeText={(value) => { setBirthday(value) }}
+                        value={birthday}
                     />
                 </View>
 
-                <View style={styles.textInput}>
-                    <Text style={styles.text}>
-                        Change gender:
+
+                <View style={styles.GenderAge}>
+                    <View style={styles.textInput}>
+                        <Text style={styles.text}>
+                            Change gender:
                     </Text>
-                    <TextInput
-                        style={styles.input}
-                        placeholder={gender}
-                        onChangeText={(value)=> {setGender(value)}}
-                        value = {gender}
-                    />
+                        <TextInput
+                            style={styles.gainput}
+                            placeholder={gender}
+                            onChangeText={(value) => { setGender(value) }}
+                            value={gender}
+                        />
+                    </View>
+
+                    <View style={styles.textInput}>
+                        <Text style={styles.text}>
+                            Change age:
+                    </Text>
+                        <TextInput
+                            style={styles.gainput}
+                            placeholder={age}
+                            onChangeText={(value) => { setAge(value) }}
+                            value={age}
+                        />
+                    </View>
                 </View>
+
 
                 <View style={styles.textInput}>
                     <Text style={styles.text}>
@@ -128,21 +150,21 @@ const EditProfileScreen = ({ route, navigation }) => {
                     <TextInput
                         style={styles.description}
                         placeholder={description}
-                        onChangeText={(value)=> {setDescription(value)}}
-                        value = {description}
+                        onChangeText={(value) => { setDescription(value) }}
+                        value={description}
                     />
                 </View>
 
 
-                <Button 
+                <Button
                     title="SAVE"
                     color="#A20A0A"
-                    onPress={()=> save()}
+                    onPress={() => save()}
                 />
-                   
 
-            </View>
-        </View>
+
+            </SafeAreaView>
+        </KeyboardAvoidingView>
 
     );
 };
@@ -153,8 +175,19 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#A20A0A",
         flex: 1,
-        position: "absolute"
-
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%"
+    },
+    GenderAge: {
+        flexDirection: "row"
+    },
+    gainput: {
+        borderWidth: 1,
+        width: 150,
+        color: "grey",
     },
     textInput: {
         marginBottom: 20,
