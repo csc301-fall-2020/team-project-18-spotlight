@@ -84,7 +84,6 @@ const useFirestoreQuery = (query) => {
         const data = response.docs
           ? getCollectionData(response)
           : getDocData(response);
-
         dispatch({ type: "success", payload: data });
       },
       (error) => {
@@ -92,7 +91,6 @@ const useFirestoreQuery = (query) => {
       }
     );
   }, [queryCached]); // Only run effect if queryCached changes
-
   return state;
 };
 

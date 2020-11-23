@@ -4,8 +4,10 @@ import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { Searchbar } from "react-native-paper";
 import { getLocation } from "../../../../services/locationService";
-import { getAllGyms } from "../../../../services/gymService";
+import { getAllGyms, isGymFavorited } from "../../../../services/gymService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
+import useFirestoreQuery from "../../../../hooks/useFirestoreQuery";
+import { allGymsQuery } from "../../../../queries/gymQueries";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
@@ -26,6 +28,8 @@ const MapScreen = ({ navigation }) => {
       .catch((e) => setErrorMessage(e.message));
   }, []);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
   // Get list of gyms from firestore
   useEffect(() => {
     getAllGyms(user.uid)
@@ -34,7 +38,6 @@ const MapScreen = ({ navigation }) => {
       })
       .catch((e) => setErrorMessage(e));
   }, []);
-  const [searchQuery, setSearchQuery] = useState("");
 
   if (errorMessage) {
     return (
@@ -66,10 +69,7 @@ const MapScreen = ({ navigation }) => {
               key={i}
               title={marker.title}
               address={marker.address}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
+              coordinate={marker.longlat}
               onCalloutPress={() =>
                 navigation.navigate("GymInfo", {
                   // Paramaters to pass to pop-up gym info screen

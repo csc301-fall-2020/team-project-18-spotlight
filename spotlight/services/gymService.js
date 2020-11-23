@@ -3,9 +3,13 @@ import "firebase/firestore";
 import useFirestoreQuery from "../hooks/useFirestoreQuery";
 
 /**
- * @typedef {Object} GymCoordinate
+ * @typedef {Object} LongLat
  * @property {number} longitude
  * @property {number} latitude
+ */
+/**
+ * @typedef {Object} GymCoordinate
+   @property {LongLat} longlat
  * @property {string} title
  * @property {string} address
  * @property {boolean} isFavorite
@@ -44,8 +48,7 @@ const processGymDocument = async (gymDocument, userID) => {
     id: gymDocument.id,
     title: gymObj.title,
     address: gymObj.address,
-    longitude: gymObj.longlat.longitude,
-    latitude: gymObj.longlat.latitude,
+    longlat: gymObj.longlat,
     isFavorite,
     users: gymObj.users,
   };
