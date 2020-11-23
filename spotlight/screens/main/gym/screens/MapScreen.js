@@ -4,10 +4,8 @@ import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { Searchbar } from "react-native-paper";
 import { getLocation } from "../../../../services/locationService";
-import { getAllGyms, isGymFavorited } from "../../../../services/gymService";
+import { getAllGyms } from "../../../../services/gymService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
-import useFirestoreQuery from "../../../../hooks/useFirestoreQuery";
-import { allGymsQuery } from "../../../../queries/gymQueries";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
