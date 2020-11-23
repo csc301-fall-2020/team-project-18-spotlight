@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Value } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
+// import SelectPicker from 'react-native-select-picker'; 
 
 
 const textinfo =
@@ -152,6 +153,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                         placeholder={description}
                         onChangeText={(value) => { setDescription(value) }}
                         value={description}
+                        multiline={true}
                     />
                 </View>
 
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#A20A0A",
+        backgroundColor: "lightgrey",
         flex: 1,
         position: "absolute",
         top: 0,
@@ -187,21 +189,26 @@ const styles = StyleSheet.create({
     gainput: {
         borderWidth: 1,
         width: 150,
-        color: "grey",
+        color: "black",
+        padding: 5,
     },
     textInput: {
-        marginBottom: 20,
+        marginBottom: 10,
+        
     },
     input: {
         borderWidth: 1,
         width: 300,
-        color: "grey",
+        color: "black",
+        padding: 5,
     },
     description: {
         borderWidth: 1,
         width: 300,
-        color: "grey",
+        color: "black",
         height: 200,
+        textAlignVertical: 'top',
+        padding: 5,
     },
     changePassword: {
         top: 80,
