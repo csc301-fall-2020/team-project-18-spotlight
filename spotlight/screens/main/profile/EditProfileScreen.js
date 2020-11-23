@@ -4,10 +4,10 @@ import {
     Text,
     View,
     TextInput,
-    Button,
     KeyboardAvoidingView
 } from "react-native";
-import { Value } from "react-native-reanimated";
+import { Button } from "react-native-paper";
+// import { Value } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 // import SelectPicker from 'react-native-select-picker'; 
 
@@ -35,6 +35,17 @@ const EditProfileScreen = ({ route, navigation }) => {
         setAge("")
 
         navigation.navigate("ProfileScreen", { nickname: nickname, name: name, gender: gender, description: description, birthday: birthday, age:age })
+    };
+
+    const cancel = () => {
+        setNickname("")
+        setName("")
+        setGender("")
+        setDescription("")
+        setBirthday("")
+        setAge("")
+
+        navigation.navigate("ProfileScreen");
     };
 
     if (route.params != undefined) {
@@ -158,12 +169,31 @@ const EditProfileScreen = ({ route, navigation }) => {
                 </View>
 
 
-                <Button
+                {/* <Button
                     title="SAVE"
                     color="#A20A0A"
+                    style={styles.save}
                     onPress={() => save()}
-                />
+                /> */}
 
+                <Button
+                    style={styles.save}
+                    icon="content-save"
+                    mode="contained"
+                    onPress={() =>save()}
+                >
+                    <Text style={{ fontSize: 15 }}>Update</Text>
+                </Button>
+
+                <Button
+                    style={styles.cancel}
+                    // icon="close-circle"
+                    // mode="outlined"
+                    color="red"
+                    onPress={() =>cancel()}
+                >
+                    <Text style={{ fontSize: 13 }}>Cancel</Text>
+                </Button>
 
             </SafeAreaView>
         </KeyboardAvoidingView>
@@ -184,23 +214,27 @@ const styles = StyleSheet.create({
         height: "100%"
     },
     GenderAge: {
-        flexDirection: "row"
+        flexDirection: "row",
+        alignContent:"space-between",
+        justifyContent:"space-between"
     },
     gainput: {
         borderWidth: 1,
-        width: 150,
+        width: 140,
         color: "black",
-        padding: 5,
+        paddingHorizontal: 10,
+        borderRadius: 8,
+        marginRight: 10
     },
     textInput: {
         marginBottom: 10,
-        
     },
     input: {
         borderWidth: 1,
         width: 300,
         color: "black",
-        padding: 5,
+        paddingHorizontal: 10,
+        borderRadius: 8
     },
     description: {
         borderWidth: 1,
@@ -208,7 +242,8 @@ const styles = StyleSheet.create({
         color: "black",
         height: 200,
         textAlignVertical: 'top',
-        padding: 5,
+        borderRadius: 8,
+        padding: 10
     },
     changePassword: {
         top: 80,
@@ -237,6 +272,13 @@ const styles = StyleSheet.create({
     text: {
         color: "#A20A0A",
     },
+    save: {
+        borderRadius: 50,
+        marginBottom: 10
+    },
+    cancel:{
+        color:"red"
+    }
 });
 
 export default EditProfileScreen;
