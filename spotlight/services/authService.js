@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import * as Google from 'expo-google-app-auth';
-import { androidClientIdAuth, iosClientIdAuth } from '../config';
+import { androidExpoClientId, iosExpoClientIdAuth, androidStandaloneAppClientId, iosStandaloneAppClientId } from '../config';
 
 /**
  * @param {string} email
@@ -58,8 +58,10 @@ const emailRegister = async (email, password) => {
 const googleLogin = async () => {
   try {
     const result = await Google.logInAsync({
-      androidClientId: androidClientIdAuth,
-      iosClientId: iosClientIdAuth,
+      androidClientId: androidExpoClientId,
+      iosClientId: iosExpoClientIdAuth,
+      androidStandaloneAppClientId: androidStandaloneAppClientId,
+      iosStandaloneAppClientId: iosStandaloneAppClientId,
       scopes: ['profile', 'email'],
       behaviour: 'web'
     });

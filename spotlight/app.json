@@ -10,7 +10,12 @@
     ],
     "ios": {
       "bundleIdentifier": "com.spotlight",
-      "buildNumber": "0.0.1"
+      "buildNumber": "0.0.1",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.1074492684065-jhvfr0923efd72toiah7nspvgp8uuoa5"
+        }
+      }
     },
     "android": {
       "package": "com.spotlight",
@@ -18,6 +23,10 @@
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyDQKD-E3Ci3_8J9bRSpdgVzTFUb85GeUKM"
+        },
+        "googleSignIn": {
+          "apiKey": "AIzaSyDQKD-E3Ci3_8J9bRSpdgVzTFUb85GeUKM",
+          "certificateHash": "D2:E1:40:9E:D4:10:F9:22:12:32:BC:D6:94:1A:9A:BA:DB:FD:FA:A8"
         }
       },
       "adaptiveIcon": {
