@@ -1,22 +1,33 @@
 {
-  "name": "spotlight",
-  "displayName": "spotlight",
+  "name": "Spotlight",
+  "displayName": "Spotlight",
   "expo": {
-    "name": "spotlight",
-    "slug": "spotlight",
+    "name": "Spotlight",
+    "slug": "Spotlight",
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "bundleIdentifier": "com.spotlight",
-      "buildNumber": "1.0.0"
+      "buildNumber": "0.0.1",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.1074492684065-jhvfr0923efd72toiah7nspvgp8uuoa5"
+        }
+      }
     },
     "android": {
       "package": "com.spotlight",
       "versionCode": 1,
-      "adaptiveIcon": {
-        "foregroundImage": "./android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDQKD-E3Ci3_8J9bRSpdgVzTFUb85GeUKM"
+        },
+        "googleSignIn": {
+          "apiKey": "AIzaSyDQKD-E3Ci3_8J9bRSpdgVzTFUb85GeUKM",
+          "certificateHash": "D2:E1:40:9E:D4:10:F9:22:12:32:BC:D6:94:1A:9A:BA:DB:FD:FA:A8"
+        }
       }
     }
   }
