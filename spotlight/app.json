@@ -28,9 +28,6 @@
           "apiKey": "AIzaSyDQKD-E3Ci3_8J9bRSpdgVzTFUb85GeUKM",
           "certificateHash": "D2:E1:40:9E:D4:10:F9:22:12:32:BC:D6:94:1A:9A:BA:DB:FD:FA:A8"
         }
-      },
-      "adaptiveIcon": {
-        "foregroundImage": "./android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
       }
     }
   }
