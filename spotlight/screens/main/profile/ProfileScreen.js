@@ -11,27 +11,50 @@ import { Button } from "react-native-paper";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
 import editProfile from "./images/editProfile.png";
-// import { LinearGradient } from 'expo-linear-gradient';
+
 
 const textinfo =
   "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ route, navigation }) => {
   const [profileInfo, setInfo] = useState({
+    nickname: "Aura",
     name: "Laura",
-    gender: "F | 20",
+    gender: "F",
     description: textinfo,
+    birthday:"2000 01 01",
+    age: "20"
   });
   const { emailLogout } = useContext(AuthContext);
+
+  const sendToEdit = () => {
+    navigation.navigate("EditProfileScreen", {nickname:profileInfo.nickname, name:profileInfo.name, gender:profileInfo.gender, description:profileInfo.description, birthday:profileInfo.birthday, age:profileInfo.age})
+  };
+
+
+
+  if (route.params != undefined) {
+    const {nickname, name, gender, description, birthday, age} = route.params;
+    const newInfo = {
+      nickname: nickname,
+      name: name,
+      gender: gender,
+      description: description,
+      birthday: birthday,
+      age: age
+    }   
+    setInfo(newInfo); 
+    route.params = undefined;
+  }
+
+
 
   return (
     <SafeAreaView style={styles.container}>
       <Image source={profilePic} style={styles.background} />
       <TouchableOpacity
         style={styles.editProfile}
-        onPress={() => {
-          alert("you clicked me");
-        }}
+        onPress={() => sendToEdit()}
       >           
         <Image source={editProfile} />
         <Text style={{ color: "white", position: "absolute", fontSize: 30 }}>
@@ -41,7 +64,7 @@ const ProfileScreen = ({ navigation }) => {
 
       <View style={styles.info}>
         <Text style={{ fontSize: 40 }}>{profileInfo.name}</Text>
-        <Text style={styles.titleText}>{profileInfo.gender}</Text>
+        <Text style={styles.titleText}>{profileInfo.gender + " | " + profileInfo.age}</Text>
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
           {profileInfo.description}
         </Text>
