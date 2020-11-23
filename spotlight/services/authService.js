@@ -58,19 +58,12 @@ const emailRegister = async (email, password) => {
 const googleLogin = async () => {
   try {
     const result = await Google.logInAsync({
-<<<<<<< HEAD
       androidClientId: androidExpoClientId,
       iosClientId: iosExpoClientIdAuth,
       androidStandaloneAppClientId: androidStandaloneAppClientId,
       iosStandaloneAppClientId: iosStandaloneAppClientId,
       scopes: ['profile', 'email'],
       behaviour: 'web'
-=======
-      androidClientId: androidClientIdAuth,
-      iosClientId: iosClientIdAuth,
-      scopes: ["profile", "email"],
-      behavior: "web",
->>>>>>> 03a02817f9be1628886f32011a04604f6d075b82
     });
 
     if (result.type === "success") {
