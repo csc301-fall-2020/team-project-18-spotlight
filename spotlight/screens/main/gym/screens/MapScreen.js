@@ -31,7 +31,6 @@ const MapScreen = ({ navigation }) => {
     getAllGyms(user.uid)
       .then((gyms) => {
         setMarkers(gyms);
-        console.log(gyms);
       })
       .catch((e) => setErrorMessage(e));
   }, []);
