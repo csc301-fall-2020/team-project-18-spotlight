@@ -34,6 +34,7 @@ const MapScreen = ({ navigation }) => {
       })
       .catch((e) => setErrorMessage(e));
   }, []);
+  const [searchQuery, setSearchQuery] = useState("");
 
   if (errorMessage) {
     return (
@@ -43,8 +44,6 @@ const MapScreen = ({ navigation }) => {
       </View>
     );
   }
-
-  const [searchQuery, setSearchQuery] = useState("");
 
   const onChangeSearch = (query) => setSearchQuery(query);
 

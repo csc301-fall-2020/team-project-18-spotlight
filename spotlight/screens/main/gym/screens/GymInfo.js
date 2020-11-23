@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { render } from "react-dom";
 import { Text, View, StyleSheet, Alert } from "react-native";
-import { Button } from "react-native-paper";
+import { ToggleButton, Button } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 import CurrentGym from "../components/CurrentGym";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {
+  isGymFavorited,
+  getGymByAddress,
+} from "../../../../services/gymService";
+import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
   const { title, address, isFavorite } = route.params;
+  const { user } = useContext(AuthContext);
+  const [checked, setChecked] = useState(isFavorite);
 
   function add_member(name) {
     // editJsonFile = require("edit-json-file");
@@ -21,24 +29,30 @@ const GymInfo = ({ route, navigation }) => {
     });
   }
 
-  function add_favourite() {
-    Alert.alert("", "You have favourited this gym!", [{ text: "OK" }], {
-      cancelable: false,
-    });
-  }
+  const toggleFavorite = () => {
+    if (checked) {
+      // remove gym from favorites
+      console.log("Removing gym from favorites.");
+    } else {
+      // add gym to favorites
+      console.log("Adding gym to favorites.");
+    }
+    setChecked(!checked);
+  };
 
   return (
-    <View style={styles.container}>
-      <Button
-        icon="heart-outline"
+    <SafeAreaView style={styles.container}>
+      <ToggleButton
+        icon={checked ? "heart" : "heart-outline"}
         iconSize="50"
         labelStyle={{ color: "#A20A0A", fontSize: 30 }}
         paddingTop="5%"
         paddingLeft="75%"
         marginRight="5%"
         title="favourite"
-        onPress={() => add_favourite()}
-      ></Button>
+        onPress={toggleFavorite}
+        status={checked ? "checked" : "unchecked"}
+      ></ToggleButton>
 
       <Text style={styles.header}>{title}</Text>
       <Text style={styles.description}>{address}</Text>
@@ -64,7 +78,7 @@ const GymInfo = ({ route, navigation }) => {
           </Button>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
