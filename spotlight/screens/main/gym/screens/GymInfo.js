@@ -1,13 +1,23 @@
 import React from "react";
 import { render } from "react-dom";
 import { Text, View, StyleSheet, Alert } from "react-native";
-import { Button } from "react-native-paper"
-import CurrentGym from "../components/CurrentGym";
+import { Button } from "react-native-paper";
+
+function add_member(name) {
+  // editJsonFile = require("edit-json-file");
+  // let file = editJsonFile(`../components/CurrentGym.json`);
+  // var data = JSON.parse(fs.readFileSync("../components/CurrentGym.json").toString());
+  // data[0]["member"].push("name")
+  // fs.writeFile("../components/CurrentGym.json", JSON.stringify(data))
+
+  Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
+    cancelable: false,
+  });
+}
 
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
   const { title, address } = route.params;
-  
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{title}</Text>
@@ -16,21 +26,21 @@ const GymInfo = ({ route, navigation }) => {
         <View style={styles.profile} />
         <View style={styles.data} />
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-         <Button
+          <Button
             title="attend"
-            onPress={() => null}
+            onPress={() => add_member("olivia")}
             color="#A20A0A"
             mode={"outlined"}
-            >
-          attend
+          >
+            Attend
           </Button>
           <Button
             title="Return to map"
             onPress={() => navigation.goBack()}
             color="#A20A0A"
             mode={"outlined"}
-            >
-          Return to map
+          >
+            Return to map
           </Button>
         </View>
       </View>
