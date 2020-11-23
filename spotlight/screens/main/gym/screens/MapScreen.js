@@ -77,6 +77,7 @@ const MapScreen = ({ navigation }) => {
                   // Paramaters to pass to pop-up gym info screen
                   title: marker.title,
                   address: marker.address,
+                  isFavorite: marker.isFavorite,
                 })
               }
               isFavorite={marker.isFavorite}
