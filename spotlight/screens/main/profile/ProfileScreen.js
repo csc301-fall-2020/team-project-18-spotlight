@@ -72,7 +72,8 @@ const ProfileScreen = ({ route, navigation }) => {
           style={styles.back}
           icon="logout"
           mode="contained"
-          onPress={emailLogout}
+          onPress={() => {emailLogout();}
+          }
         >
           <Text style={{ fontSize: 15 }}>Logout</Text>
         </Button>

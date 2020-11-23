@@ -24,10 +24,10 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   header: {
     fontFamily: "Raleway_600SemiBold",
-    fontSize: 30,
+    fontSize: 36,
     fontStyle: "normal",
     textAlign: "center",
-    paddingTop: "21%",
+    paddingTop: "18%",
   },
   container: {
     flex: 1,
