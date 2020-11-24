@@ -95,4 +95,66 @@ const getGymByAddress = async (address, userID) => {
   return await processGymDocument(foundGym, userID);
 };
 
-export { getAllGyms, isGymFavorited, getGymByAddress };
+const addFavoriteGym = async (gymID, userID) => {
+  const db = firebase.firestore();
+  const gymRef = db.collection("gyms").doc(gymID);
+  const userRef = db.collection("users").doc(userID);
+  const gymDocSnapshot = await gymRef.get();
+  const userDocSnapshot = await userRef.get();
+
+  // Guards
+  if (!gymDocSnapshot.exists) {
+    throw new Error(`${gymID} is not a valid gymID!`);
+  }
+  if (!userDocSnapshot.exists) {
+    throw new Error(`${userID} is not a valid userID!`);
+  }
+
+  try {
+    console.log("Adding gym ", gymID);
+    // check if the user has no favoriteGyms attribute yet.
+    if (userDocSnapshot.data().favoriteGyms == null) {
+      await userRef.update({
+        favoriteGyms: [],
+      });
+    }
+    await userRef.update({
+      favoriteGyms: firebase.firestore.FieldValue.arrayUnion(gymRef),
+    });
+  } catch (e) {
+    throw new Error("Something went wrong in addFavoriteGym!", e.message);
+  }
+};
+
+const removeFavoriteGym = async (gymID, userID) => {
+  const db = firebase.firestore();
+  const gymRef = db.collection("gyms").doc(gymID);
+  const userRef = db.collection("users").doc(userID);
+  const gymDocSnapshot = await gymRef.get();
+  const userDocSnapshot = await userRef.get();
+
+  // Guards
+  if (!gymDocSnapshot.exists) {
+    throw new Error(`${gymID} is not a valid gymID!`);
+  }
+  if (!userDocSnapshot.exists) {
+    throw new Error(`${userID} is not a valid userID!`);
+  }
+
+  try {
+    console.log("Removing gymID ", gymID);
+    await userRef.update({
+      favoriteGyms: firebase.firestore.FieldValue.arrayRemove(gymRef),
+    });
+  } catch (e) {
+    throw new Error("Something went wrong in removeFavoriteGym!", e.message);
+  }
+};
+
+export {
+  getAllGyms,
+  isGymFavorited,
+  getGymByAddress,
+  addFavoriteGym,
+  removeFavoriteGym,
+};

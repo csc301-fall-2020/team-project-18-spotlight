@@ -8,12 +8,14 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import {
   isGymFavorited,
   getGymByAddress,
+  addFavoriteGym,
+  removeFavoriteGym,
 } from "../../../../services/gymService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
-  const { title, address, isFavorite } = route.params;
+  const { title, address, isFavorite, gymID } = route.params;
   const { user } = useContext(AuthContext);
   const [checked, setChecked] = useState(isFavorite);
 
@@ -30,14 +32,18 @@ const GymInfo = ({ route, navigation }) => {
   }
 
   const toggleFavorite = () => {
-    if (checked) {
-      // remove gym from favorites
-      console.log("Removing gym from favorites.");
-    } else {
-      // add gym to favorites
-      console.log("Adding gym to favorites.");
-    }
-    setChecked(!checked);
+    (async () => {
+      if (checked) {
+        // remove gym from favorites
+        await removeFavoriteGym(gymID, user.uid);
+        console.log("Removing gym from favorites.");
+      } else {
+        // add gym to favorites
+        await addFavoriteGym(gymID, user.uid);
+        console.log("Adding gym to favorites.");
+      }
+      setChecked(!checked);
+    })();
   };
 
   return (

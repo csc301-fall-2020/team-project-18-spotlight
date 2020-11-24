@@ -74,6 +74,7 @@ const MapScreen = ({ navigation }) => {
                   title: marker.title,
                   address: marker.address,
                   isFavorite: marker.isFavorite,
+                  gymID: marker.id,
                 })
               }
               isFavorite={marker.isFavorite}
