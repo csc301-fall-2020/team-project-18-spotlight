@@ -20,7 +20,7 @@ Firstly, authentication systems allow users to register a new account or log in,
 
 ## Instructions
 
-First, download the latest apk from the releases tab of our repo.
+First, download the latest apk from [here](https://github.com/csc301-fall-2020/team-project-18-spotlight/releases).
 
 1. Users must first register an account if they haven’t already done so. Go to sign in with email -> create account. Enter the credentials and press create account. If a user has already created an account beforehand, they can enter their credentials in the login page and login. For demo purposes, you can use the following credentials: samuelvedrik@gmail.com, password: hellospotlight
 2. Once logged in, there are 4 screens that are available. Profile, map, calendar, friends. The profile screen is currently a mock of what we’re imagining the future profile screen to look like. 
