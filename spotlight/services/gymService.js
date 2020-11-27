@@ -134,6 +134,7 @@ const removeFavoriteGym = async (gymID, userID) => {
   const userDocSnapshot = await userRef.get();
 
   // Guards
+  // Are these necessary? Might just be taking up unnecessary bandwith.
   if (!gymDocSnapshot.exists) {
     throw new Error(`${gymID} is not a valid gymID!`);
   }
@@ -151,10 +152,101 @@ const removeFavoriteGym = async (gymID, userID) => {
   }
 };
 
+/**
+ * Adds the userID to the user array in gymID
+ * @param {*} gymID
+ * @param {*} userID
+ */
+const attendGym = async (gymID, userID) => {
+  const db = firebase.firestore();
+  const gymRef = db.collection("gyms").doc(gymID);
+  const userRef = db.collection("users").doc(userID);
+
+  // Will have to check if it crashes if a gym does not have the "users" field
+
+  // arrayUnion and arrayRemove are done atomically, so we don't have to use transactions.
+  try {
+    console.log(`${userID} is attending gym ${gymID}`);
+    await gymRef.update({
+      users: firebase.firestore.FieldValue.arrayUnion(userRef),
+    });
+  } catch (e) {
+    throw new Error("Something went wrong in attendGym!", e.message);
+  }
+};
+
+/**
+ * removes the userID from the user array in gymID.
+ * @param {*} gymID
+ * @param {*} userID
+ */
+
+const unattendGym = async (gymID, userID) => {
+  const db = firebase.firestore();
+  const gymRef = db.collection("gyms").doc(gymID);
+  const userRef = db.collection("users").doc(userID);
+
+  try {
+    console.log(`${userID} is unattending gym ${gymID}`);
+    await gymRef.update({
+      users: firebase.firestore.FieldValue.arrayRemove(userRef),
+    });
+  } catch (e) {
+    throw new Error("Something went wrong in unattendGym!", e.message);
+  }
+};
+
+const getUsersInGym = async (gymID) => {
+  const db = firebase.firestore();
+  const gymRef = db.collection("gyms").doc(gymID);
+
+  try {
+    console.log("Retrieving users from gymID!");
+    const usersRefs = (await gymRef.get()).get("users");
+    return await Promise.all(
+      usersRefs.map((userRef) => {
+        return userRef.get().data();
+      })
+    );
+  } catch (e) {
+    throw new Error("Something went wrong in getUsersInGym!", e.message);
+  }
+};
+/**
+ * Gets the users in a specific gymID, and executes onUsersChange on the
+ * user data. Returns an unsubscribe function.
+ *
+ * This should be used in an effect.
+ * @param {*} gymID
+ * @param {*} onUsersChange
+ */
+const getUsersInGymSnapshot = async (gymID, onUsersChange) => {
+  const db = firebase.firestore();
+  const gymRef = db.collection("gyms").doc(gymID);
+
+  const unsubscribe = gymRef.onSnapshot((gymDoc) => {
+    (async () => {
+      const usersRefs = gymDoc.get("users");
+      const usersData = await Promise.all(
+        usersRefs.map((userRef) => {
+          return userRef.get().data();
+        })
+      );
+      onUsersChange(usersData);
+    })();
+  });
+
+  return unsubscribe;
+};
+
 export {
   getAllGyms,
   isGymFavorited,
   getGymByAddress,
   addFavoriteGym,
   removeFavoriteGym,
+  attendGym,
+  unattendGym,
+  getUsersInGym,
+  getUsersInGymSnapshot,
 };
