@@ -154,6 +154,7 @@ const removeFavoriteGym = async (gymID, userID) => {
 
 /**
  * Adds the userID to the user array in gymID
+ *
  * @param {*} gymID
  * @param {*} userID
  */
@@ -163,7 +164,6 @@ const attendGym = async (gymID, userID) => {
   const userRef = db.collection("users").doc(userID);
 
   // Will have to check if it crashes if a gym does not have the "users" field
-
   // arrayUnion and arrayRemove are done atomically, so we don't have to use transactions.
   try {
     console.log(`${userID} is attending gym ${gymID}`);
@@ -193,6 +193,19 @@ const unattendGym = async (gymID, userID) => {
     });
   } catch (e) {
     throw new Error("Something went wrong in unattendGym!", e.message);
+  }
+};
+
+const isUserInGym = async (gymID, userID) => {
+  try {
+    const usersInGym = await getUsersInGym(gymID);
+    return usersInGym
+      .map((userData) => {
+        return userData.userID;
+      })
+      .includes(userID);
+  } catch (e) {
+    throw new Error("Something went wrong in isUserInGym!", e.message);
   }
 };
 
@@ -249,4 +262,5 @@ export {
   unattendGym,
   getUsersInGym,
   getUsersInGymSnapshot,
+  isUserInGym,
 };
