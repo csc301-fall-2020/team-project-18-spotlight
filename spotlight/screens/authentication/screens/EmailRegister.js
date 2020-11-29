@@ -3,13 +3,14 @@ import { StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
 import { TextInput, Button } from "react-native-paper";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const EmailSignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { emailRegister } = useContext(AuthContext);
+  const { emailRegister, setIsNewUser } = useContext(AuthContext);
 
   /**
    * Return True if user has started confirming password and it is not the same as the actual password
@@ -44,11 +45,27 @@ const EmailSignUp = ({ navigation }) => {
     }, 3000);
   };
 
-  const register = () => {
-    emailRegister(email, password).catch((e) => showErrorMessage(e.message));
+  const register = async () => {
+    setIsNewUser(true);
+    await emailRegister(email, password).catch((e) => showErrorMessage(e.message));
+    
+    if(error == null) {
+      navigation.navigate("Onboarding", {
+        firstName: "",
+        lastName: "",
+        email: email
+      })
+    }
   };
 
   return (
+    <LinearGradient
+            colors={['red', 'salmon', 'orange']}
+            style={{flex: 1}}
+            //  Linear Gradient 
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Register for Spotlight</Text>
       <TextInput
@@ -120,13 +137,13 @@ const EmailSignUp = ({ navigation }) => {
         Back
       </Button>
     </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     justifyContent: "center",
     padding: 50,
   },

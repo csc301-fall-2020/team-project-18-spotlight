@@ -2,11 +2,19 @@ import React, { useContext } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Button } from "react-native-paper";
 import { AuthContext } from "../EmailContext/AuthProvider";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const AuthenticationScreen = ({ navigation }) => {
-  const { googleLogin } = useContext(AuthContext); // Log-in with firebase
+  const { googleLogin, setIsNewUser } = useContext(AuthContext); // Log-in with firebase
 
   return (
+    <LinearGradient
+        colors={['red', 'salmon', 'orange']}
+        style={{flex: 1}}
+        //  Linear Gradient 
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+    >
     <View style={styles.container}>
       <Text style={styles.title}>Spotlight</Text>
       <Button
@@ -24,6 +32,16 @@ const AuthenticationScreen = ({ navigation }) => {
         onPress={async () => {
           navigation.navigate("Loading");
           const result = await googleLogin();
+
+          if(result.isNewUser){
+            setIsNewUser(true);
+            navigation.navigate("Onboarding", {
+              firstName: result.firstName,
+              lastName: result.lastName,
+              email: result.email
+            })
+          }
+
           if (result.cancelled === true) {
             navigation.navigate("Authentication");
           }
@@ -32,13 +50,14 @@ const AuthenticationScreen = ({ navigation }) => {
         Sign in with Google
       </Button>
     </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     justifyContent: "center",
     padding: 50,
   },

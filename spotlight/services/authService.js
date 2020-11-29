@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
+import "firebase/firestore";
 import {
   androidExpoClientId,
   iosExpoClientIdAuth,
@@ -71,11 +72,27 @@ const googleLogin = async () => {
       behaviour: "web",
     });
 
+    let email = result.user.email;
+    console.log("Email: ", email);
+
+    // Force Overwrite
+    // email = "samuelvedrik@gmail.com";
+
+    let isNewUser = false;
+    if(googleIsNew(email)){
+      isNewUser = true;
+    }
+
     if (result.type === "success") {
       onSignIn(result);
+      // console.log(result);
       return {
         accessToken: result.accessToken,
         cancelled: false,
+        firstName: result.user.givenName,
+        lastName: result.user.familyName,
+        email: email,
+        isNewUser: isNewUser
       };
     } else {
       return { cancelled: true };
@@ -87,9 +104,11 @@ const googleLogin = async () => {
 
 const onSignIn = (googleUser) => {
   // console.log('Google Auth Response', googleUser);
+  // console.log('Email', googleUser.user.email);
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
   let unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
     unsubscribe();
+
     // Check if we are already signed-in Firebase with the correct user.
     if (!isUserEqual(googleUser, firebaseUser)) {
       // Build Firebase credential with the Google ID token.
@@ -146,9 +165,14 @@ const onSignIn = (googleUser) => {
 };
 
 const isUserEqual = (googleUser, firebaseUser) => {
+  // console.log("firebaseUser: ", firebaseUser);
   if (firebaseUser) {
     let providerData = firebaseUser.providerData;
     for (let i = 0; i < providerData.length; i++) {
+      // console.log("providerData[i].uid: ", providerData[i].uid);
+      // console.log("googleUser.getBasicProfile(): ", googleUser.getBasicProfile());
+      // console.log("googleUser.getBasicProfile().getId(): ", googleUser.getBasicProfile().getId());
+
       if (
         providerData[i].providerId ===
           firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
@@ -162,4 +186,36 @@ const isUserEqual = (googleUser, firebaseUser) => {
   return false;
 };
 
-export { emailLogin, emailRegister, emailLogout, googleLogin };
+// const googleIsNew = (email) => {
+//   const emailExists = firebase.auth().getUserByEmail(email).then(() => true).catch(() => false);
+//   return emailExists;
+// }
+
+const googleIsNew = async (email) => {
+  const db = firebase.firestore();
+  const allUsers = db.collection("users");
+  // console.log("allUsers:", allUsers);
+
+  email = "samuelvedrik@gmail.com";
+
+  try {
+    let query = null;
+    query = allUsers.where("email", "==", email);
+    const querySnapshot = query.get();
+    // console.log("query:", query);
+    // console.log()
+    // console.log("querySnapshot: ", querySnapshot);
+    if((await querySnapshot).empty){
+      console.log("NEW USER");
+      return true;
+    }
+    console.log("OLD USER");
+    return false
+
+  } catch {
+    console.log("Something went wrong with the googleIsNew request.");
+    return [];
+  }
+};
+
+export { emailLogin, emailRegister, emailLogout, googleLogin};

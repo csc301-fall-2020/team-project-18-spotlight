@@ -3,12 +3,13 @@ import { StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
 import { TextInput, Button } from "react-native-paper";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const EmailLogIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { emailLogin } = useContext(AuthContext); // Log-in with firebase
+  const { emailLogin, setIsNewUser } = useContext(AuthContext); // Log-in with firebase
 
   /**
    * Return True if some basic checks for username/password validity are passed.
@@ -30,10 +31,18 @@ const EmailLogIn = ({ navigation }) => {
   };
 
   const login = () => {
+    setIsNewUser(false);
     emailLogin(email, password).catch((e) => showErrorMessage(e.message));
   };
 
   return (
+    <LinearGradient
+            colors={['red', 'salmon', 'orange']}
+            style={{flex: 1}}
+            //  Linear Gradient 
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Welcome Back to Spotlight!</Text>
       <TextInput
@@ -87,13 +96,13 @@ const EmailLogIn = ({ navigation }) => {
         Back
       </Button>
     </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     justifyContent: "center",
     padding: 50,
   },
