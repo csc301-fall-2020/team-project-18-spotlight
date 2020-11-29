@@ -44,21 +44,15 @@ const uploadUserImage = async (uri) => {
   return await snapshot.ref.getDownloadURL();
 };
 
-const updateUserInfo = ({
-  profilePicture,
-  firstName,
-  lastName,
-  username,
-  email,
-  country,
-  address,
-  city,
-  province,
-  zip,
-  dateOfBirth,
-  gender,
-  phoneNumber,
-}) => {};
+const updateUserInfo = async (userData, userID) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  try {
+    await userRef.update(userData);
+  } catch (e) {
+    console.log(e.message);
+  }
+};
 
 const getAllUsers = () => {
   return [];

@@ -47,7 +47,7 @@ const Onboarding = ({ route, navigation }) => {
   const [show, setShow] = useState(false);
 
   // Register
-  const { setIsNewUser } = useContext(AuthContext);
+  const { setIsNewUser, user } = useContext(AuthContext);
 
   const onChangeDate = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -57,21 +57,25 @@ const Onboarding = ({ route, navigation }) => {
 
   const register = () => {
     (async () => {
-      await updateUserInfo({
-        firstName,
-        lastName,
-        username,
-        gender,
-        profilePicture: imageURL,
-        country: country.name,
-        dateOfBirth: date,
-        address,
-        province,
-        zip,
-        city,
-        phoneNumber,
-        email,
-      });
+      await updateUserInfo(
+        {
+          profilePicture: imageURL,
+          firstName,
+          lastName,
+          username,
+          email,
+          country: country.name,
+          address,
+          city,
+          province,
+          zip,
+          dateOfBirth: date,
+          age: moment(new Date()).diff(date, "years"),
+          gender,
+          phoneNumber,
+        },
+        user.uid
+      );
     })();
     setIsNewUser(false);
   };
