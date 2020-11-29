@@ -16,7 +16,7 @@ const Onboarding = ({ route, navigation }) => {
 
     const [firstName, setFirstName] = useState(route.params.firstName);
     const [lastName, setLastName] = useState(route.params.lastName);
-    const [checked, setChecked] = useState('first');
+    const [username, setUsername] = useState("");
     const [gender, setGender] = useState("Male");
     
     // Country
@@ -108,6 +108,22 @@ const Onboarding = ({ route, navigation }) => {
                             left={
                                 <TextInput.Icon
                                     name="account"
+                                />
+                            }
+                        />
+
+                        <TextInput
+                            style={{ marginBottom: 5 }}
+                            mode="outlined"
+                            label="Username"
+                            underlineColorAndroid="transparent"
+                            value={username}
+                            autoCorrect={false}
+                            autoCapitalize="none"
+                            onChangeText={(username) => setUsername(username)}
+                            left={
+                                <TextInput.Icon
+                                    name="account-circle"
                                 />
                             }
                         />
