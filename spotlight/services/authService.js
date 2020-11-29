@@ -72,16 +72,19 @@ const googleLogin = async () => {
       behaviour: "web",
     });
 
-
-    let email = result.user.email;
-
-    let isNewUser = false;
-    if(await googleIsNew(email)){
-      isNewUser = true;
-    }
-
     if (result.type === "success") {
       onSignIn(result);
+      
+      let email = "";
+      if(result.user.email !== undefined){
+        email = result.user.email;
+      }
+
+      let isNewUser = false;
+      if(await googleIsNew(email)){
+        isNewUser = true;
+      }
+      
       return {
         accessToken: result.accessToken,
         cancelled: false,
@@ -94,6 +97,7 @@ const googleLogin = async () => {
       return { cancelled: true };
     }
   } catch (e) {
+    console.log(e)
     return { error: true };
   }
 };
