@@ -32,7 +32,7 @@ const AuthenticationScreen = ({ navigation }) => {
         onPress={async () => {
           navigation.navigate("Loading");
           const result = await googleLogin();
-
+          console.log(result);
           if(result.isNewUser){
             setIsNewUser(true);
             navigation.navigate("Onboarding", {
@@ -40,6 +40,8 @@ const AuthenticationScreen = ({ navigation }) => {
               lastName: result.lastName,
               email: result.email
             })
+          }else{
+            setIsNewUser(false);
           }
 
           if (result.cancelled === true) {

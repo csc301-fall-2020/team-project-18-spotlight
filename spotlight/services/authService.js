@@ -18,7 +18,7 @@ const emailLogin = async (email, password) => {
   try {
     await firebase.auth().signInWithEmailAndPassword(email, password);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     switch (e.code) {
       case "auth/invalid-email":
         throw new Error("Invalid Email.");
@@ -35,7 +35,7 @@ const emailLogout = async () => {
     await firebase.auth().signOut();
   } catch (e) {
     // This should never happen.
-    console.log(e);
+    console.error(e);
   }
 };
 
@@ -49,7 +49,7 @@ const emailRegister = async (email, password) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     switch (e.code) {
       case "auth/email-already-in-use":
         throw new Error("Email already in use.");
@@ -72,20 +72,16 @@ const googleLogin = async () => {
       behaviour: "web",
     });
 
-    let email = result.user.email;
-    console.log("Email: ", email);
 
-    // Force Overwrite
-    // email = "samuelvedrik@gmail.com";
+    let email = result.user.email;
 
     let isNewUser = false;
-    if(googleIsNew(email)){
+    if(await googleIsNew(email)){
       isNewUser = true;
     }
 
     if (result.type === "success") {
       onSignIn(result);
-      // console.log(result);
       return {
         accessToken: result.accessToken,
         cancelled: false,
@@ -103,8 +99,6 @@ const googleLogin = async () => {
 };
 
 const onSignIn = (googleUser) => {
-  // console.log('Google Auth Response', googleUser);
-  // console.log('Email', googleUser.user.email);
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
   let unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
     unsubscribe();
@@ -152,11 +146,10 @@ const onSignIn = (googleUser) => {
           // The firebase.auth.AuthCredential type that was used.
           let credential = error.credential;
           // ...
-          console.log("errorCode: " + errorCode);
-          console.log("errorMessage: " + errorMessage);
-          console.log("email: " + email);
-          console.log("credential: " + credential);
-          alert(error);
+          console.error("errorCode: " + errorCode);
+          console.error("errorMessage: " + errorMessage);
+          console.error("email: " + email);
+          console.error("credential: " + credential);
         });
     } else {
       console.log("User already signed-in Firebase.");
@@ -165,13 +158,9 @@ const onSignIn = (googleUser) => {
 };
 
 const isUserEqual = (googleUser, firebaseUser) => {
-  // console.log("firebaseUser: ", firebaseUser);
   if (firebaseUser) {
     let providerData = firebaseUser.providerData;
     for (let i = 0; i < providerData.length; i++) {
-      // console.log("providerData[i].uid: ", providerData[i].uid);
-      // console.log("googleUser.getBasicProfile(): ", googleUser.getBasicProfile());
-      // console.log("googleUser.getBasicProfile().getId(): ", googleUser.getBasicProfile().getId());
 
       if (
         providerData[i].providerId ===
@@ -186,26 +175,16 @@ const isUserEqual = (googleUser, firebaseUser) => {
   return false;
 };
 
-// const googleIsNew = (email) => {
-//   const emailExists = firebase.auth().getUserByEmail(email).then(() => true).catch(() => false);
-//   return emailExists;
-// }
-
 const googleIsNew = async (email) => {
   const db = firebase.firestore();
   const allUsers = db.collection("users");
-  // console.log("allUsers:", allUsers);
-
-  email = "samuelvedrik@gmail.com";
 
   try {
     let query = null;
     query = allUsers.where("email", "==", email);
-    const querySnapshot = query.get();
-    // console.log("query:", query);
-    // console.log()
-    // console.log("querySnapshot: ", querySnapshot);
-    if((await querySnapshot).empty){
+    const querySnapshot = await query.get();
+
+    if(querySnapshot.empty){
       console.log("NEW USER");
       return true;
     }
@@ -213,7 +192,7 @@ const googleIsNew = async (email) => {
     return false
 
   } catch {
-    console.log("Something went wrong with the googleIsNew request.");
+    console.error("Something went wrong with the googleIsNew request.");
     return [];
   }
 };
