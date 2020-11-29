@@ -13,7 +13,7 @@ import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
-  const { title, address, isFavorite } = route.params;
+  const { title, address, isFavorite, gymID } = route.params;
   const { user } = useContext(AuthContext);
   const [checked, setChecked] = useState(isFavorite);
 

@@ -13,7 +13,7 @@ import useFirestoreQuery from "../hooks/useFirestoreQuery";
  * @property {string} title
  * @property {string} address
  * @property {boolean} isFavorite
- * @property {array} users
+ * @property {string} id
  */
 
 /**
@@ -78,6 +78,50 @@ const getAllGyms = async (userID) => {
 };
 
 /**
+ * Get an array of gyms which includes whether the gym is favorited by the user.
+ *
+ * @param {string} userID
+ * @param {(gyms: GymCoordinate[]) => void} callback that takes the processed gyms and does something with it
+ * @returns {() => void} unsubscribe function
+ */
+const subscribeAllGyms = (callback) => {
+  console.log("Getting all gyms from firestore.");
+  const db = firebase.firestore();
+  const gymsRef = db.collection("gyms");
+
+  // Subscribe to gyms, return the unsubscribe function
+  return gymsRef.onSnapshot((allGyms) => {
+    callback(
+      allGyms.docs.map((gymDoc) => {
+        const gym = gymDoc.data();
+        return {
+          longlat: gym.longlat,
+          title: gym.title,
+          address: gym.address,
+          id: gymDoc.id,
+        };
+      })
+    );
+  });
+};
+
+/**
+ * Subscribe to the IDs of the gyms that the userId has favorited
+ *
+ * @param {string} userID
+ * @param {(gymIDs: string[]) => void} callback that takes the list of favorited gymIDS and does something
+ * @returns {() => void} unsubscribe function
+ */
+const subscribeFavorites = (userID, callback) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  return userRef.onSnapshot((user) => {
+    const favorites = user.get("favoriteGyms");
+    callback(favorites.map((f) => f.id));
+  });
+};
+
+/**
  * @param {string} address
  * @param {string} userID
  * @return {GymCoordinate}
@@ -95,4 +139,10 @@ const getGymByAddress = async (address, userID) => {
   return await processGymDocument(foundGym, userID);
 };
 
-export { getAllGyms, isGymFavorited, getGymByAddress };
+export {
+  getAllGyms,
+  subscribeAllGyms,
+  subscribeFavorites,
+  isGymFavorited,
+  getGymByAddress,
+};

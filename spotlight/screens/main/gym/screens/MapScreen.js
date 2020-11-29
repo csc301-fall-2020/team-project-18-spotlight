@@ -4,13 +4,18 @@ import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { Searchbar } from "react-native-paper";
 import { getLocation } from "../../../../services/locationService";
-import { getAllGyms } from "../../../../services/gymService";
+import {
+  getAllGyms,
+  subscribeAllGyms,
+  subscribeFavorites,
+} from "../../../../services/gymService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState(null);
+  const [favorites, setFavorites] = useState(null);
   const { user } = useContext(AuthContext);
 
   // Get location of user
@@ -29,12 +34,30 @@ const MapScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Get list of gyms from firestore
+  // useEffect(() => {
+  //   getAllGyms(user.uid)
+  //     .then((gyms) => {
+  //       setMarkers(gyms);
+  //     })
+  //     .catch((e) => setErrorMessage(e));
+  // }, []);
+
+  // subscribe to gyms
   useEffect(() => {
-    getAllGyms(user.uid)
-      .then((gyms) => {
-        setMarkers(gyms);
-      })
-      .catch((e) => setErrorMessage(e));
+    const unsubscribeGyms = subscribeAllGyms((gyms) => {
+      console.log("setting markers");
+      setMarkers(gyms);
+    });
+
+    const unsubscribeFavorites = subscribeFavorites(user.uid, (favorites) => {
+      setFavorites(favorites);
+      console.log(favorites);
+    });
+
+    return () => {
+      unsubscribeGyms();
+      unsubscribeFavorites();
+    };
   }, []);
 
   if (errorMessage) {
@@ -60,7 +83,7 @@ const MapScreen = ({ navigation }) => {
         iconColor={"#A20A0A"}
       />
 
-      {location ? (
+      {location && markers && favorites ? (
         <MapView style={styles.map} region={location}>
           {markers.map((marker, i) => (
             <GymMarker
@@ -73,10 +96,11 @@ const MapScreen = ({ navigation }) => {
                   // Paramaters to pass to pop-up gym info screen
                   title: marker.title,
                   address: marker.address,
-                  isFavorite: marker.isFavorite,
+                  gymID: marker.id,
+                  isFavorite: favorites.includes(marker.id),
                 })
               }
-              isFavorite={marker.isFavorite}
+              isFavorite={favorites.includes(marker.id)}
             />
           ))}
         </MapView>

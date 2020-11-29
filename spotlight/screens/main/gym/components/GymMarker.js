@@ -8,15 +8,17 @@ const GymMarker = ({
   coordinate,
   onCalloutPress,
   isFavorite,
-}) => (
-  <Marker
-    coordinate={coordinate}
-    title={title}
-    description={address}
-    onCalloutPress={onCalloutPress}
-    pinColor={isFavorite ? "yellow" : "red"}
-  />
-);
+}) => {
+  return (
+    <Marker
+      coordinate={coordinate}
+      title={title}
+      description={address}
+      onCalloutPress={onCalloutPress}
+      pinColor={isFavorite ? "yellow" : "red"}
+    />
+  );
+};
 
 GymMarker.propTypes = {
   title: PropTypes.string.isRequired,
