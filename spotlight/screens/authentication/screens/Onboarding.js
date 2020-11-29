@@ -6,6 +6,7 @@ import { TextInput, Button, RadioButton} from "react-native-paper";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from "moment";
 import { LinearGradient } from 'expo-linear-gradient';
+import {ProfileImagePicker} from "../components/ProfileImagePicker";
 
 import CountryPicker from 'react-native-country-picker-modal';
 import Constants from 'expo-constants';
@@ -18,6 +19,7 @@ const Onboarding = ({ route, navigation }) => {
     const [lastName, setLastName] = useState(route.params.lastName);
     const [checked, setChecked] = useState('first');
     const [gender, setGender] = useState("Male");
+    const [imageURL, setImageURL] = useState("");
     
     // Country
     const [countryCode, setCountryCode] = useState("");
@@ -78,6 +80,7 @@ const Onboarding = ({ route, navigation }) => {
                     style={styles.scrollView}
                     showsVerticalScrollIndicator={false}
                 >
+                    <ProfileImagePicker setImageURL={() => setImageURL}/>
                     <View style={styles.header}>
 
                         <TextInput
