@@ -75,13 +75,9 @@ const MapScreen = ({ navigation }) => {
                   address: marker.address,
                   isFavorite: marker.isFavorite,
                   gymID: marker.id,
-                  isHere: marker.isHere,
-                  attending: marker.attending,
                 })
               }
               isFavorite={marker.isFavorite}
-              isHere={marker.isHere}
-              attending={marker.attending}
             />
           ))}
         </MapView>

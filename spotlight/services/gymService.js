@@ -43,23 +43,13 @@ const isGymFavorited = async (gymID, userID) => {
  * @returns {boolean} Whether the user is attending the gym.
  * @throws {Error} If the given user does not exist.
  */
-const isGymAttended = async (gymID, userID) => {
+
+const getGymUserAttending = async (userID) => {
   const db = firebase.firestore();
-  const gymRef = db.collection("gyms").doc(gymID);
-  const userRef = await db.collection("users").doc(userID);
-  userRef.onSnapshot;
-  const user = await db.collection("users").doc(userID).get();
-  const gymDocSnapshot = await gymRef.get();
+  const userRef = db.collection("users").doc(userID);
+  const userDoc = await userRef.get();
 
-  if (!user.exists) {
-    throw new Error("User does not exist.");
-  }
-  if (!gymDocSnapshot.exists) {
-    throw new Error(`${gymID} is not a valid gymID!`);
-  }
-
-  const userAttendGym = gymDocSnapshot.data().users ?? [];
-  return userAttendGym.map((ref) => ref.id).includes(userID);
+  return userDoc.get("attending") ? userDoc.get("attending").id : null;
 };
 
 /**
@@ -68,13 +58,8 @@ const isGymAttended = async (gymID, userID) => {
  * @returns {GymCoordinate}
  */
 const processGymDocument = async (gymDocument, userID) => {
-  const db = firebase.firestore();
   const gymObj = gymDocument.data();
   const isFavorite = await isGymFavorited(gymDocument.id, userID);
-  const isHere = await isGymAttended(gymDocument.id, userID);
-  const userRef = db.collection("users").doc(userID);
-  const userDocSnapshot = await userRef.get();
-  const attending = userDocSnapshot.data().attending;
 
   return {
     id: gymDocument.id,
@@ -83,8 +68,6 @@ const processGymDocument = async (gymDocument, userID) => {
     longlat: gymObj.longlat,
     isFavorite,
     users: gymObj.users,
-    isHere,
-    attending,
   };
 };
 /**
@@ -204,7 +187,7 @@ const attendGym = async (gymID, userID) => {
   try {
     console.log(`${userID} is attending gym ${gymID}`);
     await userRef.update({
-      attending: gymID,
+      attending: gymRef,
     });
     const userDocSnapshot = await userRef.get();
     console.log(userDocSnapshot.get("attending"));
@@ -285,6 +268,7 @@ const getUsersInGymSnapshot = async (gymID, onUsersChange) => {
 
 export {
   getAllGyms,
+  getGymUserAttending,
   isGymFavorited,
   getGymByAddress,
   addFavoriteGym,
