@@ -1,6 +1,7 @@
 import * as firebase from "firebase";
 import "firebase/firestore";
 import useFirestoreQuery from "../hooks/useFirestoreQuery";
+import { Alert } from "react-native";
 
 /**
  * @typedef {Object} LongLat
@@ -37,13 +38,44 @@ const isGymFavorited = async (gymID, userID) => {
 };
 
 /**
+ * @param {string} gymID
+ * @param {string} userID
+ * @returns {boolean} Whether the user is attending the gym.
+ * @throws {Error} If the given user does not exist.
+ */
+const isGymAttended = async (gymID, userID) => {
+  const db = firebase.firestore();
+  const gymRef = db.collection("gyms").doc(gymID);
+  const userRef = await db.collection("users").doc(userID);
+  userRef.onSnapshot;
+  const user = await db.collection("users").doc(userID).get();
+  const gymDocSnapshot = await gymRef.get();
+
+  if (!user.exists) {
+    throw new Error("User does not exist.");
+  }
+  if (!gymDocSnapshot.exists) {
+    throw new Error(`${gymID} is not a valid gymID!`);
+  }
+
+  const userAttendGym = gymDocSnapshot.data().users ?? [];
+  return userAttendGym.map((ref) => ref.id).includes(userID);
+};
+
+/**
  * @param {firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>} gymDocument
  * @param {string} userID
  * @returns {GymCoordinate}
  */
 const processGymDocument = async (gymDocument, userID) => {
+  const db = firebase.firestore();
   const gymObj = gymDocument.data();
   const isFavorite = await isGymFavorited(gymDocument.id, userID);
+  const isHere = await isGymAttended(gymDocument.id, userID);
+  const userRef = db.collection("users").doc(userID);
+  const userDocSnapshot = await userRef.get();
+  const attending = userDocSnapshot.data().attending;
+
   return {
     id: gymDocument.id,
     title: gymObj.title,
@@ -51,6 +83,8 @@ const processGymDocument = async (gymDocument, userID) => {
     longlat: gymObj.longlat,
     isFavorite,
     users: gymObj.users,
+    isHere,
+    attending,
   };
 };
 /**
@@ -154,7 +188,6 @@ const removeFavoriteGym = async (gymID, userID) => {
 
 /**
  * Adds the userID to the user array in gymID
- *
  * @param {*} gymID
  * @param {*} userID
  */
@@ -162,11 +195,19 @@ const attendGym = async (gymID, userID) => {
   const db = firebase.firestore();
   const gymRef = db.collection("gyms").doc(gymID);
   const userRef = db.collection("users").doc(userID);
+  const userDocSnapshot = await userRef.get();
 
   // Will have to check if it crashes if a gym does not have the "users" field
-  // arrayUnion and arrayRemove are done atomically, so we don't have to use transactions.
+
+  // arrayUnion and arrayRemove are done automically, so we don't have to use transactions.
+
   try {
     console.log(`${userID} is attending gym ${gymID}`);
+    await userRef.update({
+      attending: gymID,
+    });
+    const userDocSnapshot = await userRef.get();
+    console.log(userDocSnapshot.get("attending"));
     await gymRef.update({
       users: firebase.firestore.FieldValue.arrayUnion(userRef),
     });
@@ -189,23 +230,13 @@ const unattendGym = async (gymID, userID) => {
   try {
     console.log(`${userID} is unattending gym ${gymID}`);
     await gymRef.update({
-      users: firebase.firestore.FieldValue.arrayRemove(userRef),
+      users: firebase.firestore.FieldValue.arrayRemove({ userRef }),
+    });
+    await userRef.update({
+      attending: null,
     });
   } catch (e) {
     throw new Error("Something went wrong in unattendGym!", e.message);
-  }
-};
-
-const isUserInGym = async (gymID, userID) => {
-  try {
-    const usersInGym = await getUsersInGym(gymID);
-    return usersInGym
-      .map((userData) => {
-        return userData.userID;
-      })
-      .includes(userID);
-  } catch (e) {
-    throw new Error("Something went wrong in isUserInGym!", e.message);
   }
 };
 
@@ -262,5 +293,4 @@ export {
   unattendGym,
   getUsersInGym,
   getUsersInGymSnapshot,
-  isUserInGym,
 };
