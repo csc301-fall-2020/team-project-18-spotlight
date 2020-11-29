@@ -2,384 +2,207 @@ import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
-import { TextInput, Button, RadioButton} from "react-native-paper";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import { TextInput, Button, RadioButton } from "react-native-paper";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import { LinearGradient } from 'expo-linear-gradient';
-import {ProfileImagePicker} from "../components/ProfileImagePicker";
+import { LinearGradient } from "expo-linear-gradient";
+import { ProfileImagePicker } from "../components/ProfileImagePicker";
+import { NameInput } from "../components/NameInput";
+import { CountryInput } from "../components/CountryInput";
+import { updateUserInfo } from "../../../services/userService";
 
-import CountryPicker from 'react-native-country-picker-modal';
-import Constants from 'expo-constants';
+import CountryPicker from "react-native-country-picker-modal";
+import Constants from "expo-constants";
+import { AddressInput } from "../components/AddressInput";
+import { DateOfBirthInput } from "../components/DateOfBirthInput";
+import { GenderInput } from "../components/GenderInput";
+import { PhoneInput } from "../components/PhoneInput";
 
 const Onboarding = ({ route, navigation }) => {
+  const { email } = route.params;
 
-    const { email } = route.params;
+  const [firstName, setFirstName] = useState(route.params.firstName);
+  const [lastName, setLastName] = useState(route.params.lastName);
+  const [username, setUsername] = useState("");
+  const [gender, setGender] = useState("male");
+  const [imageURL, setImageURL] = useState("");
+  const [address, setAddress] = useState("");
+  const [province, setProvince] = useState("");
+  const [zip, setZip] = useState("");
+  const [city, setCity] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
-    const [firstName, setFirstName] = useState(route.params.firstName);
-    const [lastName, setLastName] = useState(route.params.lastName);
-    const [username, setUsername] = useState("");
-    const [gender, setGender] = useState("Male");
-    const [imageURL, setImageURL] = useState("");
-    
-    // Country
-    const [countryCode, setCountryCode] = useState("");
-    const [country, setCountry] = useState(null);
-    const [withCountryNameButton, setWithCountryNameButton] = useState(false)
-    const [withFlag, setWithFlag] = useState(true);
-    const [withEmoji, setWithEmoji] = useState(true);
-    const [withFilter, setWithFilter] = useState(true);
-    const [withAlphaFilter, setWithAlphaFilter] = useState(false);
-    const [withCallingCode, setWithCallingCode] = useState(false);
-    const onSelect = (country) => {
-        setCountryCode(country.cca2)
-        setCountry(country)
-    };
-    
-    // Date
-    const today = new Date();
-    const [date, setDate] = useState(today);
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
+  // Country
+  const [countryCode, setCountryCode] = useState("");
+  const [country, setCountry] = useState(null);
 
-    // Register
-    const { setIsNewUser } = useContext(AuthContext);
+  const onSelect = (country) => {
+    setCountryCode(country.cca2);
+    setCountry(country);
+  };
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setShow(Platform.OS === 'ios');
-        setDate(currentDate);
-      };
-    
-      const showMode = (currentMode) => {
-        setShow(true);
-        setMode(currentMode);
-      };
-    
-      const showDatepicker = () => {
-        showMode('date');
-      };
+  // Date
+  const today = new Date();
+  const [date, setDate] = useState(today);
+  const [show, setShow] = useState(false);
 
-      const register = () => {
-        setIsNewUser(false);
-      }
+  // Register
+  const { setIsNewUser } = useContext(AuthContext);
 
-    return (
-        <LinearGradient
-            colors={['red', 'salmon', 'orange']}
-            style={{flex: 1}}
-            //  Linear Gradient 
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-        >
-        <SafeAreaView style={styles.container}>
-            
-            <View style={styles.info}>
-                <Text style={styles.title}>Welcome to Spotlight!</Text>
-                <Text style={{textAlign:"center"}}>Please fill in your information below</Text>
-                <ScrollView 
-                    style={styles.scrollView}
-                    showsVerticalScrollIndicator={false}
-                >
-                    <ProfileImagePicker setImageURL={() => setImageURL}/>
-                    <View style={styles.header}>
+  const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+  };
 
-                        <TextInput
-                            style={{ marginBottom: 5 }}
-                            mode="outlined"
-                            label="First Name"
-                            underlineColorAndroid="transparent"
-                            value={firstName}
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            onChangeText={(firstName) => setFirstName(firstName)}
-                            left={
-                                <TextInput.Icon
-                                    name="account"
-                                />
-                            }
-                        />
+  const register = () => {
+    (async () => {
+      await updateUserInfo({
+        firstName,
+        lastName,
+        username,
+        gender,
+        profilePicture: imageURL,
+        country: country.name,
+        dateOfBirth: date,
+        address,
+        province,
+        zip,
+        city,
+        phoneNumber,
+        email,
+      });
+    })();
+    setIsNewUser(false);
+  };
 
-                        <TextInput
-                            style={{ marginBottom: 5 }}
-                            mode="outlined"
-                            label="Last Name"
-                            underlineColorAndroid="transparent"
-                            value={lastName}
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            onChangeText={(lastName) => setLastName(lastName)}
-                            left={
-                                <TextInput.Icon
-                                    name="account"
-                                />
-                            }
-                        />
+  return (
+    <LinearGradient
+      colors={["red", "salmon", "orange"]}
+      style={{ flex: 1 }}
+      //  Linear Gradient
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
+      <SafeAreaView style={styles.container}>
+        <View style={styles.info}>
+          <Text style={styles.title}>Welcome to Spotlight!</Text>
+          <Text style={{ textAlign: "center" }}>
+            Please fill in your information below
+          </Text>
+          <ScrollView
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+          >
+            <ProfileImagePicker setImageURL={() => setImageURL} />
+            <NameInput
+              firstName={firstName}
+              onChangeFirstName={(newFirstName) => setFirstName(newFirstName)}
+              lastName={lastName}
+              onChangeLastName={(newLastName) => setLastName(newLastName)}
+              userName={username}
+              onChangeUserName={(newUsername) => setUsername(newUsername)}
+              email={email}
+            />
 
-                        <TextInput
-                            style={{ marginBottom: 5 }}
-                            mode="outlined"
-                            label="Username"
-                            underlineColorAndroid="transparent"
-                            value={username}
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            onChangeText={(username) => setUsername(username)}
-                            left={
-                                <TextInput.Icon
-                                    name="account-circle"
-                                />
-                            }
-                        />
+            <CountryInput
+              country={country}
+              countryCode={countryCode}
+              onSelect={onSelect}
+            />
+            <AddressInput
+              address={address}
+              onChangeAddress={(newAddress) => setAddress(newAddress)}
+              city={city}
+              onChangeCity={(newCity) => setCity(newCity)}
+              province={province}
+              onChangeProvince={(newProvince) => setProvince(newProvince)}
+              zip={zip}
+              onChangeZip={(newZip) => setZip(newZip)}
+            />
 
-                        <TextInput
-                            mode="outlined"
-                            label="email"
-                            underlineColorAndroid="transparent"
-                            disabled="true"
-                            value={email}
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            left={
-                                <TextInput.Icon
-                                    name="email"
-                                />
-                            }
-                        />
-                    </View>
-            
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>Country</Text>
-                        <View style={{
-                            flex: 1,
-                            justifyContent: 'center',
-                            alignItems: 'center',                        
-                            
-                        }}>
-                            <View style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                borderRadius:10,
-                                paddingLeft: 10,
-                                paddingRight: 10,
-                                paddingTop: 5,
-                                paddingBottom: 5,
-                                width: 150,
-                                flexDirection:"row",
-                            }}>
-                                <CountryPicker
-                                    {...{
-                                    countryCode,
-                                    withFilter,
-                                    withFlag,
-                                    withCountryNameButton,
-                                    withAlphaFilter,
-                                    withCallingCode,
-                                    withEmoji,
-                                    onSelect,
-                                    }}
-                                />
-                                {country !== null && (
-                                    <Text style={{fontWeight:"bold", fontSize: 15, marginLeft:10}}>{country.name}</Text>
-                                )}
-                            </View>
-                            {country !== null ? (
-                                <Text style={styles.instructions}>press on the flag</Text>
-                            ) : (
-                                <Text style={styles.instructions}>Press on 
-                                    <Text style={{fontWeight: "bold"}} > Select Country</Text>
-                                </Text>
-                            )}
-                            
-                        </View>
-                        
-                        {/* <Text style={styles.instructions}>Press on the flag to open modal</Text>
-                        {country !== null && (
-                            <Text style={styles.data}>{JSON.stringify(country, null, 2)}</Text>
-                        )} */}
-                    </View>
+            <DateOfBirthInput
+              date={date}
+              show={show}
+              setShow={(newShow) => setShow(newShow)}
+              onChangeDate={onChangeDate}
+            />
 
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>Address for promotions/coupons</Text>
+            <GenderInput
+              gender={gender}
+              onValueChange={(newGender) => setGender(newGender)}
+            />
 
-                        <TextInput
-                            mode="outlined"
-                            label="Address"
-                            underlineColorAndroid="transparent"
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            left={
-                                <TextInput.Icon
-                                    name="home"
-                                />
-                            }
-                        />
+            <PhoneInput
+              phoneNumber={phoneNumber}
+              onChangePhoneNumber={(newPhoneNumber) =>
+                setPhoneNumber(newPhoneNumber)
+              }
+            />
 
-                        <TextInput
-                            mode="outlined"
-                            label="City"
-                            underlineColorAndroid="transparent"
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            left={
-                                <TextInput.Icon
-                                    name="city"
-                                />
-                            }
-                        />
-
-                        <TextInput
-                            mode="outlined"
-                            label="State/Province"
-                            underlineColorAndroid="transparent"
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            left={
-                                <TextInput.Icon
-                                    name="image-filter-hdr"
-                                />
-                            }
-                        />
-
-                        <TextInput
-                            mode="outlined"
-                            label="ZIP Code"
-                            underlineColorAndroid="transparent"
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            left={
-                                <TextInput.Icon
-                                    name="map-marker"
-                                />
-                            }
-                        />
-                    </View>
-
-                    <View style={styles.header, {flex:1, justifyContent:"center", alignContent:"center"}}>
-                        <Text style={styles.headerTitle}>Date of Birth</Text>
-                        <Text style={{
-                            textAlign:"center",
-                            fontWeight:"bold",
-                            marginTop: 5,
-                            marginBottom:10,
-                            color: "grey"
-                        }}>
-                            {moment(date).format("dddd, MMMM D, YYYY")}</Text>
-                        <View>
-                            <Button
-                            icon="calendar"
-                            mode="outlined"
-                            style={{
-                                borderRadius:20,
-                                width: 300,
-                                borderColor:"purple"
-                            }}
-                            onPress={showDatepicker} >
-                            Pick a Date
-                            </Button>
-                        </View>
-                        {show && (
-                            <DateTimePicker
-                            testID="dateTimePicker"
-                            value={date}
-                            mode={mode}
-                            is24Hour={true}
-                            display="default"
-                            onChange={onChange}
-                            />
-                        )}
-                    </View>
-
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>Gender</Text>
-                        <RadioButton.Group onValueChange={gender => setGender(gender)} value={gender}>
-                            <RadioButton.Item label="Male" value="male" />
-                            <RadioButton.Item label="Female" value="female" />
-                            <RadioButton.Item label="Non-binary" value="non-binary" />
-                        </RadioButton.Group>
-                    </View>
-
-                    <View style={styles.header}>
-                        <Text style={styles.headerTitle}>Phone (To receive text updates)</Text>
-
-                        <TextInput
-                            mode="outlined"
-                            label="Phone Number"
-                            underlineColorAndroid="transparent"
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            keyboardType={'numeric'}
-                            left={
-                                <TextInput.Icon
-                                    name="cellphone"
-                                />
-                            }
-                        />
-                    </View>
-
-                    <View style={styles.header}>
-                    <Button
-                        style={styles.register}
-                        icon="account-plus"
-                        mode="contained"
-                        onPress={register}
-                    >
-                        <Text>I'm ready!</Text>
-                    </Button>
-                    </View>
-                </ScrollView>
+            <View style={styles.header}>
+              <Button
+                style={styles.register}
+                icon="account-plus"
+                mode="contained"
+                onPress={register}
+              >
+                <Text>I&apos;m ready!</Text>
+              </Button>
             </View>
-        </SafeAreaView>
-        </LinearGradient>
-    );
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+    </LinearGradient>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems:"center"
+    alignItems: "center",
   },
-  header:{
-    marginTop:5,
-    marginBottom:5
-  },  
-  headerTitle:{
-      fontWeight:"bold",
-      textTransform:"uppercase",
-      marginTop:5,
-      marginBottom:5
-  }, 
+  header: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  headerTitle: {
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    marginTop: 5,
+    marginBottom: 5,
+  },
   title: {
     fontWeight: "bold",
     marginBottom: 10,
     fontSize: 20,
     textAlign: "center",
   },
-//   country:{
-//       marginTop: 10,
-//       marginBottom: 60,
-//       padding: 0,
-//       backgroundColor:"pink"
-//   },
-//   welcome: {
-//     fontSize: 20,
-//     textAlign: 'center',
-//     margin: 10,
-//   },
+  //   country:{
+  //       marginTop: 10,
+  //       marginBottom: 60,
+  //       padding: 0,
+  //       backgroundColor:"pink"
+  //   },
+  //   welcome: {
+  //     fontSize: 20,
+  //     textAlign: 'center',
+  //     margin: 10,
+  //   },
   instructions: {
     fontSize: 12,
-    textAlign: 'center',
-    color: '#888',
+    textAlign: "center",
+    color: "#888",
     marginBottom: 5,
   },
-//   data: {
-//     padding: 15,
-//     marginTop: 10,
-//     backgroundColor: '#ddd',
-//     borderColor: '#888',
-//     color: '#777'
-//   },
+  //   data: {
+  //     padding: 15,
+  //     marginTop: 10,
+  //     backgroundColor: '#ddd',
+  //     borderColor: '#888',
+  //     color: '#777'
+  //   },
   register: {
     borderRadius: 10,
     marginTop: 20,
@@ -393,7 +216,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     width: "90%",
     marginVertical: 60,
-    marginHorizontal:"auto",
+    marginHorizontal: "auto",
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
@@ -404,7 +227,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
     zIndex: 3,
-  }
+  },
 });
 
 export default Onboarding;

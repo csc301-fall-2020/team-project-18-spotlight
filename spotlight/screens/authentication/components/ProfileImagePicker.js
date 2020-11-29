@@ -11,8 +11,10 @@ import * as Permissions from "expo-permissions";
 import { Avatar } from "react-native-paper";
 import { uploadUserImage } from "../../../services/userService";
 
+const DEFAULT_PROFILE = "../../../assets/profile_picture.png";
+
 const ProfileImagePicker = ({ setImageURL }) => {
-  const [image, setImage] = useState("../../../assets/profile_picture.png");
+  const [image, setImage] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -44,7 +46,11 @@ const ProfileImagePicker = ({ setImageURL }) => {
 
   return (
     <View style={styles.container}>
-      <Avatar.Image source={{ uri: image }} />
+      {!image ? (
+        <Avatar.Image source={require(DEFAULT_PROFILE)} />
+      ) : (
+        <Avatar.Image source={{ uri: image }} />
+      )}
       <TouchableHighlight
         onPress={pickImage}
         underlayColor={"#DDDDDD"}

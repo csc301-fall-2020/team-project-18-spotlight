@@ -1,6 +1,6 @@
 import * as firebase from "firebase";
 import "firebase/firestore";
-import uuid from 'uuid';
+import uuid from "uuid";
 
 const createNewUser = async (userID) => {
   console.log("Trying to add user", userID);
@@ -19,37 +19,49 @@ const createNewUser = async (userID) => {
 };
 
 const uploadUserImage = async (uri) => {
-
   // Snippet was taken from https://github.com/expo/examples/blob/master/with-firebase-storage-upload/App.js
 
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.onload = function() {
+    xhr.onload = function () {
       resolve(xhr.response);
     };
-    xhr.onerror = function(e) {
+    xhr.onerror = function (e) {
       console.log(e);
-      reject(new TypeError('Network request failed'));
+      reject(new TypeError("Network request failed"));
     };
-    xhr.responseType = 'blob';
-    xhr.open('GET', uri, true);
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
     xhr.send(null);
   });
 
-  const ref = firebase
-    .storage()
-    .ref()
-    .child(uuid.v4());
+  const ref = firebase.storage().ref().child(uuid.v4());
   const snapshot = await ref.put(blob);
 
   // We're done with the blob, close and release it
   blob.close();
 
   return await snapshot.ref.getDownloadURL();
-}
+};
+
+const updateUserInfo = ({
+  profilePicture,
+  firstName,
+  lastName,
+  username,
+  email,
+  country,
+  address,
+  city,
+  province,
+  zip,
+  dateOfBirth,
+  gender,
+  phoneNumber,
+}) => {};
 
 const getAllUsers = () => {
   return [];
 };
 
-export { getAllUsers, createNewUser, uploadUserImage};
+export { getAllUsers, createNewUser, uploadUserImage, updateUserInfo };
