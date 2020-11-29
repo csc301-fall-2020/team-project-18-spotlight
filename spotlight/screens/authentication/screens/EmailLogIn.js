@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
 import { TextInput, Button } from "react-native-paper";
@@ -44,57 +44,68 @@ const EmailLogIn = ({ navigation }) => {
             end={{ x: 1, y: 1 }}
         >
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Welcome Back to Spotlight!</Text>
-      <TextInput
-        style={{ marginBottom: 10 }}
-        mode="outlined"
-        label="Your Email"
-        keyboardType="email-address"
-        underlineColorAndroid="transparent"
-        value={email}
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(email) => setEmail(email)}
-      />
-      <TextInput
-        mode="outlined"
-        label="Your Password"
-        value={password}
-        secureTextEntry={true}
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(password) => setPassword(password)}
-      />
+      <View style={styles.header}>
+        <Text style={styles.logo}>Welcome back to Spotlight</Text>
+      </View>
 
-      <Button
-        style={styles.login}
-        icon="login"
-        mode="contained"
-        onPress={login}
-        contentStyle={{ height: 50 }} // See issue #18
-        disabled={!validateCredentials()}
-      >
-        <Text style={{ fontSize: 15 }}>Login</Text>
-      </Button>
+      <View style={{
+        backgroundColor:"white",
+        borderColor:"black",
+        borderRadius:10,
+        padding: 15,
+        borderWidth:2,
+        alignItems:"center"
+      }}>
+        <Text style={{fontWeight:"bold"}}>We are very excited to have you back with us.</Text>
+        <Text>Please Log in to your account.</Text>
+      </View>
 
-      <Button
-        style={styles.register}
-        icon="account-plus"
-        mode="contained"
-        onPress={() => navigation.navigate("EmailRegister")}
-      >
-        <Text>Create Account</Text>
-      </Button>
-      {error && <Text style={styles.errorMessage}>{error}</Text>}
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>Login To Your Account</Text>
+        <TextInput
+          style={styles.textInput}
+          mode="outlined"
+          label="Your Email"
+          keyboardType="email-address"
+          underlineColorAndroid="transparent"
+          value={email}
+          autoCorrect={false}
+          autoCapitalize="none"
+          onChangeText={(email) => setEmail(email)}
+        />
+        <TextInput
+          style={styles.textInput}
+          mode="outlined"
+          label="Your Password"
+          value={password}
+          secureTextEntry={true}
+          autoCorrect={false}
+          autoCapitalize="none"
+          onChangeText={(password) => setPassword(password)}
+        />
 
-      <Button
-        style={styles.back}
-        icon="arrow-left-circle"
-        mode="contained"
-        onPress={() => navigation.navigate("Authentication")}
-      >
-        Back
-      </Button>
+        <Button
+          style={styles.login}
+          icon="login"
+          mode="contained"
+          onPress={login}
+          contentStyle={{ height: 50 }} // See issue #18
+          disabled={!validateCredentials()}
+        >
+          <Text style={{ fontSize: 15 }}>Login</Text>
+        </Button>
+
+        {error && <Text style={styles.errorMessage}>{error}</Text>}
+
+        <Button
+          style={styles.back}
+          icon="arrow-left-circle"
+          mode="contained"
+          onPress={() => navigation.navigate("Authentication")}
+        >
+          Back
+        </Button>
+      </View>
     </SafeAreaView>
     </LinearGradient>
   );
@@ -103,25 +114,46 @@ const EmailLogIn = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems:"center",
+    position:"relative"
+  },
+  formContainer:{
+    alignItems:"flex-start",
+    width: "100%",
+    height:"100%",
+    marginTop: 40,
+    padding:40,
+    backgroundColor:"white"
+  },
+  header:{
+    marginTop:45,
     justifyContent: "center",
-    padding: 50,
+    alignItems:"center",
+    marginBottom:15
+  },
+  logo: {
+    textAlign:"center",
+    fontWeight: "bold",
+    textTransform:"uppercase",
+    fontSize: 35,
+    color:"white"
   },
   title: {
     fontWeight: "bold",
-    marginBottom: 10,
-    fontSize: 20,
+    marginBottom: 20,
+    fontSize: 22,
     textAlign: "center",
   },
+  textInput:{
+    width:"100%",
+    height: 50
+  },
   login: {
-    borderRadius: 10,
     marginTop: 30,
     marginBottom: 20,
+    width:"100%",
+    height: 50,
     backgroundColor: "#0091EA",
-  },
-  register: {
-    borderRadius: 10,
-    marginBottom: 20,
-    backgroundColor: "green",
   },
   back: {
     marginBottom: 20,

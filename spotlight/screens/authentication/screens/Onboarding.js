@@ -318,7 +318,6 @@ const Onboarding = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "salmon",
     justifyContent: "center",
     alignItems:"center"
   },
@@ -338,30 +337,30 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
   },
-  country:{
-      marginTop: 10,
-      marginBottom: 60,
-      padding: 0,
-      backgroundColor:"pink"
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
+//   country:{
+//       marginTop: 10,
+//       marginBottom: 60,
+//       padding: 0,
+//       backgroundColor:"pink"
+//   },
+//   welcome: {
+//     fontSize: 20,
+//     textAlign: 'center',
+//     margin: 10,
+//   },
   instructions: {
     fontSize: 12,
     textAlign: 'center',
     color: '#888',
     marginBottom: 5,
   },
-  data: {
-    padding: 15,
-    marginTop: 10,
-    backgroundColor: '#ddd',
-    borderColor: '#888',
-    color: '#777'
-  },
+//   data: {
+//     padding: 15,
+//     marginTop: 10,
+//     backgroundColor: '#ddd',
+//     borderColor: '#888',
+//     color: '#777'
+//   },
   register: {
     borderRadius: 10,
     marginTop: 20,
@@ -370,10 +369,10 @@ const styles = StyleSheet.create({
   info: {
     borderColor: "black",
     borderWidth: 2,
-    borderRadius: 20,
+    borderRadius: 15,
     paddingVertical: 40,
     paddingHorizontal: 20,
-    width: "85%",
+    width: "90%",
     marginVertical: 60,
     marginHorizontal:"auto",
     backgroundColor: "white",
