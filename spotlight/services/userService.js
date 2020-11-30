@@ -52,7 +52,7 @@ const updateUserInfo = async (userData, userID) => {
   } catch (e) {
     console.log(e.message);
   }
-
+};
 /**
  * @param {string} userID
  */
