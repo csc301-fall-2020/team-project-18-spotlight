@@ -1,10 +1,30 @@
 import React, { useState } from "react";
-import { Text, View, Button, StyleSheet } from "react-native";
+import { Text, View, Button, StyleSheet, ScrollView } from "react-native";
 import WorkoutDetails from "../components/WorkoutDetails";
+//import MuscleSelector from '../components/MuscleSelector';
+
+/*  const [modalVisible, setModalVisible] = useState(false);
+
+<Button
+title="+"
+color="#000"
+onPress={() => {
+  setModalVisible(true);
+}}/>
+
+<MuscleSelector modalVisible={modalVisible}/>*/
 
 const AddWorkoutScreen = ({ route, navigation }) => {
   const { day } = route.params;
-  const muscles = ["Arms", "Abs", "Glutes"];
+  const muscles = [
+    "Arms",
+    "Abs",
+    "Back",
+    "Glutes",
+    "Legs",
+    "Shoulders",
+    "Cardio",
+  ];
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{day}</Text>
@@ -14,9 +34,11 @@ const AddWorkoutScreen = ({ route, navigation }) => {
         onPress={() => navigation.navigate("Calendar Stack")}
       />
 
-      {muscles.map((muscle) => {
-        return <WorkoutDetails muscle={muscle} />;
-      })}
+      <ScrollView style={styles.scrollable}>
+        {muscles.map((muscle) => {
+          return <WorkoutDetails muscle={muscle} />;
+        })}
+      </ScrollView>
     </View>
   );
 };
@@ -27,14 +49,16 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontStyle: "normal",
     textAlign: "center",
-    paddingTop: "18%",
+    paddingTop: "12%",
   },
   container: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "flex-start",
-    overflow: "scroll",
+  },
+  scrollable: {
+    marginTop: 10,
   },
 });
 
