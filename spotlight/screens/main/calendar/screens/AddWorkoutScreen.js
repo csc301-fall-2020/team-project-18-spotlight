@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Text, View, Button, StyleSheet, ScrollView } from "react-native";
 import WorkoutDetails from "../components/WorkoutDetails";
+import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
+import { useEffect } from "react";
+import { getWorkoutNotes } from "../../../../services/workoutService";
+
 //import MuscleSelector from '../components/MuscleSelector';
 
 /*  const [modalVisible, setModalVisible] = useState(false);
@@ -25,6 +29,25 @@ const AddWorkoutScreen = ({ route, navigation }) => {
     "Shoulders",
     "Cardio",
   ];
+
+  const [workoutData, setWorkoutData] = useState({});
+  const { user } = useContext(AuthContext);
+
+  /*
+  Gets the data from firestore about today's workout notes from day. The structure of the data is as following: 
+  {
+    muscle: notes where muscle is one of the elements from muscles.
+  }
+
+  Note that not every muscle has data (which means the user has not inputted any data on that specific muscle).
+  */
+  useEffect(() => {
+    (async () => {
+      const data = await getWorkoutNotes(user.uid, day);
+      await setWorkoutData(data);
+    })();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{day}</Text>
@@ -36,7 +59,7 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 
       <ScrollView style={styles.scrollable}>
         {muscles.map((muscle) => {
-          return <WorkoutDetails muscle={muscle} />;
+          return <WorkoutDetails muscle={muscle} day={day} />;
         })}
       </ScrollView>
     </View>

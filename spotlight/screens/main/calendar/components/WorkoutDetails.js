@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useContext } from "react";
 import {
   Text,
   View,
@@ -8,17 +9,24 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const WorkoutDetails = (props) => {
+import { addWorkout } from "../../../../services/workoutService";
+import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
+
+const WorkoutDetails = ({ muscle, day }) => {
   const [savedNotes, setSavedNotes] = useState(
     "No notes yet. Press edit to add some!"
   );
   const [editNotes, setEditNotes] = useState("");
   const [editMode, toggleEditMode] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const saveNotes = () => {
-    setSavedNotes(editNotes);
-    setEditNotes("");
-    toggleEditMode(false);
+    (async () => {
+      await setSavedNotes(editNotes);
+      await addWorkout(user.uid, day, { [muscle]: editNotes });
+      await setEditNotes("");
+      await toggleEditMode(false);
+    })();
   };
 
   const cancelEdit = () => {
@@ -43,7 +51,7 @@ const WorkoutDetails = (props) => {
             }}
           >
             <View style={{ flex: 0.6 }}>
-              <Text style={styles.header}>{props.muscle}</Text>
+              <Text style={styles.header}>{muscle}</Text>
             </View>
             <View style={{ flex: 0.05 }}>
               <TouchableHighlight
@@ -95,7 +103,7 @@ const WorkoutDetails = (props) => {
             }}
           >
             <View style={{ flex: 0.8 }}>
-              <Text style={styles.header}>{props.muscle}</Text>
+              <Text style={styles.header}>{muscle}</Text>
             </View>
             <View style={{ flex: 0.2 }}>
               <TouchableHighlight
