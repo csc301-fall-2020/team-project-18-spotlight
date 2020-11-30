@@ -37,6 +37,7 @@
     "react-native-calendars": "^1.403.0",
     "react-native-country-picker-modal": "^2.0.0",
     "react-native-elements": "^3.0.0-alpha.1",
+    "react-native-feather": "^1.0.2",
     "react-native-form-select-picker": "0.0.10",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-maps": "0.27.1",

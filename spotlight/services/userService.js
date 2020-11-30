@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import firebase from "firebase/app";
 import "firebase/firestore";
 import uuid from "uuid";
 
@@ -52,10 +52,18 @@ const updateUserInfo = async (userData, userID) => {
   } catch (e) {
     console.log(e.message);
   }
+
+/**
+ * @param {string} userID
+ */
+const getUser = async (userID) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  return await userRef.get();
 };
 
 const getAllUsers = () => {
   return [];
 };
 
-export { getAllUsers, createNewUser, uploadUserImage, updateUserInfo };
+export { getAllUsers, createNewUser, uploadUserImage, updateUserInfo, getUser };

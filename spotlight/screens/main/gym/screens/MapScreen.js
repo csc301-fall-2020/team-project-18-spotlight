@@ -4,13 +4,18 @@ import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { Searchbar } from "react-native-paper";
 import { getLocation } from "../../../../services/locationService";
-import { getAllGyms } from "../../../../services/gymService";
+import {
+  getAllGyms,
+  subscribeAllGyms,
+  subscribeFavorites,
+} from "../../../../services/gymService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const { user } = useContext(AuthContext);
 
   // Get location of user
@@ -19,8 +24,8 @@ const MapScreen = ({ navigation }) => {
       .then((coords) => {
         setLocation({
           ...coords,
-          latitudeDelta: 0.0922, // These two deltas determine how zoomed in the map is initially
-          longitudeDelta: 0.0421, // The larger the delta, the more zoomed out the map is });
+          latitudeDelta: 0.4922, // These two deltas determine how zoomed in the map is initially
+          longitudeDelta: 0.4421, // The larger the delta, the more zoomed out the map is });
         });
       })
       .catch((e) => setErrorMessage(e.message));
@@ -29,12 +34,25 @@ const MapScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Get list of gyms from firestore
+  // useEffect(() => {
+  //   getAllGyms(user.uid)
+  //     .then((gyms) => {
+  //       setMarkers(gyms);
+  //     })
+  //     .catch((e) => setErrorMessage(e));
+  // }, []);
+
+  // subscribe to gyms
   useEffect(() => {
-    getAllGyms(user.uid)
-      .then((gyms) => {
-        setMarkers(gyms);
-      })
-      .catch((e) => setErrorMessage(e));
+    return subscribeAllGyms((gyms) => {
+      setMarkers(gyms);
+    });
+  }, []);
+
+  useEffect(() => {
+    return subscribeFavorites(user.uid, (favoriteGyms) => {
+      setFavorites(favoriteGyms);
+    });
   }, []);
 
   if (errorMessage) {
@@ -50,7 +68,7 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Gyms Nearby</Text>
+      <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
 
       <Searchbar
         placeholder="Search"
@@ -60,11 +78,11 @@ const MapScreen = ({ navigation }) => {
         iconColor={"#A20A0A"}
       />
 
-      {location ? (
-        <MapView style={styles.map} region={location}>
-          {markers.map((marker, i) => (
+      {location && markers && favorites ? (
+        <MapView key={new Date()} style={styles.map} initialRegion={location}>
+          {markers.map((marker) => (
             <GymMarker
-              key={i}
+              key={marker.id}
               title={marker.title}
               address={marker.address}
               coordinate={marker.longlat}
@@ -73,10 +91,11 @@ const MapScreen = ({ navigation }) => {
                   // Paramaters to pass to pop-up gym info screen
                   title: marker.title,
                   address: marker.address,
-                  isFavorite: marker.isFavorite,
+                  gymID: marker.id,
+                  isFavorite: favorites.includes(marker.id),
                 })
               }
-              isFavorite={marker.isFavorite}
+              isFavorite={favorites.includes(marker.id)}
             />
           ))}
         </MapView>
