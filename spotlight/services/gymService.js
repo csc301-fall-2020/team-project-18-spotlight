@@ -133,7 +133,7 @@ const subscribeFavorites = (userID, callback) => {
   const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   return userRef.onSnapshot((user) => {
-    const favorites = user.get("favoriteGyms");
+    const favorites = user.get("favoriteGyms") || [];
     callback(favorites.map((f) => f.id));
   });
 };

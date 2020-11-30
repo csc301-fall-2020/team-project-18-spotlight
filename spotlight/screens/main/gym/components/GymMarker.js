@@ -11,6 +11,8 @@ const GymMarker = ({
 }) => {
   return (
     <Marker
+      tracksInfoWindowChanges
+      tracksViewChanges
       coordinate={coordinate}
       title={title}
       description={address}

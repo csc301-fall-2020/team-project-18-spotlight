@@ -14,8 +14,8 @@ import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [markers, setMarkers] = useState(null);
-  const [favorites, setFavorites] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const { user } = useContext(AuthContext);
 
   // Get location of user
@@ -24,8 +24,8 @@ const MapScreen = ({ navigation }) => {
       .then((coords) => {
         setLocation({
           ...coords,
-          latitudeDelta: 0.0922, // These two deltas determine how zoomed in the map is initially
-          longitudeDelta: 0.0421, // The larger the delta, the more zoomed out the map is });
+          latitudeDelta: 0.4922, // These two deltas determine how zoomed in the map is initially
+          longitudeDelta: 0.4421, // The larger the delta, the more zoomed out the map is });
         });
       })
       .catch((e) => setErrorMessage(e.message));
@@ -44,18 +44,15 @@ const MapScreen = ({ navigation }) => {
 
   // subscribe to gyms
   useEffect(() => {
-    const unsubscribeGyms = subscribeAllGyms((gyms) => {
+    return subscribeAllGyms((gyms) => {
       setMarkers(gyms);
     });
+  }, []);
 
-    const unsubscribeFavorites = subscribeFavorites(user.uid, (favorites) => {
-      setFavorites(favorites);
+  useEffect(() => {
+    return subscribeFavorites(user.uid, (favoriteGyms) => {
+      setFavorites(favoriteGyms);
     });
-
-    return () => {
-      unsubscribeGyms();
-      unsubscribeFavorites();
-    };
   }, []);
 
   if (errorMessage) {
@@ -71,7 +68,7 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Gyms Nearby</Text>
+      <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
 
       <Searchbar
         placeholder="Search"
@@ -82,10 +79,10 @@ const MapScreen = ({ navigation }) => {
       />
 
       {location && markers && favorites ? (
-        <MapView style={styles.map} region={location}>
-          {markers.map((marker, i) => (
+        <MapView key={new Date()} style={styles.map} initialRegion={location}>
+          {markers.map((marker) => (
             <GymMarker
-              key={i}
+              key={marker.id}
               title={marker.title}
               address={marker.address}
               coordinate={marker.longlat}
