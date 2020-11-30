@@ -58,20 +58,7 @@ const CountryInput = ({ country, countryCode, onSelect }) => {
             </Text>
           )}
         </View>
-        {country !== null ? (
-          <Text style={styles.instructions}>press on the flag</Text>
-        ) : (
-          <Text style={styles.instructions}>
-            Press on
-            <Text style={{ fontWeight: "bold" }}> Select Country</Text>
-          </Text>
-        )}
       </View>
-
-      <Text style={styles.instructions}>Press on the flag to open modal</Text>
-      {country !== null && (
-        <Text style={styles.data}>{JSON.stringify(country, null, 2)}</Text>
-      )}
     </View>
   );
 };
