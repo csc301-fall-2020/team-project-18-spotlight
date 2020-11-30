@@ -19,6 +19,7 @@ const ProfileImagePicker = ({ setImageURL }) => {
   useEffect(() => {
     (async () => {
       await ImagePicker.requestCameraRollPermissionsAsync();
+      await ImagePicker.requestCameraPermissionsAsync();
     })();
   }, []);
 
@@ -30,6 +31,20 @@ const ProfileImagePicker = ({ setImageURL }) => {
       });
       if (!pickerResult.cancelled) {
         await handleImagePicked(pickerResult);
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  const takeImage = async () => {
+    try {
+      const cameraResult = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [3, 3],
+      });
+      if (!cameraResult.cancelled) {
+        await handleImagePicked(cameraResult);
       }
     } catch (e) {
       console.log(e.message);
@@ -51,15 +66,27 @@ const ProfileImagePicker = ({ setImageURL }) => {
       ) : (
         <Avatar.Image source={{ uri: image }} />
       )}
-      <TouchableHighlight
-        onPress={pickImage}
-        underlayColor={"#DDDDDD"}
-        style={{ borderRadius: 3 }}
-      >
-        <View style={styles.pickImageContainer}>
-          <Text style={styles.pickImage}>{"Change profile picture"}</Text>
-        </View>
-      </TouchableHighlight>
+      <View style={styles.buttonContainer}>
+        <TouchableHighlight
+          onPress={pickImage}
+          underlayColor={"#DDDDDD"}
+          style={styles.button}
+        >
+          <View style={styles.pickImageContainer}>
+            <Text style={styles.pickImage}>{"Choose from camera roll"}</Text>
+          </View>
+        </TouchableHighlight>
+
+        <TouchableHighlight
+          onPress={takeImage}
+          underlayColor={"#DDDDDD"}
+          style={styles.button}
+        >
+          <View style={styles.pickImageContainer}>
+            <Text style={styles.pickImage}>{"Take photo"}</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
     </View>
   );
 };
@@ -71,6 +98,9 @@ const styles = StyleSheet.create({
     marginTop: "1%",
   },
   image: {},
+  button: {
+    borderRadius: 2,
+  },
   pickImage: {
     fontSize: 15,
     color: "blue",
@@ -78,6 +108,11 @@ const styles = StyleSheet.create({
   },
   pickImageContainer: {
     marginTop: "1%",
+  },
+  buttonContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
