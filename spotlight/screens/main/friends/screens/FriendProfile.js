@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ProfileHeader } from "../components/Headers";
 import { Button } from "react-native-paper";
-import profilePic from "../images/profilePic.png";
+import profilePic from "../images/ben.png";
 import FriendButton from "../components/FriendButtonBar";
 
 const textinfo =
@@ -13,18 +13,18 @@ const FriendProfile = ({ navigation, route }) => {
   // const data = route.params.data;
   const [friendInfo, setInfo] = useState({
     nickname: "Aura",
-    name: "Laura",
-    gender: "F",
+    name: "Ben",
+    gender: "M",
     description: textinfo,
     birthday: "2000 01 01",
-    age: "20",
+    age: "22",
     isFriend: false
   });
 
   let buttonTitle = "";
   let displayed = "";
   if (friendInfo.isFriend) {
-    // displayed = <FriendButtonBar />;
+    displayed = <FriendButton />;
     buttonTitle = "REMOVE";
     console.log("friend is true")
 
@@ -71,7 +71,7 @@ const FriendProfile = ({ navigation, route }) => {
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
           {friendInfo.description}
         </Text>
-        {/* <FriendButton style={styles.friendButtons}/> */}
+        {displayed}
 
       </View>
 
@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     // backgroundColor: "red"
   },
   friendButtons: {
-    top: -10,
   },
 
   addFriend: {

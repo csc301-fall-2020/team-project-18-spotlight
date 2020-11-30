@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(162, 10, 10, 1)',
     borderRadius: 50,
-    width: 60,
-    height: 60
+    width: 50,
+    height: 50
   },
   
   buttonGroup: {
-    top: 50,
+    top: 10,
     flexDirection: "row",
     justifyContent: 'space-around',
     alignSelf: 'stretch',
