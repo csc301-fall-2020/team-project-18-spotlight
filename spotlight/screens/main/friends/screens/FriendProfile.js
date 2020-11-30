@@ -5,9 +5,12 @@ import { ProfileHeader } from "../components/Headers";
 import { Button } from "react-native-paper";
 import profilePic from "../images/ben.png";
 import FriendButton from "../components/FriendButtonBar";
+import { color } from "react-native-reanimated";
+import { Entypo } from "@expo/vector-icons";
+
 
 const textinfo =
-  "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
+  "My name’s Ben, I like fishing and The Office. I’m just starting out at the gym and I’m looking for a workout partner.";
 
 const FriendProfile = ({ navigation, route }) => {
   // const data = route.params.data;
@@ -47,8 +50,16 @@ const FriendProfile = ({ navigation, route }) => {
     setInfo(updated);
   }
 
+  const sendToFriendList = () => {
+    navigation.navigate("Friends Screen");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.back} onPress={() => sendToFriendList()}>
+        <Entypo name={"calendar"} size={40} color={"black"} />
+      </TouchableOpacity>
+       
       {/* <ProfileHeader
         name={data.nickname}
         onPressBack={() => navigation.navigate("Friends Screen")}
@@ -87,7 +98,6 @@ const styles = StyleSheet.create({
   },
   friendButtons: {
   },
-
   addFriend: {
     color: "white",
     fontSize: 20
@@ -141,10 +151,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   back: {
-    marginTop: 20,
-    backgroundColor: "salmon",
-    borderRadius: 50,
-    width: 120,
+    right: 140,
+    zIndex: 20
   },
 });
 
