@@ -45,13 +45,11 @@ const MapScreen = ({ navigation }) => {
   // subscribe to gyms
   useEffect(() => {
     const unsubscribeGyms = subscribeAllGyms((gyms) => {
-      console.log("setting markers");
       setMarkers(gyms);
     });
 
     const unsubscribeFavorites = subscribeFavorites(user.uid, (favorites) => {
       setFavorites(favorites);
-      console.log(favorites);
     });
 
     return () => {
