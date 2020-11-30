@@ -13,7 +13,7 @@ const FriendsNav = () => {
         headerShown: false,
       }}
     >
-      <FriendsStack.Screen name="Friends Screen" component={FriendsScreen} />
+      {/* <FriendsStack.Screen name="Friends Screen" component={FriendsScreen} /> */}
       <FriendsStack.Screen name="Friend Profile" component={FriendProfile} />
     </FriendsStack.Navigator>
   );
