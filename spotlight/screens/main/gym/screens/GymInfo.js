@@ -4,10 +4,16 @@ import { Text, View, StyleSheet, Alert } from "react-native";
 import { ToggleButton, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CurrentGym from "../components/CurrentGym";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons";
+
 import {
   isGymFavorited,
   getGymByAddress,
+  addFavoriteGym,
+  removeFavoriteGym,
+  getGymUserAttending,
+  attendGym,
+  unattendGym,
 } from "../../../../services/gymService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
@@ -15,35 +21,97 @@ const GymInfo = ({ route, navigation }) => {
   // Parameters passed from previous screen
   const { title, address, isFavorite, gymID } = route.params;
   const { user } = useContext(AuthContext);
-  const [checked, setChecked] = useState(isFavorite);
+  const [favoriteChecked, setFavoriteChecked] = useState(isFavorite);
+  const [attendChecked, setAttendChecked] = useState(false);
 
-  function add_member(name) {
-    // editJsonFile = require("edit-json-file");
-    // let file = editJsonFile(`../components/CurrentGym.json`);
-    // var data = JSON.parse(fs.readFileSync("../components/CurrentGym.json").toString());
-    // data[0]["member"].push("name")
-    // fs.writeFile("../components/CurrentGym.json", JSON.stringify(data))
+  // const add_member = () => {
+  //   (async () => {
+  //     if (!attendChecked && (attending != gymID || attending == null)) {
+  //       // add user to this gym
+  //       await attendGym(gymID, user.uid);
+  //       setAttendChecked(!attendChecked);
+  //       console.log("Adding user to this gym.");
+  //       Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
+  //         cancelable: false,
+  //       });
+  //     } else if (attendChecked && attending == gymID) {
+  //       // user is at a gym and this is the gym so remove user from this gym
+  //       await unattendGym(gymID, user.uid);
+  //       setAttendChecked(!attendChecked);
+  //       console.log("Removed user from this gym.");
+  //       Alert.alert("", "You left the gym!", [{ text: "OK" }], {
+  //         cancelable: false,
+  //       });
+  //     } else {
+  //       // user is at a gym and this isn't the gym user is at, so give alert user
+  //       Alert.alert(
+  //         "",
+  //         "You are already at a different gym!",
+  //         [{ text: "OK" }],
+  //         { cancelable: false }
+  //       );
+  //     }
+  //   })();
+  // };
+  const toggleAttending = () => {
+    (async () => {
+      const userAttending = await getGymUserAttending(user.uid);
 
-    Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
-      cancelable: false,
-    });
-  }
+      if (!attendChecked && userAttending == null) {
+        // add user to this gym
+        await attendGym(gymID, user.uid);
+        await setAttendChecked(!attendChecked);
+        console.log("Adding user to this gym.");
+        Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
+          cancelable: false,
+        });
+      } else if (attendChecked && userAttending === gymID) {
+        // user is at a gym and this is the gym so remove user from this gym
+        await unattendGym(gymID, user.uid);
+        setAttendChecked(!attendChecked);
+        console.log("Removed user from this gym.");
+        Alert.alert("", "You left the gym!", [{ text: "OK" }], {
+          cancelable: false,
+        });
+      } else {
+        // user is at a gym and this isn't the gym user is at, so give alert user
+        Alert.alert(
+          "",
+          "You are already at a different gym!",
+          [{ text: "OK" }],
+          { cancelable: false }
+        );
+      }
+    })();
+  };
 
   const toggleFavorite = () => {
-    if (checked) {
-      // remove gym from favorites
-      console.log("Removing gym from favorites.");
-    } else {
-      // add gym to favorites
-      console.log("Adding gym to favorites.");
-    }
-    setChecked(!checked);
+    (async () => {
+      if (favoriteChecked) {
+        // remove gym from favorites
+        await removeFavoriteGym(gymID, user.uid);
+        console.log("Removing gym from favorites.");
+      } else {
+        // add gym to favorites
+        await addFavoriteGym(gymID, user.uid);
+        console.log("Adding gym to favorites.");
+      }
+      setFavoriteChecked(!favoriteChecked);
+    })();
   };
+
+  useEffect(() => {
+    (async () => {
+      const userAttending = await getGymUserAttending(user.uid);
+      const isAttended = userAttending === gymID;
+      setAttendChecked(isAttended);
+    })();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <ToggleButton
-        icon={checked ? "heart" : "heart-outline"}
+        icon={favoriteChecked ? "heart" : "heart-outline"}
         iconSize="50"
         labelStyle={{ fontSize: 30 }}
         color="#A20A0A"
@@ -52,7 +120,7 @@ const GymInfo = ({ route, navigation }) => {
         marginRight="10%"
         title="favourite"
         onPress={toggleFavorite}
-        status={checked ? "checked" : "unchecked"}
+        status={favoriteChecked ? "checked" : "unchecked"}
       ></ToggleButton>
 
       <Text style={styles.header}>{title}</Text>
@@ -61,14 +129,17 @@ const GymInfo = ({ route, navigation }) => {
         <View style={styles.profile} />
         <View style={styles.data} />
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Button
-            title="attend"
-            onPress={() => add_member("olivia")}
+          <ToggleButton
+            icon={attendChecked ? "minus" : "plus"}
+            labelStyle={{ fontSize: 30 }}
             color="#A20A0A"
-            mode={"outlined"}
+            title="attend"
+            onPress={toggleAttending}
+            paddingLeft="30%"
+            status={favoriteChecked ? "checked" : "unchecked"}
           >
             Attend
-          </Button>
+          </ToggleButton>
           <Button
             title="Return to map"
             onPress={() => navigation.goBack()}
