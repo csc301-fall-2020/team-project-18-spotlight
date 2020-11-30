@@ -25,8 +25,6 @@ import { Alert } from "react-native";
  */
 const isGymFavorited = async (gymID, userID) => {
   const db = firebase.firestore();
-  const userRef = await db.collection("users").doc(userID);
-  userRef.onSnapshot;
   const user = await db.collection("users").doc(userID).get();
   if (!user.exists) {
     throw new Error("User does not exist.");
