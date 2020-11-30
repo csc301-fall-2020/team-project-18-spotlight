@@ -38,10 +38,8 @@ const isGymFavorited = async (gymID, userID) => {
 };
 
 /**
- * @param {string} gymID
  * @param {string} userID
- * @returns {boolean} Whether the user is attending the gym.
- * @throws {Error} If the given user does not exist.
+ * @returns {string} id of gym that user is attending
  */
 
 const getGymUserAttending = async (userID) => {
