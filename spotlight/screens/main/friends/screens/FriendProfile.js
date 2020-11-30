@@ -45,7 +45,6 @@ const FriendProfile = ({ navigation, route }) => {
       isFriend: !friendInfo.isFriend
     }
     setInfo(updated);
-    console.log(friendInfo)
   }
 
   return (
