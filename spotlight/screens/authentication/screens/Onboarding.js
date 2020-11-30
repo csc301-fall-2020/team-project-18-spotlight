@@ -9,7 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ProfileImagePicker } from "../components/ProfileImagePicker";
 import { NameInput } from "../components/NameInput";
 import { CountryInput } from "../components/CountryInput";
-import { updateUserInfo } from "../../../services/userService";
+import { createNewUser, updateUserInfo } from "../../../services/userService";
 
 import CountryPicker from "react-native-country-picker-modal";
 import Constants from "expo-constants";
@@ -57,6 +57,7 @@ const Onboarding = ({ route, navigation }) => {
 
   const register = () => {
     (async () => {
+      await createNewUser(user.uid);
       await updateUserInfo(
         {
           profilePicture: imageURL,

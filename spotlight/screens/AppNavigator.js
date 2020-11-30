@@ -20,9 +20,6 @@ const AppNavigator = () => {
     (async () => {
       await setUser(user);
       if (initializing) setInitializing(false);
-      if (user) {
-        await createNewUser(user.uid);
-      }
       setLoading(false);
     })();
   }
