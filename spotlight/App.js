@@ -8,12 +8,14 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 // import {ActivityIndicator} from 'react-native';
 import { firebaseConfig } from "./config";
 import { ActivityIndicator, Colors } from "react-native-paper";
+import { LogBox } from "react-native";
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
 
 const App = () => {
+  LogBox.ignoreLogs(["Setting a timer"]);
   let [fontsLoaded] = useFonts({ Raleway_600SemiBold });
 
   if (!fontsLoaded) {

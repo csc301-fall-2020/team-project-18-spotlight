@@ -17,8 +17,17 @@ const createNewUser = async (userID) => {
   }
 };
 
+/**
+ * @param {string} userID
+ */
+const getUser = async (userID) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  return await userRef.get();
+};
+
 const getAllUsers = () => {
   return [];
 };
 
-export { getAllUsers, createNewUser };
+export { getAllUsers, createNewUser, getUser };
