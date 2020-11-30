@@ -73,7 +73,7 @@ const getUser = async (userID) => {
 };
 
 /**
- * @returns {User[]}
+ * @returns {Promise<User[]>}
  */
 const getAllUsers = async () => {
   const db = firebase.firestore();
