@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, View, SectionList, StyleSheet, Pressable } from "react-native";
+import {
+  Text,
+  View,
+  SectionList,
+  StyleSheet,
+  Pressable,
+  Image,
+} from "react-native";
 import { Avatar } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 import {
@@ -7,6 +14,7 @@ import {
   TouchableOpacity,
 } from "react-native-gesture-handler";
 
+const DEFAULT_PROFILE = "../../../../assets/profile_picture.png";
 const Header = ({ title, size }) => {
   return (
     <View>
@@ -16,7 +24,7 @@ const Header = ({ title, size }) => {
 };
 
 const FriendRequest = ({ data, onPress }) => {
-  const { nickname } = data;
+  // TODO: Copy the friend stuff and put it here too.
   return (
     <View style={styles.friendContainer}>
       <TouchableOpacity
@@ -25,11 +33,11 @@ const FriendRequest = ({ data, onPress }) => {
       >
         <Avatar.Text
           size={64}
-          label={nickname.slice(0, 3)}
+          label={data.username.slice(0, 3)}
           style={styles.avatarStyle}
           labelStyle={styles.avatarLabelStyle}
         />
-        <Text style={styles.friendName}>{nickname}</Text>
+        <Text style={styles.friendName}>{data.username}</Text>
       </TouchableOpacity>
       <Entypo
         name="check"
@@ -48,17 +56,18 @@ const FriendRequest = ({ data, onPress }) => {
 };
 
 const Friend = ({ data, onPress }) => {
-  const { username } = data;
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.friendContainer}>
-        <Avatar.Text
+        <Avatar.Image
           size={64}
-          label={username.slice(0, 3)}
-          style={styles.avatarStyle}
-          labelStyle={styles.avatarLabelStyle}
+          source={
+            data.profilePicture
+              ? { uri: data.profilePicture }
+              : require(DEFAULT_PROFILE)
+          }
         />
-        <Text style={styles.friendName}>{username}</Text>
+        <Text style={styles.friendName}>{data.username}</Text>
       </View>
     </TouchableOpacity>
   );

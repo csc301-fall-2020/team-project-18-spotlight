@@ -8,7 +8,6 @@ import FriendButton from "../components/FriendButtonBar";
 import { color } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 
-
 const textinfo =
   "My name’s Ben, I like fishing and The Office. I’m just starting out at the gym and I’m looking for a workout partner.";
 
@@ -21,17 +20,30 @@ const FriendProfile = ({ navigation, route }) => {
     description: textinfo,
     birthday: "2000 01 01",
     age: "22",
-    isFriend: false
+    isFriend: false,
   });
+
+  const {
+    firstName,
+    lastName,
+    username,
+    profilePicture,
+    age,
+    gender,
+    bio,
+  } = route.params.data;
 
   let buttonTitle = "";
   let displayed = "";
   if (friendInfo.isFriend) {
     displayed = <FriendButton />;
     buttonTitle = "REMOVE";
-
   } else {
-    displayed = <Text style={{ position: 'relative', top: 70 }}>add to your Friend list to check info</Text>;
+    displayed = (
+      <Text style={{ position: "relative", top: 70 }}>
+        add to your Friend list to check info
+      </Text>
+    );
     buttonTitle = "ADD AS FRIEND";
   }
 
@@ -43,10 +55,10 @@ const FriendProfile = ({ navigation, route }) => {
       description: friendInfo.description,
       birthday: friendInfo.birthday,
       age: friendInfo.age,
-      isFriend: !friendInfo.isFriend
-    }
+      isFriend: !friendInfo.isFriend,
+    };
     setInfo(updated);
-  }
+  };
 
   const sendToFriendList = () => {
     navigation.navigate("Friends Screen");
@@ -57,22 +69,18 @@ const FriendProfile = ({ navigation, route }) => {
       <TouchableOpacity style={styles.back} onPress={() => sendToFriendList()}>
         <Entypo name={"chevron-small-left"} size={40} color={"black"} />
       </TouchableOpacity>
-       
+
       {/* <ProfileHeader
         name={data.nickname}
         onPressBack={() => navigation.navigate("Friends Screen")}
       /> */}
       <Image source={profilePic} style={styles.background} />
       <Button style={styles.editFriend} onPress={onEditFriend}>
-        <Text style={styles.addFriend}>
-          {buttonTitle}
-        </Text>
+        <Text style={styles.addFriend}>{buttonTitle}</Text>
       </Button>
 
       <View style={styles.info}>
-        <Text style={{ fontSize: 40 }}>
-          {friendInfo.name}
-        </Text>
+        <Text style={{ fontSize: 40 }}>{friendInfo.name}</Text>
         <Text style={styles.titleText}>
           {friendInfo.gender + " | " + friendInfo.age}
         </Text>
@@ -80,10 +88,7 @@ const FriendProfile = ({ navigation, route }) => {
           {friendInfo.description}
         </Text>
         {displayed}
-
       </View>
-
-
     </SafeAreaView>
   );
 };
@@ -94,12 +99,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // backgroundColor: "red"
   },
-  friendButtons: {
-  },
+  friendButtons: {},
   addFriend: {
     color: "white",
-    fontSize: 20
-
+    fontSize: 20,
   },
   background: {
     position: "absolute",
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     backgroundColor: "black",
-    borderRadius: 30
+    borderRadius: 30,
   },
   titleText: {
     fontSize: 20,
@@ -150,47 +153,33 @@ const styles = StyleSheet.create({
   },
   back: {
     right: 140,
-    zIndex: 20
+    zIndex: 20,
   },
 });
 
-
 export default FriendProfile;
 
+// const sendToEdit = () => {
+//   navigation.navigate("EditProfileScreen", {
+//     nickname: profileInfo.nickname,
+//     name: profileInfo.name,
+//     gender: profileInfo.gender,
+//     description: profileInfo.description,
+//     birthday: profileInfo.birthday,
+//     age: profileInfo.age,
+//   });
+// };
 
-
-
-
-
-
-
-
-
-
-
-
-
-  // const sendToEdit = () => {
-  //   navigation.navigate("EditProfileScreen", {
-  //     nickname: profileInfo.nickname,
-  //     name: profileInfo.name,
-  //     gender: profileInfo.gender,
-  //     description: profileInfo.description,
-  //     birthday: profileInfo.birthday,
-  //     age: profileInfo.age,
-  //   });
-  // };
-
-  // if (route.params != undefined) {
-  //   const { nickname, name, gender, description, birthday, age } = route.params;
-  //   const newInfo = {
-  //     nickname: nickname,
-  //     name: name,
-  //     gender: gender,
-  //     description: description,
-  //     birthday: birthday,
-  //     age: age,
-  //   };
-  //   setInfo(newInfo);
-  //   route.params = undefined;
-  // }
+// if (route.params != undefined) {
+//   const { nickname, name, gender, description, birthday, age } = route.params;
+//   const newInfo = {
+//     nickname: nickname,
+//     name: name,
+//     gender: gender,
+//     description: description,
+//     birthday: birthday,
+//     age: age,
+//   };
+//   setInfo(newInfo);
+//   route.params = undefined;
+// }

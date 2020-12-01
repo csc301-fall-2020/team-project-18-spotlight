@@ -13,17 +13,11 @@ const getFriends = async (userID) => {
     const userDoc = await userRef.get();
     const friends = userDoc.get("friends") ?? []; // If no friends, return empty list
 
-    console.log(
-      friends.map((friendRef) => {
-        return friendRef.id;
-      })
-    );
     const friendsData = await Promise.all(
       friends.map(async (friendsRef) => {
-        return (await getUser(friendsRef.id)).data();
+        return await getUser(friendsRef.id);
       })
     );
-    console.log(friendsData);
     return friendsData;
   } catch (e) {
     console.log(e.message);

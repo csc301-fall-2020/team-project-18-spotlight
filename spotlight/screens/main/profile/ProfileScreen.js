@@ -1,10 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { Button } from "react-native-paper";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
 import editProfile from "./images/editProfile.png";
+import { getUser } from "../../../services/userService";
 
 const textinfo =
   "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
@@ -18,7 +19,7 @@ const ProfileScreen = ({ route, navigation }) => {
     birthday: "2000 01 01",
     age: "20",
   });
-  const { emailLogout } = useContext(AuthContext);
+  const { emailLogout, user } = useContext(AuthContext);
 
   const sendToEdit = () => {
     navigation.navigate("EditProfileScreen", {
@@ -44,6 +45,13 @@ const ProfileScreen = ({ route, navigation }) => {
     setInfo(newInfo);
     route.params = undefined;
   }
+
+  useEffect(() => {
+    (async () => {
+      const userData = await getUser(user.uid);
+      setInfo(userData);
+    })();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

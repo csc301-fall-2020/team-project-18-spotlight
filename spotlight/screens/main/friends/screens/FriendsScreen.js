@@ -13,7 +13,6 @@ const FriendsScreen = () => {
   useEffect(() => {
     (async () => {
       const friends = await getFriends(user.uid);
-      console.log(friends);
       await setFriends(friends);
     })();
   }, []);
