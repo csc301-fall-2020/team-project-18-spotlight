@@ -57,7 +57,7 @@ const FriendProfile = ({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.back} onPress={() => sendToFriendList()}>
-        <Entypo name={"calendar"} size={40} color={"black"} />
+        <Entypo name={"chevron-small-left"} size={40} color={"black"} />
       </TouchableOpacity>
        
       {/* <ProfileHeader
