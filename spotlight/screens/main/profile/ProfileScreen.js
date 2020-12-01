@@ -26,7 +26,20 @@ const ProfileScreen = ({ route, navigation }) => {
     })();
   }, []);
 
-  // if (route.param)
+  console.log("i am out")
+  if (route.params === undefined) {
+    console.log("route.params == undefined")
+    setTimeout(() => {
+      useEffect(() => {
+        (async () => {
+          const userData = await getUser(user.uid);
+          setInfo(userData);
+        })();
+      }, []);
+      route.params = "";
+    }, 3000);
+
+  }
 
   return (
     <SafeAreaView style={styles.container}>
