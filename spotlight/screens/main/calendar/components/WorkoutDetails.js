@@ -12,26 +12,30 @@ import {
 import { addWorkout } from "../../../../services/workoutService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
-const WorkoutDetails = ({ muscle, day }) => {
-  const [savedNotes, setSavedNotes] = useState(
-    "No notes yet. Press edit to add some!"
-  );
+const WorkoutDetails = ({ muscle, day, notes }) => {
+  const [savedNotes, setSavedNotes] = useState(notes);
   const [editNotes, setEditNotes] = useState("");
   const [editMode, toggleEditMode] = useState(false);
+  const [firstTime, toggleFirstTime] = useState(true);
   const { user } = useContext(AuthContext);
 
   const saveNotes = () => {
     (async () => {
       await setSavedNotes(editNotes);
       await addWorkout(user.uid, day, { [muscle]: editNotes });
-      await setEditNotes("");
+      await setEditNotes(notes);
       await toggleEditMode(false);
     })();
   };
 
   const cancelEdit = () => {
-    setEditNotes("");
     toggleEditMode(false);
+  };
+
+  const enterFirstEdit = () => {
+    setEditNotes(notes);
+    toggleEditMode(true);
+    toggleFirstTime(false);
   };
 
   const enterEdit = () => {
@@ -93,7 +97,35 @@ const WorkoutDetails = ({ muscle, day }) => {
         </View>
       )}
 
-      {!editMode && (
+      {!editMode && firstTime && (
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              height: 50,
+              width: 320,
+            }}
+          >
+            <View style={{ flex: 0.8 }}>
+              <Text style={styles.header}>{muscle}</Text>
+            </View>
+            <View style={{ flex: 0.2 }}>
+              <TouchableHighlight
+                style={styles.button}
+                onPress={() => enterFirstEdit()}
+              >
+                <Text style={styles.textStyle}>Edit</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+
+          <View style={styles.notesBox}>
+            <Text style={styles.notes}>{notes}</Text>
+          </View>
+        </View>
+      )}
+
+      {!editMode && !firstTime && (
         <View>
           <View
             style={{
@@ -197,7 +229,7 @@ const styles = StyleSheet.create({
   },
   notesBox: {
     margin: 10,
-    backgroundColor: "#888",
+    backgroundColor: "#aaa",
     borderRadius: 10,
     flexDirection: "row",
     flex: 1,

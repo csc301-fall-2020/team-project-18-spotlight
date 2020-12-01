@@ -30,8 +30,10 @@ const AddWorkoutScreen = ({ route, navigation }) => {
     "Cardio",
   ];
 
-  const [workoutData, setWorkoutData] = useState({});
   const { user } = useContext(AuthContext);
+  const [workoutData, setWorkoutData] = useState(
+    getWorkoutNotes(user.uid, day)
+  );
 
   /*
   Gets the data from firestore about today's workout notes from day. The structure of the data is as following: 
@@ -48,6 +50,13 @@ const AddWorkoutScreen = ({ route, navigation }) => {
     })();
   }, []);
 
+  const findNotes = (muscle) => {
+    if (workoutData == null || workoutData[muscle] == null) {
+      return "Nothing here yet! Press edit to add something!";
+    }
+    return workoutData[muscle];
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>{day}</Text>
@@ -59,7 +68,13 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 
       <ScrollView style={styles.scrollable}>
         {muscles.map((muscle) => {
-          return <WorkoutDetails muscle={muscle} day={day} />;
+          return (
+            <WorkoutDetails
+              muscle={muscle}
+              day={day}
+              notes={findNotes(muscle)}
+            />
+          );
         })}
       </ScrollView>
     </View>
