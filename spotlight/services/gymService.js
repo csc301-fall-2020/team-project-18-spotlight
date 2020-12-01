@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import useFirestoreQuery from "../hooks/useFirestoreQuery";
 import { Alert } from "react-native";
+import { getUser } from "./userService";
 
 /**
  * @typedef {Object} LongLat
@@ -272,7 +273,7 @@ const getUsersInGym = async (gymID) => {
     const usersRefs = (await gymRef.get()).get("users");
     return await Promise.all(
       usersRefs.map((userRef) => {
-        return userRef.get().data();
+        return getUser(userRef.id);
       })
     );
   } catch (e) {
