@@ -14,7 +14,7 @@ const createNewUser = async (userID) => {
       }
     });
   } catch (e) {
-    console.log(e);
+    console.log("createNewUser:", e.message);
   }
 };
 
@@ -44,13 +44,13 @@ const uploadUserImage = async (uri) => {
   return await snapshot.ref.getDownloadURL();
 };
 
-const updateUserInfo = async (userData, userID) => {
+const createUserInfo = async (userData, userID) => {
   const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   try {
-    await userRef.update(userData);
+    await userRef.set(userData);
   } catch (e) {
-    console.log(e.message);
+    console.log("updateUserInfo: ", e.message);
   }
 };
 /**
@@ -66,4 +66,4 @@ const getAllUsers = () => {
   return [];
 };
 
-export { getAllUsers, createNewUser, uploadUserImage, updateUserInfo, getUser };
+export { getAllUsers, createNewUser, uploadUserImage, createUserInfo, getUser };

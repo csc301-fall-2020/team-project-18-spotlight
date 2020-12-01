@@ -9,7 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ProfileImagePicker } from "../components/ProfileImagePicker";
 import { NameInput } from "../components/NameInput";
 import { CountryInput } from "../components/CountryInput";
-import { createNewUser, updateUserInfo } from "../../../services/userService";
+import { createUserInfo } from "../../../services/userService";
 
 import CountryPicker from "react-native-country-picker-modal";
 import Constants from "expo-constants";
@@ -18,6 +18,8 @@ import { DateOfBirthInput } from "../components/DateOfBirthInput";
 import { GenderInput } from "../components/GenderInput";
 import { PhoneInput } from "../components/PhoneInput";
 import { BioInput } from "../components/BioInput";
+
+const MINIMUM_AGE = 16;
 
 const Onboarding = ({ route, navigation }) => {
   const { email } = route.params;
@@ -57,10 +59,19 @@ const Onboarding = ({ route, navigation }) => {
     setDate(currentDate);
   };
 
+  const isMandatoryFields = () => {
+    return (
+      firstName && lastName && username && province && zip && city && country
+    );
+  };
+
+  const getAge = () => {
+    return moment(new Date()).diff(date, "years");
+  };
+
   const register = () => {
     (async () => {
-      await createNewUser(user.uid);
-      await updateUserInfo(
+      await createUserInfo(
         {
           profilePicture: imageURL,
           firstName,
@@ -73,14 +84,20 @@ const Onboarding = ({ route, navigation }) => {
           province,
           zip,
           dateOfBirth: date,
-          age: moment(new Date()).diff(date, "years"),
+          age: getAge(),
           gender,
           phoneNumber,
+          bio,
         },
         user.uid
       );
     })();
     setIsNewUser(false);
+  };
+
+  const _wrongMessage = () => {
+    let errorMsg = "Please fill in the mandatory fields!";
+    return <Text style={styles.errorMessage}>{errorMsg}</Text>;
   };
 
   return (
@@ -147,22 +164,19 @@ const Onboarding = ({ route, navigation }) => {
               }
             />
 
-            <BioInput 
-              bio={bio}
-              onChangeBio={(newBio) =>
-                setBio(newBio)
-              }
-            />
+            <BioInput bio={bio} onChangeBio={(newBio) => setBio(newBio)} />
 
             <View style={styles.header}>
               <Button
                 style={styles.register}
                 icon="account-plus"
                 mode="contained"
+                disabled={!isMandatoryFields()}
                 onPress={register}
               >
                 <Text>I&apos;m ready!</Text>
               </Button>
+              {!isMandatoryFields() && _wrongMessage()}
             </View>
           </ScrollView>
         </View>
@@ -241,6 +255,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
     zIndex: 3,
+  },
+  errorMessage: {
+    color: "red",
   },
 });
 
