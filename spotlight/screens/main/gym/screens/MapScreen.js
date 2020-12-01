@@ -153,9 +153,7 @@ const MapScreen = ({ navigation }) => {
             />
           ))}
         </MapView>
-      ) : (
-        <Text style={styles.description}>Loading...</Text>
-      )}
+      ) : null}
     </View>
   );
 };
