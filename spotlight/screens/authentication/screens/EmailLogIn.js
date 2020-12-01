@@ -30,19 +30,23 @@ const EmailLogIn = ({ navigation }) => {
     }, 3000);
   };
 
-  const login = () => {
-    setIsNewUser(false);
-    emailLogin(email, password).catch((e) => showErrorMessage(e.message));
+  const login = async () => {
+    try{
+      setIsNewUser(false);
+      await emailLogin(email, password);
+    }catch(e){
+      showErrorMessage(e.message);
+    }
   };
 
   return (
     <LinearGradient
-            colors={['red', 'salmon', 'orange']}
-            style={{flex: 1}}
-            //  Linear Gradient 
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-        >
+        colors={['red', 'salmon', 'orange']}
+        style={{flex: 1}}
+        //  Linear Gradient 
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+    >
     <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : null}
         style={{ flex: 1 }}
@@ -92,6 +96,8 @@ const EmailLogIn = ({ navigation }) => {
           onChangeText={(password) => setPassword(password)}
         />
 
+        {error && <Text style={styles.errorMessage}>{error}</Text>}
+
         <Button
           style={styles.login}
           icon="login"
@@ -102,8 +108,6 @@ const EmailLogIn = ({ navigation }) => {
         >
           <Text style={{ fontSize: 15 }}>Login</Text>
         </Button>
-
-        {error && <Text style={styles.errorMessage}>{error}</Text>}
 
         <Button
           style={styles.back}
@@ -175,7 +179,6 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     color: "red",
-    textAlign: "center",
   },
 });
 
