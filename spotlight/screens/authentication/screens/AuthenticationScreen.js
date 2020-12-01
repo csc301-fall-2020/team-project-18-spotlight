@@ -42,7 +42,6 @@ const AuthenticationScreen = ({ navigation }) => {
             onPress={async () => {
               navigation.navigate("Loading");
               const result = await googleLogin();
-              // console.log("result: ", result);
 
               if (result.cancelled === true || result.error) {
                 navigation.navigate("Authentication");
@@ -74,17 +73,17 @@ const AuthenticationScreen = ({ navigation }) => {
           </Button>
 
           <Text style={{ color: "grey", marginBottom: 15 }}>
-            {" "}
-            ------- Already have an account? -------
+          -----------  Already have an account?  -----------
           </Text>
 
           <Button
             icon="email"
             mode="outlined"
+            color="black"
             style={styles.email}
             onPress={() => navigation.navigate("EmailLogIn")}
           >
-            Login
+            <Text style={{color:"black"}}>Login</Text>
           </Button>
         </View>
       </View>
@@ -133,20 +132,18 @@ const styles = StyleSheet.create({
   },
   email: {
     marginBottom: 10,
-    // borderRadius:0,
+    borderWidth:1,
     width: "80%",
   },
   google: {
     backgroundColor: "green",
     marginBottom: 10,
-    // borderRadius:0,
     width: "80%",
   },
   buttons: {
     position: "absolute",
     bottom: 0,
     alignItems: "center",
-    // justifyContent:"center",
     paddingVertical: 20,
     paddingHorizontal: 20,
     width: "100%",

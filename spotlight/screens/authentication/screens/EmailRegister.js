@@ -76,9 +76,11 @@ const EmailSignUp = ({ navigation }) => {
         backgroundColor:"white",
         borderColor:"black",
         borderRadius:10,
-        padding: 15,
+        paddingHorizontal: 15,
+        paddingVertical:10,
         borderWidth:2,
-        alignItems:"center"
+        alignItems:"center",
+        marginBottom:20
       }}>
         <Text style={{fontWeight:"bold"}}>We are very excited to have you with us.</Text>
         <Text>Please Create an account below</Text>
@@ -155,28 +157,30 @@ const EmailSignUp = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems:"center",
-    position:"relative"
+    alignItems: "center",
   },
   formContainer:{
+    flex:1,
+    justifyContent:"flex-start",
     alignItems:"flex-start",
     width: "100%",
     height:"100%",
-    marginTop: 40,
-    padding:40,
+    // marginTop: 30,
+    paddingHorizontal:40,
+    paddingTop:20,
     backgroundColor:"white"
   },
   header:{
-    marginTop:45,
-    justifyContent: "center",
-    alignItems:"center",
-    marginBottom:15
+    // flex:1,
+    // justifyContent:"flex-end",
+    marginTop:15,
+    marginBottom:10
   },
   logo: {
     textAlign:"center",
     fontWeight: "bold",
     textTransform:"uppercase",
-    fontSize: 35,
+    fontSize: 30,
     color:"white"
   },
   title: {
@@ -194,15 +198,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   register: {
-    marginTop: 30,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 10,
     width:"100%",
     height: 50,
     backgroundColor: "green",
   },
   back: {
     backgroundColor: "grey",
-    width: 120
+    width: 120,
   },
 });
 
