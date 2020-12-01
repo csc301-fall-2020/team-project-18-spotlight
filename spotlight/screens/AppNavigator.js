@@ -11,7 +11,7 @@ import { ActivityIndicator } from "react-native";
 const AppStack = createStackNavigator();
 
 const AppNavigator = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, isNewUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(true);
 
@@ -20,9 +20,6 @@ const AppNavigator = () => {
     (async () => {
       await setUser(user);
       if (initializing) setInitializing(false);
-      if (user) {
-        await createNewUser(user.uid);
-      }
       setLoading(false);
     })();
   }
@@ -45,7 +42,7 @@ const AppNavigator = () => {
           headerShown: false,
         }}
       >
-        {user == null ? (
+        {user == null || (user != null && isNewUser) ? (
           <AppStack.Screen name="Auth" component={AuthNavigator} />
         ) : (
           <AppStack.Screen name="Main" component={MainNavigator} />
