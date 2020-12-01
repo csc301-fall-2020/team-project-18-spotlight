@@ -119,7 +119,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     style={styles.scrollView}
                     showsVerticalScrollIndicator={false}
                 >
-                    <ProfileImagePicker setImageURL={() => setImageURL} />
+                    <ProfileImagePicker setImageURL={(newPic) => setImageURL(newPic)} />
                     <UpdateNameInput
                         firstName={firstName}
                         onChangeFirstName={(newFirstName) => setFirstName(newFirstName)}

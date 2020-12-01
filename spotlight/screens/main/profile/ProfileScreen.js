@@ -6,7 +6,9 @@ import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
 import editProfile from "./images/editProfile.png";
 import { getUser } from "../../../services/userService";
+import default_pic from "../../../../spotlight/assets/profile_picture.png"
 
+const default_picture = default_pic;
 const textinfo =
   "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
 
@@ -44,7 +46,8 @@ const ProfileScreen = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={profilePic} style={styles.background} />
+      <Image source={profileInfo.profilePicture ? {uri: profileInfo.profilePicture} : default_pic} style={styles.background}/>
+      {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
       <TouchableOpacity style={styles.editProfile} onPress={() => sendToEdit()}>
         <Image source={editProfile} />
         <Text style={{ color: "white", position: "absolute", fontSize: 30 }}>
