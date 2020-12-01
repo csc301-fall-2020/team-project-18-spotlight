@@ -14,30 +14,10 @@ const ProfileScreen = ({ route, navigation }) => {
   const [profileInfo, setInfo] = useState("");
   const { emailLogout, user } = useContext(AuthContext);
 
-  // const sendToEdit = () => {
-  //   navigation.navigate("EditProfileScreen", {
-  //     nickname: profileInfo.nickname,
-  //     name: profileInfo.name,
-  //     gender: profileInfo.gender,
-  //     description: profileInfo.description,
-  //     birthday: profileInfo.birthday,
-  //     age: profileInfo.age,
-  //   });
-  // };
+  const sendToEdit = () => {
+    navigation.navigate("EditProfileScreen");
+  };
 
-  // if (route.params != undefined) {
-  //   const { nickname, name, gender, description, birthday, age } = route.params;
-  //   const newInfo = {
-  //     nickname: nickname,
-  //     name: name,
-  //     gender: gender,
-  //     description: description,
-  //     birthday: birthday,
-  //     age: age,
-  //   };
-  //   setInfo(newInfo);
-  //   route.params = undefined;
-  // }
 
   useEffect(() => {
     (async () => {
@@ -45,6 +25,8 @@ const ProfileScreen = ({ route, navigation }) => {
       setInfo(userData);
     })();
   }, []);
+
+  // if (route.param)
 
   return (
     <SafeAreaView style={styles.container}>

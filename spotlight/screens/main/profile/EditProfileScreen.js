@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
@@ -8,6 +8,7 @@ import moment from "moment";
 import { createNewUser, updateUserInfo } from "../../../services/userService";
 import CountryPicker from "react-native-country-picker-modal";
 import Constants from "expo-constants";
+import { getUser } from "../../../services/userService";
 
 
 
@@ -23,13 +24,13 @@ import { CountryInput } from "../../authentication/components/CountryInput";
 const EditProfileScreen = ({ route, navigation }) => {
     const { user } = useContext(AuthContext);
 
-    // console.log(user.username)
+    // console.log(user.uid)
 
     const { email } = user.email;
-    const [firstName, setFirstName] = useState(route.params.firstName);
-    const [lastName, setLastName] = useState(route.params.lastName);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [username, setUsername] = useState("");
-    const [gender, setGender] = useState("male");
+    const [gender, setGender] = useState("");
     const [imageURL, setImageURL] = useState("");
     const [address, setAddress] = useState("");
     const [province, setProvince] = useState("");
@@ -50,7 +51,6 @@ const EditProfileScreen = ({ route, navigation }) => {
     const [date, setDate] = useState(today);
     const [show, setShow] = useState(false);
 
-    
 
     const onChangeDate = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -62,88 +62,54 @@ const EditProfileScreen = ({ route, navigation }) => {
         (async () => {
             await updateUserInfo(
                 {
-                    profilePicture: imageURL,
-                    firstName,
-                    lastName,
-                    username,
-                    email,
-                    country: country.name,
-                    address,
-                    city,
-                    province,
-                    zip,
-                    dateOfBirth: date,
+                    address: address,
                     age: moment(new Date()).diff(date, "years"),
-                    gender,
-                    phoneNumber,
+                    bio: bio,
+                    city: city,
+                    country: "country",
+                    dateOfBirth: date,
+                    email: user.email,
+                    firstName: firstName,
+                    gender: gender,
+                    lastName: lastName,
+                    phoneNumber: phoneNumber,
+                    profilePicture: imageURL,
+                    province: province,
+                    userID: user.uid,
+                    username: username,
+                    zip: zip,
                 },
                 user.uid
             );
         })();
-    };
-
-    //   const save = () => {
-    //     setFirstName("");
-    //     setLastName("");
-    //     setUsername("");
-    //     setGender("");
-    //     setImageURL("");
-    //     setAddress("");
-    //     setProvince("");
-    //     setZip("");
-    //     setCity("");
-    //     setPhoneNumber("");
-    //     setBio("");
-    //     setCountryCode("");
-    //     setCountry("");
-
-
-    //     navigation.navigate("ProfileScreen", {
-    //         profilePicture: imageURL,
-    //         firstName: firstName,
-    //         lastName: lastName,
-    //         username: username,
-    //         email: route.params,
-    //         country: country.name,
-    //         address: address,
-    //         city: city,
-    //         province: province,
-    //         zip: zip,
-    //         dateOfBirth: date,
-    //         age: moment(new Date()).diff(date, "years"),
-    //         gender: gender,
-    //         phoneNumber: phoneNumber,
-    //       });
-    //   };
-
-    const cancel = () => {
-        setFirstName("");
-        setLastName("");
-        setUsername("");
-        setGender("");
-        setImageURL("");
-        setAddress("");
-        setProvince("");
-        setZip("");
-        setCity("");
-        setPhoneNumber("");
-        setBio("");
-        setCountryCode("");
-        setCountry("");
         navigation.navigate("ProfileScreen");
     };
 
-    //   if (route.params != undefined) {
-    //     const { nickname, name, gender, description, birthday, age } = route.params;
-    //     setNickname(nickname);
-    //     setName(name);
-    //     setGender(gender);
-    //     setDescription(description);
-    //     setBirthday(birthday);
-    //     setAge(age);
+    const cancel = () => {
+        navigation.navigate("ProfileScreen");
+    };
 
-    //     route.params = undefined;
-    //   }
+    useEffect(() => {
+        (async () => {
+            const userData = await getUser(user.uid);
+            setFirstName(userData.firstName);
+            setLastName(userData.lastName);
+            setUsername(userData.username);
+            setGender(userData.gender);
+            setImageURL(userData.profilePicture);
+            setAddress(userData.address);
+            setProvince(userData.province);
+            setZip(userData.zip);
+            setCity(userData.city);
+            setPhoneNumber(userData.phoneNumber);
+            setBio(userData.bio);
+            // setCountryCode(userData.country.cca2);
+            // setCountry(userData.country);
+        })();
+    }, []);
+
+    console.log(country)
+
 
     return (
         <SafeAreaView style={styles.container}>
