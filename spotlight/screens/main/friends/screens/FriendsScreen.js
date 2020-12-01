@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FriendsList from "../components/FriendsList";
 import { FriendsHeader } from "../components/Headers";
-import getFriends from "../../../../services/friendsService";
+import { getFriends } from "../../../../services/friendsService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const FriendsScreen = () => {
@@ -13,7 +13,7 @@ const FriendsScreen = () => {
   useEffect(() => {
     (async () => {
       const friends = await getFriends(user.uid);
-      await setFriends(friends);
+      setFriends(friends);
     })();
   }, []);
 
