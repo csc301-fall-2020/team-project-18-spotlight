@@ -46,15 +46,16 @@ const EmailSignUp = ({ navigation }) => {
   };
 
   const register = async () => {
-    setIsNewUser(true);
-    await emailRegister(email, password).catch((e) => showErrorMessage(e.message));
-    
-    if(error == null) {
+    try{
+      setIsNewUser(true);
+      await emailRegister(email, password);
       navigation.navigate("Onboarding", {
         firstName: "",
         lastName: "",
         email: email
       })
+    } catch (e){
+      showErrorMessage(e.message);
     }
   };
 
@@ -126,6 +127,8 @@ const EmailSignUp = ({ navigation }) => {
           autoCapitalize="none"
           onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
         />
+
+        {error && <Text style={styles.errorMessage}>{error}</Text>}
       
         <Button
             style={styles.register}
@@ -137,8 +140,6 @@ const EmailSignUp = ({ navigation }) => {
           >
             <Text style={{ fontSize: 15 }}>Create Account</Text>
           </Button>
-
-          {error && <Text style={styles.errorMessage}>{error}</Text>}
 
           <Button
             style={styles.back}
