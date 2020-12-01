@@ -54,16 +54,68 @@ const updateUserInfo = async (userData, userID) => {
   }
 };
 /**
+ * @typedef {Object} User
+ * @property {string} address
+ * @property {number} age
+ * @property {string} city
+ * @property {string} country
+ * @property {string} dateOfBirth
+ * @property {string} email
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} gender
+ * @property {string} phoneNumber
+ * @property {string} profilePicture
+ * @property {string} province
+ * @property {string} userID
+ * @property {string} username
+ * @property {string} zip
+ */
+
+/**
+ * @param {firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>} userDoc
+ * @returns {User}
+ */
+const processUserDoc = (userDoc) => {
+  const user = userDoc.data();
+  return {
+    address: user.address,
+    age: user.age,
+    city: user.city,
+    country: user.country,
+    dateOfBirth: user.dateOfBirth,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    gender: user.gender,
+    phoneNumber: user.phoneNumber,
+    profilePicture: user.profilePicture,
+    province: user.province,
+    userID: user.userID,
+    username: user.username,
+    zip: user.zip,
+  };
+};
+
+/**
  * @param {string} userID
+ * @returns {User}
  */
 const getUser = async (userID) => {
   const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
-  return await userRef.get();
+  const userDoc = await userRef.get();
+  return processUserDoc(userDoc);
 };
 
-const getAllUsers = () => {
-  return [];
+/**
+ * @returns {Promise<User[]>}
+ */
+const getAllUsers = async () => {
+  const db = firebase.firestore();
+  const allUsers = await db.collection("users").get();
+
+  return allUsers.docs.map((userDoc) => processUserDoc(userDoc));
 };
 
 export { getAllUsers, createNewUser, uploadUserImage, updateUserInfo, getUser };
