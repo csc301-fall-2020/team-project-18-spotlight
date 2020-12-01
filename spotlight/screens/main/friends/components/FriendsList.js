@@ -56,8 +56,8 @@ const FriendsList = ({ friends }) => {
 
     const sections = {};
     friendData.forEach((friend) => {
-      // Group each people by the first letter of their nicknames.
-      const c = friend.nickname.charAt(0);
+      // Group each people by the first letter of their usernames.
+      const c = friend.username.charAt(0);
 
       // Initializes an empty list if there are no keys with the first letter.
       if (!Object.prototype.hasOwnProperty.call(sections, c)) {
@@ -71,7 +71,7 @@ const FriendsList = ({ friends }) => {
       title, // equivalent to title: title
 
       // TODO: If backwards, switch a and B
-      data: data.sort((a, b) => a.nickname.localeCompare(b.nickname)),
+      data: data.sort((a, b) => a.username.localeCompare(b.username)),
     }));
   };
 
