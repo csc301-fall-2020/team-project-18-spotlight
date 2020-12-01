@@ -29,12 +29,10 @@ const FriendProfile = ({ navigation, route }) => {
   if (friendInfo.isFriend) {
     displayed = <FriendButton />;
     buttonTitle = "REMOVE";
-    console.log("friend is true")
 
   } else {
     displayed = <Text style={{ position: 'relative', top: 70 }}>add to your Friend list to check info</Text>;
     buttonTitle = "ADD AS FRIEND";
-    console.log("friend is false")
   }
 
   const onEditFriend = () => {
@@ -113,7 +111,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: "column",
-    top: 345,
+    top: 315,
     alignItems: "center",
     justifyContent: "center",
     borderColor: "grey",
@@ -138,7 +136,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    top: 365,
+    top: 340,
     zIndex: 10,
     elevation: 3,
     borderColor: "black",
