@@ -1,5 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { useEffect, useState, useContext, c } from "react";
+import {
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { Searchbar } from "react-native-paper";
@@ -9,6 +15,7 @@ import {
   subscribeAllGyms,
   subscribeFavorites,
 } from "../../../../services/gymService";
+import { getAllUsers } from "../../../../services/userService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const MapScreen = ({ navigation }) => {
@@ -17,6 +24,19 @@ const MapScreen = ({ navigation }) => {
   const [markers, setMarkers] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const { user } = useContext(AuthContext);
+  const [users, setUsers] = useState(null);
+  const [searchUsers, setSearchUsers] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+  const [searching, setSearching] = useState(null);
+  const [prevText, setPrevText] = useState(null);
+
+  useEffect(() => {
+    getAllUsers()
+      .then((users) => {
+        setUsers(users);
+      })
+      .catch((e) => setErrorMessage(e));
+  }, []);
 
   // Get location of user
   useEffect(() => {
@@ -32,15 +52,6 @@ const MapScreen = ({ navigation }) => {
   }, []);
 
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Get list of gyms from firestore
-  // useEffect(() => {
-  //   getAllGyms(user.uid)
-  //     .then((gyms) => {
-  //       setMarkers(gyms);
-  //     })
-  //     .catch((e) => setErrorMessage(e));
-  // }, []);
 
   // subscribe to gyms
   useEffect(() => {
@@ -64,7 +75,43 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
+  function searchFilterFunction(text) {
+    setSearchQuery(text);
+    // if (prevText.length < text.length){
+    //   set
+    // }
+    const newUsers = users.filter((item) => {
+      const itemData = `${item["firstName"]} ${item["lastName"]}`;
+      const textData = text;
+      return itemData.indexOf(textData) > -1;
+    });
+    setSearchUsers(newUsers);
+    setSearching(true);
+
+    setPrevText(text);
+    if (text.length == 0) {
+      setSearching(false);
+    }
+  }
+
   const onChangeSearch = (query) => setSearchQuery(query);
+  const Item = ({ item, onPress, style }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+      <Text style={{ fontSize: 22, color: "#000" }}>
+        {item["firstName"]} {item["lastName"]}
+      </Text>
+    </TouchableOpacity>
+  );
+  const renderItem = ({ item }) => {
+    const backgroundColor = item.id === selectedId ? "#fff" : "#fff";
+    return (
+      <Item
+        item={item}
+        onPress={() => navigation.navigate("Profile")}
+        style={{ backgroundColor }}
+      />
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -72,13 +119,20 @@ const MapScreen = ({ navigation }) => {
 
       <Searchbar
         placeholder="Search"
-        onChangeText={onChangeSearch}
+        onChangeText={(text) => searchFilterFunction(text)}
         value={searchQuery}
         showCancel={true}
         iconColor={"#A20A0A"}
       />
 
-      {location && markers && favorites ? (
+      <FlatList
+        data={searchUsers}
+        renderItem={searching ? renderItem : null}
+        keyExtractor={(item) => item["firstName"]}
+        extraData={selectedId}
+      />
+
+      {location && markers && favorites && !searching ? (
         <MapView key={new Date()} style={styles.map} initialRegion={location}>
           {markers.map((marker) => (
             <GymMarker
@@ -141,6 +195,11 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
     paddingLeft: "3%",
     paddingBottom: "10%",
+  },
+  item: {
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
 });
 
