@@ -53,6 +53,16 @@ const createUserInfo = async (userData, userID) => {
     console.log("updateUserInfo: ", e.message);
   }
 };
+
+const updateUserInfo = async (userData, userID) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  try {
+    await userRef.update(userData);
+  } catch (e) {
+    console.log("updateUserInfo: ", e.message);
+  }
+};
 /**
  * @param {string} userID
  */
@@ -66,4 +76,11 @@ const getAllUsers = () => {
   return [];
 };
 
-export { getAllUsers, createNewUser, uploadUserImage, createUserInfo, getUser };
+export {
+  getAllUsers,
+  createNewUser,
+  uploadUserImage,
+  createUserInfo,
+  getUser,
+  updateUserInfo,
+};
