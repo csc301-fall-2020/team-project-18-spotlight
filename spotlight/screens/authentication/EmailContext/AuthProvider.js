@@ -3,7 +3,7 @@ import {
   emailLogin,
   emailRegister,
   emailLogout,
-  googleLogin,
+  googleLogin
 } from "../../../services/authService";
 
 /**
@@ -15,16 +15,19 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isNewUser, setIsNewUser] = useState(false);
 
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
+        isNewUser,
+        setIsNewUser,
         emailLogin,
         emailRegister,
         emailLogout,
-        googleLogin,
+        googleLogin
       }}
     >
       {children}

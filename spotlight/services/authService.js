@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import * as Google from "expo-google-app-auth";
+import "firebase/firestore";
 import {
   androidExpoClientId,
   iosExpoClientIdAuth,
@@ -17,7 +18,7 @@ const emailLogin = async (email, password) => {
   try {
     await firebase.auth().signInWithEmailAndPassword(email, password);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     switch (e.code) {
       case "auth/invalid-email":
         throw new Error("Invalid Email.");
@@ -34,7 +35,7 @@ const emailLogout = async () => {
     await firebase.auth().signOut();
   } catch (e) {
     // This should never happen.
-    console.log(e);
+    console.error(e);
   }
 };
 
@@ -48,7 +49,7 @@ const emailRegister = async (email, password) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     switch (e.code) {
       case "auth/email-already-in-use":
         throw new Error("Email already in use.");
@@ -73,23 +74,39 @@ const googleLogin = async () => {
 
     if (result.type === "success") {
       onSignIn(result);
+      
+      let email = "";
+      if(result.user.email !== undefined){
+        email = result.user.email;
+      }
+
+      let isNewUser = false;
+      if(await googleIsNew(email)){
+        isNewUser = true;
+      }
+      
       return {
         accessToken: result.accessToken,
         cancelled: false,
+        firstName: result.user.givenName,
+        lastName: result.user.familyName,
+        email: email,
+        isNewUser: isNewUser
       };
     } else {
       return { cancelled: true };
     }
   } catch (e) {
+    console.log(e)
     return { error: true };
   }
 };
 
 const onSignIn = (googleUser) => {
-  // console.log('Google Auth Response', googleUser);
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
   let unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
     unsubscribe();
+
     // Check if we are already signed-in Firebase with the correct user.
     if (!isUserEqual(googleUser, firebaseUser)) {
       // Build Firebase credential with the Google ID token.
@@ -133,11 +150,10 @@ const onSignIn = (googleUser) => {
           // The firebase.auth.AuthCredential type that was used.
           let credential = error.credential;
           // ...
-          console.log("errorCode: " + errorCode);
-          console.log("errorMessage: " + errorMessage);
-          console.log("email: " + email);
-          console.log("credential: " + credential);
-          alert(error);
+          console.error("errorCode: " + errorCode);
+          console.error("errorMessage: " + errorMessage);
+          console.error("email: " + email);
+          console.error("credential: " + credential);
         });
     } else {
       console.log("User already signed-in Firebase.");
@@ -149,6 +165,7 @@ const isUserEqual = (googleUser, firebaseUser) => {
   if (firebaseUser) {
     let providerData = firebaseUser.providerData;
     for (let i = 0; i < providerData.length; i++) {
+
       if (
         providerData[i].providerId ===
           firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
@@ -162,4 +179,26 @@ const isUserEqual = (googleUser, firebaseUser) => {
   return false;
 };
 
-export { emailLogin, emailRegister, emailLogout, googleLogin };
+const googleIsNew = async (email) => {
+  const db = firebase.firestore();
+  const allUsers = db.collection("users");
+
+  try {
+    let query = null;
+    query = allUsers.where("email", "==", email);
+    const querySnapshot = await query.get();
+
+    if(querySnapshot.empty){
+      console.log("NEW USER");
+      return true;
+    }
+    console.log("OLD USER");
+    return false
+
+  } catch {
+    console.error("Something went wrong with the googleIsNew request.");
+    return [];
+  }
+};
+
+export { emailLogin, emailRegister, emailLogout, googleLogin};
