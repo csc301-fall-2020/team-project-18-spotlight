@@ -82,7 +82,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 user.uid
             );
         })();
-        navigation.navigate("ProfileScreen");
+        navigation.navigate("ProfileScreen", "");
     };
 
     const cancel = () => {
