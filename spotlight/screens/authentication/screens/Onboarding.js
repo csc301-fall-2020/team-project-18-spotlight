@@ -17,6 +17,7 @@ import { AddressInput } from "../components/AddressInput";
 import { DateOfBirthInput } from "../components/DateOfBirthInput";
 import { GenderInput } from "../components/GenderInput";
 import { PhoneInput } from "../components/PhoneInput";
+import { BioInput } from "../components/BioInput";
 
 const Onboarding = ({ route, navigation }) => {
   const { email } = route.params;
@@ -31,6 +32,7 @@ const Onboarding = ({ route, navigation }) => {
   const [zip, setZip] = useState("");
   const [city, setCity] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [bio, setBio] = useState("");
 
   // Country
   const [countryCode, setCountryCode] = useState("");
@@ -142,6 +144,13 @@ const Onboarding = ({ route, navigation }) => {
               phoneNumber={phoneNumber}
               onChangePhoneNumber={(newPhoneNumber) =>
                 setPhoneNumber(newPhoneNumber)
+              }
+            />
+
+            <BioInput 
+              bio={bio}
+              onChangeBio={(newBio) =>
+                setBio(newBio)
               }
             />
 
