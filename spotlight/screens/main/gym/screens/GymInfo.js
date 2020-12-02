@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { ToggleButton, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 import {
   isGymFavorited,
@@ -96,7 +97,20 @@ const GymInfo = ({ route, navigation }) => {
 
   const Item = ({ item, onPress, style }) => (
     <TouchableOpacity onPress={onPress} style={[styles.items, style]}>
-      <Text style={{ fontSize: 22, color: "#000" }}>
+      <AwesomeIcon
+        paddingTop="10%"
+        marginTop="10%"
+        name={
+          item["gender"] != null &&
+          item["gender"] == "male" &&
+          item["gender"] != "non-binary"
+            ? "mars"
+            : "venus"
+        }
+        color="#A20A0A"
+        size={20}
+      />
+      <Text style={styles.row}>
         {item["firstName"]} {item["lastName"]}
       </Text>
     </TouchableOpacity>
@@ -189,20 +203,20 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   list: {
+    padding: 10,
     flexDirection: "row",
-    justifyContent: "center",
     backgroundColor: "#fff",
     borderRadius: 10,
     margin: "5%",
   },
-  // data: {
-  //   backgroundColor: "#d3d3d3",
-  //   borderRadius: 10,
-  //   paddingBottom: "50%",
-  //   marginBottom: "5%",
-  // },
   item: {
     backgroundColor: "#A20A0A",
+  },
+  row: {
+    fontSize: 22,
+    lineHeight: 30,
+    fontWeight: "bold",
+    paddingLeft: 10,
   },
 });
 

@@ -132,9 +132,13 @@ const queryUserByName = async (query) => {
   );
 
   return processedUsers.filter((user) => {
-    const { firstName, lastName } = user;
-    const fullName = `${firstName} ${lastName}`;
-    return fullName.includes(query);
+    try {
+      const { firstName, lastName } = user;
+      const fullName = `${firstName.toLowerCase()} ${lastName.toLowerCase()}`;
+      return fullName.includes(query.toLowerCase());
+    } catch (e) {
+      return false;
+    }
   });
 };
 

@@ -27,7 +27,6 @@ const MapScreen = ({ navigation }) => {
   const [favorites, setFavorites] = useState([]);
   const { user } = useContext(AuthContext);
   const [searchUsers, setSearchUsers] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
   const [searching, setSearching] = useState(null);
   const [prevText, setPrevText] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -96,14 +95,13 @@ const MapScreen = ({ navigation }) => {
       onPress={onPress}
       style={[styles.item, style]}
     >
-      <Text style={{ fontSize: 22, color: "#000" }}>
+      <Text style={styles.row}>
         {item["firstName"]} {item["lastName"]}
       </Text>
     </TouchableOpacity>
   );
   const renderItem = ({ item }) => {
     // console.log(item);
-    const backgroundColor = item.id === selectedId ? "#fff" : "#fff";
     return (
       <Item
         item={item}
@@ -113,7 +111,7 @@ const MapScreen = ({ navigation }) => {
           console.log(item);
           console.log(item.userID);
         }}
-        style={{ backgroundColor }}
+        style={styles.list}
       />
     );
   };
@@ -137,7 +135,7 @@ const MapScreen = ({ navigation }) => {
         />
       </Modal>
 
-      <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
+      <Text style={styles.header}>Gyms Nearby</Text>
 
       <Searchbar
         placeholder="Find your Gym Buddy"
@@ -153,7 +151,6 @@ const MapScreen = ({ navigation }) => {
         keyExtractor={(item, index) => {
           return index.toString();
         }}
-        extraData={selectedId}
       />
 
       {location && markers && favorites && !searching ? (
@@ -196,6 +193,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     borderWidth: 1,
   },
+  row: {
+    fontSize: 22,
+    lineHeight: 30,
+    fontWeight: "bold",
+  },
   search: {
     paddingRight: "20%",
     marginBottom: "5%",
@@ -212,6 +214,10 @@ const styles = StyleSheet.create({
     paddingLeft: "3%",
     marginBottom: "3%",
   },
+  list: {
+    borderRadius: 10,
+    backgroundColor: "#fff",
+  },
   description: {
     fontFamily: "Raleway_600SemiBold",
     marginBottom: "5%",
@@ -219,9 +225,14 @@ const styles = StyleSheet.create({
     paddingBottom: "10%",
   },
   item: {
-    padding: 20,
-    marginVertical: 8,
+    padding: "5%",
+    marginVertical: 5,
     marginHorizontal: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
   },
 });
 
