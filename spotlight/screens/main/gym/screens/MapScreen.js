@@ -77,6 +77,8 @@ const MapScreen = ({ navigation }) => {
         value={searchQuery}
         showCancel={true}
         iconColor={"#A20A0A"}
+        onIconPress={onSearch}
+        onSubmitEditing={onSearch}
       />
 
       {location && markers && favorites ? (

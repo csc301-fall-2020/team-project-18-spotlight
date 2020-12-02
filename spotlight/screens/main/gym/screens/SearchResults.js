@@ -21,8 +21,8 @@ import SearchFriendProfileModal from "./SearchFriendProfileModal";
  * @param {Props} props
  */
 const SearchResults = ({ navigation, route }) => {
-  const [searched, setSearched] = useState(false);
   const { initialQuery } = route.params;
+  const [searched, setSearched] = useState(initialQuery !== "");
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [userResults, setUserResults] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
