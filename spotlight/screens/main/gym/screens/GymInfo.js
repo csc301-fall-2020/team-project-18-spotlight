@@ -103,13 +103,7 @@ const GymInfo = ({ route, navigation }) => {
     </TouchableOpacity>
   );
   const renderItem = ({ item }) => {
-    return (
-      <Item
-        item={item}
-        onPress={() => navigation.navigate("Profile")}
-        style={[styles.list]}
-      />
-    );
+    return <Item item={item} onPress={() => null} style={[styles.list]} />;
   };
 
   return (
