@@ -31,7 +31,7 @@ const getFriends = async (userID) => {
  */
 const sendFriendRequest = async (from, to) => {
   const db = firebase.firestore();
-  const fromRef = db.collections("users").doc(from);
+  const fromRef = db.collection("users").doc(from);
   const toRef = db.collection("users").doc(to);
   try {
     const batch = db.batch();
@@ -59,7 +59,7 @@ const sendFriendRequest = async (from, to) => {
  */
 const acceptFriendRequest = async (from, to) => {
   const db = firebase.firestore();
-  const fromRef = db.collections("users").doc(from);
+  const fromRef = db.collection("users").doc(from);
   const toRef = db.collection("users").doc(to);
 
   try {
@@ -95,7 +95,7 @@ const acceptFriendRequest = async (from, to) => {
  */
 const removeFriend = async (userID, friendToRemove) => {
   const db = firebase.firestore();
-  const userRef = db.collections("users").doc(userID);
+  const userRef = db.collection("users").doc(userID);
   const loserRef = db.collection("users").doc(friendToRemove);
 
   const batch = db.batch();
