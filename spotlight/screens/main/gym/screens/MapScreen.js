@@ -96,7 +96,11 @@ const MapScreen = ({ navigation }) => {
 
   const onChangeSearch = (query) => setSearchQuery(query);
   const Item = ({ item, onPress, style }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
+    <TouchableOpacity
+      key={item["userID"]}
+      onPress={onPress}
+      style={[styles.item, style]}
+    >
       <Text style={{ fontSize: 22, color: "#000" }}>
         {item["firstName"]} {item["lastName"]}
       </Text>
