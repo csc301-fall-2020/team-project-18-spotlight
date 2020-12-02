@@ -80,6 +80,7 @@ const updateUserInfo = async (userData, userID) => {
  * @property {string} userID
  * @property {string} username
  * @property {string} zip
+ * @property {string} attending
  */
 
 /**
@@ -105,6 +106,7 @@ const processUserDoc = (userDoc) => {
     username: user.username,
     zip: user.zip,
     bio: user.bio,
+    attending: user.attending 
   };
 };
 
