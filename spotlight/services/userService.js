@@ -119,7 +119,7 @@ const getUser = async (userID) => {
 
 /**
  * @param {string} query
- * @returns {User[]} array of users whose names partially match the query
+ * @returns {Promise<User[]>} array of users whose names partially match the query
  */
 const queryUserByName = async (query) => {
   const allUsers = await db.collection("users").get();

@@ -16,7 +16,7 @@ import {
   subscribeAllGyms,
   subscribeFavorites,
 } from "../../../../services/gymService";
-import { getAllUsers } from "../../../../services/userService";
+import { queryUserByName } from "../../../../services/userService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 import SearchFriendProfileModal from "./SearchFriendProfileModal";
 
@@ -26,21 +26,12 @@ const MapScreen = ({ navigation }) => {
   const [markers, setMarkers] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const { user } = useContext(AuthContext);
-  const [users, setUsers] = useState(null);
   const [searchUsers, setSearchUsers] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [searching, setSearching] = useState(null);
   const [prevText, setPrevText] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFriendId, setSelectedFriendId] = useState("");
-
-  useEffect(() => {
-    getAllUsers()
-      .then((users) => {
-        setUsers(users);
-      })
-      .catch((e) => setErrorMessage(e));
-  }, []);
 
   // Get location of user
   useEffect(() => {
@@ -87,16 +78,9 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
-  function searchFilterFunction(text) {
+  const searchFilterFunction = async (text) => {
     setSearchQuery(text);
-    // if (prevText.length < text.length){
-    //   set
-    // }
-    const newUsers = users.filter((item) => {
-      const itemData = `${item["firstName"]} ${item["lastName"]}`;
-      const textData = text;
-      return itemData.indexOf(textData) > -1;
-    });
+    const newUsers = await queryUserByName(text);
     setSearchUsers(newUsers);
     setSearching(true);
 
@@ -104,7 +88,7 @@ const MapScreen = ({ navigation }) => {
     if (text.length == 0) {
       setSearching(false);
     }
-  }
+  };
 
   const Item = ({ item, onPress, style }) => (
     <TouchableOpacity
