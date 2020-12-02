@@ -78,14 +78,16 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
-  const searchFilterFunction = async (text) => {
+  const onChangeText = (text) => {
     setSearchQuery(text);
-    const newUsers = await queryUserByName(text);
-    setSearchUsers(newUsers);
-    setSearching(true);
+  };
 
-    setPrevText(text);
-    if (text.length == 0) {
+  const onSearch = async () => {
+    setSearching(true);
+    const newUsers = await queryUserByName(searchQuery);
+    setSearchUsers(newUsers);
+
+    if (searchQuery.length == 0) {
       setSearching(false);
     }
   };
@@ -140,11 +142,12 @@ const MapScreen = ({ navigation }) => {
       <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
 
       <Searchbar
-        placeholder="Find your Gym Buddy"
-        onChangeText={(text) => searchFilterFunction(text)}
+        placeholder="Search For Users"
+        onChangeText={(text) => onChangeText(text)}
         value={searchQuery}
         showCancel={true}
         iconColor={"#A20A0A"}
+        onIconPress={onSearch}
       />
 
       <FlatList
