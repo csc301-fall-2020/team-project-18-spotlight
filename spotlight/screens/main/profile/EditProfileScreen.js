@@ -82,7 +82,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                 user.uid
             );
         })();
-        navigation.navigate("ProfileScreen", "");
+        navigation.navigate("ProfileScreen", {});
     };
 
     const cancel = () => {
@@ -179,14 +179,14 @@ const EditProfileScreen = ({ route, navigation }) => {
                             mode="contained"
                             onPress={register}
                         >
-                            <Text>I&apos;m ready!</Text>
+                            <Text>UPDATE MY ACCOUNT!</Text>
                         </Button>
                         <Button
                             style={styles.cancel}
                             mode="contained"
                             onPress={cancel}
                         >
-                            <Text>CANCEL</Text>
+                            <Text style={{fontSize:10, color:"red"}}>CANCEL</Text>
                         </Button>
                     </View>
                 </ScrollView>
@@ -228,12 +228,13 @@ const styles = StyleSheet.create({
     register: {
         borderRadius: 10,
         marginTop: 20,
-        backgroundColor: "green",
+        backgroundColor: "salmon",
     },
     cancel: {
-        borderRadius: 10,
-        marginTop: 20,
-        backgroundColor: "#A20A0A",
+        borderWidth:1,
+        marginTop: 10,
+        borderColor:"salmon",
+        backgroundColor:"white"
     },
     info: {
         borderColor: "black",
