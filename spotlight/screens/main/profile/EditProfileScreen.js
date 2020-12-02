@@ -24,7 +24,6 @@ import { CountryInput } from "../../authentication/components/CountryInput";
 const EditProfileScreen = ({ route, navigation }) => {
     const { user } = useContext(AuthContext);
 
-    // console.log(user.uid)
 
     const { email } = user.email;
     const [firstName, setFirstName] = useState("");
@@ -40,10 +39,13 @@ const EditProfileScreen = ({ route, navigation }) => {
     const [bio, setBio] = useState("");
     const [countryCode, setCountryCode] = useState("");
     const [country, setCountry] = useState(null);
+    const [countryText, setCountryText] = useState("");
+
 
     const onSelect = (country) => {
         setCountryCode(country.cca2);
         setCountry(country);
+        setCountryText(country.name)
     };
 
     // Date
@@ -66,7 +68,7 @@ const EditProfileScreen = ({ route, navigation }) => {
                     age: moment(new Date()).diff(date, "years"),
                     bio: bio,
                     city: city,
-                    country: "country",
+                    country: countryText,
                     dateOfBirth: date,
                     email: user.email,
                     firstName: firstName,
@@ -103,12 +105,10 @@ const EditProfileScreen = ({ route, navigation }) => {
             setCity(userData.city);
             setPhoneNumber(userData.phoneNumber);
             setBio(userData.bio);
-            // setCountryCode(userData.country.cca2);
-            // setCountry(userData.country);
+            setCountryText(userData.country)
         })();
     }, []);
 
-    console.log(country)
 
 
     return (
@@ -130,11 +130,15 @@ const EditProfileScreen = ({ route, navigation }) => {
                         email={email}
                     />
 
+                    <View>
+                        <Text>{countryText}</Text>
                     <CountryInput
                         country={country}
                         countryCode={countryCode}
                         onSelect={onSelect}
                     />
+                    </View>
+                    
                     <AddressInput
                         address={address}
                         onChangeAddress={(newAddress) => setAddress(newAddress)}

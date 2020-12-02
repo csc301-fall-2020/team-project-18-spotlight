@@ -25,7 +25,6 @@ const ProfileScreen = ({ route, navigation }) => {
 
   const testing = async () => {
     const userData = await getUser(user.uid);
-    console.log(userData)
     setInfo(userData);
   }
 
@@ -40,7 +39,6 @@ const ProfileScreen = ({ route, navigation }) => {
 
   const isFocused = useIsFocused();
   if (isFocused) {
-    console.log("screen locked")      
     if (route.params != undefined) {
       testing();
       route.params = undefined;
@@ -54,12 +52,11 @@ const ProfileScreen = ({ route, navigation }) => {
 
       <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_pic} style={styles.background} />
       {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
-      <TouchableOpacity style={styles.editProfile} onPress={() => sendToEdit()}>
-        <Image source={editProfile} />
-        <Text style={{ color: "white", position: "absolute", fontSize: 30 }}>
+      <Button style={styles.editProfile} onPress={() => sendToEdit()}>
+        <Text style={{ color: "white", position: "absolute", fontSize: 20 }}>
           {"Edit Profile"}
         </Text>
-      </TouchableOpacity>
+      </Button>
 
       <View style={styles.info}>
         <Text style={{ fontSize: 40 }}>{profileInfo.username}</Text>
@@ -126,7 +123,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     top: 365,
     zIndex: 10,
-    elevation: 3,
+    elevation: 10,
+    backgroundColor: "black",
+    borderRadius: 50,
   },
   titleText: {
     fontSize: 20,
