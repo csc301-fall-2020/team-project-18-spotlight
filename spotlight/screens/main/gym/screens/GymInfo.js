@@ -138,7 +138,9 @@ const GymInfo = ({ route, navigation }) => {
         <FlatList
           data={usersInGym}
           renderItem={renderItem}
-          keyExtractor={(item) => item["firstName"]}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
           extraData={selectedId}
           style={styles.profile}
         />
