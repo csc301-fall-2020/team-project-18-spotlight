@@ -2,10 +2,11 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import uuid from "uuid";
 
+const db = firebase.firestore();
+
 const createNewUser = async (userID) => {
   console.log("Trying to add user", userID);
   const data = { userID: userID };
-  const db = firebase.firestore();
   try {
     const userRef = db.collection("users").doc(userID);
     userRef.get().then((doc) => {
@@ -45,7 +46,6 @@ const uploadUserImage = async (uri) => {
 };
 
 const createUserInfo = async (userData, userID) => {
-  const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   try {
     await userRef.set(userData);
@@ -55,7 +55,6 @@ const createUserInfo = async (userData, userID) => {
 };
 
 const updateUserInfo = async (userData, userID) => {
-  const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   try {
     await userRef.update(userData);
@@ -113,10 +112,27 @@ const processUserDoc = (userDoc) => {
  * @returns {User}
  */
 const getUser = async (userID) => {
-  const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   const userDoc = await userRef.get();
   return processUserDoc(userDoc);
+};
+
+/**
+ * @param {string} query
+ * @returns {User[]} array of users whose names partially match the query
+ */
+const queryUserByName = async (query) => {
+  const allUsers = await db.collection("users").get();
+
+  const processedUsers = allUsers.docs.map((userDoc) =>
+    processUserDoc(userDoc)
+  );
+
+  return processedUsers.filter((user) => {
+    const { firstName, lastName } = user;
+    const fullName = `${firstName} ${lastName}`;
+    return fullName.includes(query);
+  });
 };
 
 /**
@@ -136,4 +152,5 @@ export {
   createUserInfo,
   getUser,
   updateUserInfo,
+  queryUserByName,
 };

@@ -5,7 +5,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Modal
+  Modal,
 } from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
@@ -59,23 +59,22 @@ const MapScreen = ({ navigation }) => {
 
   // subscribe to gyms
   useEffect(() => {
-    try{
+    try {
       return subscribeAllGyms((gyms) => {
         setMarkers(gyms);
       });
-    } catch(e){
-      setErrorMessage(e.message)
+    } catch (e) {
+      setErrorMessage(e.message);
     }
-    
   }, []);
 
   useEffect(() => {
-    try{
+    try {
       return subscribeFavorites(user.uid, (favoriteGyms) => {
         setFavorites(favoriteGyms);
       });
-    } catch(e){
-      setErrorMessage(e.message)
+    } catch (e) {
+      setErrorMessage(e.message);
     }
   }, []);
 
@@ -107,7 +106,6 @@ const MapScreen = ({ navigation }) => {
     }
   }
 
-  const onChangeSearch = (query) => setSearchQuery(query);
   const Item = ({ item, onPress, style }) => (
     <TouchableOpacity
       key={item["userID"]}
@@ -138,19 +136,21 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(modalVisible);
-        }}>
-          <SearchFriendProfileModal 
-            userID={selectedFriendId} 
-            modalVisible={modalVisible}
-            setModalVisible={() => {setModalVisible(!modalVisible)}}
-          />
+        }}
+      >
+        <SearchFriendProfileModal
+          userID={selectedFriendId}
+          modalVisible={modalVisible}
+          setModalVisible={() => {
+            setModalVisible(!modalVisible);
+          }}
+        />
       </Modal>
 
       <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
@@ -167,7 +167,7 @@ const MapScreen = ({ navigation }) => {
         data={searchUsers}
         renderItem={searching ? renderItem : null}
         keyExtractor={(item) => {
-          item.userID
+          item.userID;
         }}
         extraData={selectedId}
       />
