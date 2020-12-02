@@ -254,7 +254,7 @@ const unattendGym = async (gymID, userID) => {
   try {
     console.log(`${userID} is unattending gym ${gymID}`);
     await gymRef.update({
-      users: firebase.firestore.FieldValue.arrayRemove({ userRef }),
+      users: firebase.firestore.FieldValue.arrayRemove(userRef),
     });
     await userRef.update({
       attending: null,
