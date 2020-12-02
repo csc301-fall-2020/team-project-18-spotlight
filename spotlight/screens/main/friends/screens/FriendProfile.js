@@ -54,7 +54,7 @@ const FriendProfile = ({ navigation, route }) => {
       age: age,
       gender: gender,
       bio: bio,
-      isFriend: false,
+      // isFriend: false,
     }
     setInfo(updated);
     route.params = undefined;
@@ -74,19 +74,19 @@ const FriendProfile = ({ navigation, route }) => {
     buttonTitle = "INFO";
   }
 
-  const onEditFriend = () => {
-    let updated = {
-      username: friendInfo.username,
-      firstName: friendInfo.firstName,
-      lastName: friendInfo.lastName,
-      profilePicture: friendInfo.profilePicture,
-      age: friendInfo.age,
-      gender: friendInfo.gender,
-      bio: friendInfo.bio,
-      isFriend: !friendInfo.isFriend,
-    };
-    setInfo(updated);
-  };
+  // const onEditFriend = () => {
+  //   let updated = {
+  //     username: friendInfo.username,
+  //     firstName: friendInfo.firstName,
+  //     lastName: friendInfo.lastName,
+  //     profilePicture: friendInfo.profilePicture,
+  //     age: friendInfo.age,
+  //     gender: friendInfo.gender,
+  //     bio: friendInfo.bio,
+  //     isFriend: !friendInfo.isFriend,
+  //   };
+  //   setInfo(updated);
+  // };
 
   const sendToFriendList = () => {
     navigation.navigate("Friends Screen");
