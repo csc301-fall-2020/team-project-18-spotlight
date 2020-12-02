@@ -148,14 +148,13 @@ const MapScreen = ({ navigation }) => {
         showCancel={true}
         iconColor={"#A20A0A"}
         onIconPress={onSearch}
+        on
       />
 
       <FlatList
         data={searchUsers}
         renderItem={searching ? renderItem : null}
-        keyExtractor={(item) => {
-          item.userID;
-        }}
+        keyExtractor={(item) => item.userID}
         extraData={selectedId}
       />
 
