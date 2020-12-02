@@ -40,6 +40,7 @@ const ProfileScreen = ({ route, navigation }) => {
   const isFocused = useIsFocused();
   if (isFocused) {
     if (route.params != undefined) {
+      console.log("updated")
       testing();
       route.params = undefined;
       
@@ -53,7 +54,7 @@ const ProfileScreen = ({ route, navigation }) => {
       <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_pic} style={styles.background} />
       {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
       <Button style={styles.editProfile} onPress={() => sendToEdit()}>
-        <Text style={{ color: "white", position: "absolute", fontSize: 20 }}>
+        <Text style={{ color: "white", position: "absolute", fontSize: 18 }}>
           {"Edit Profile"}
         </Text>
       </Button>

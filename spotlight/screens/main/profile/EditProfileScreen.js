@@ -105,7 +105,10 @@ const EditProfileScreen = ({ route, navigation }) => {
             setCity(userData.city);
             setPhoneNumber(userData.phoneNumber);
             setBio(userData.bio);
-            setCountryText(userData.country)
+            setCountryText(userData.country);
+
+            setDate(userData.dateOfBirth.toDate());
+            
         })();
     }, []);
 
