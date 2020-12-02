@@ -77,8 +77,6 @@ const MapScreen = ({ navigation }) => {
         value={searchQuery}
         showCancel={true}
         iconColor={"#A20A0A"}
-        onIconPress={onSearch}
-        onSubmitEditing={onSearch}
       />
 
       {location && markers && favorites ? (
@@ -121,6 +119,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     borderWidth: 1,
   },
+  row: {
+    fontSize: 22,
+    lineHeight: 30,
+    fontWeight: "bold",
+  },
   search: {
     paddingRight: "20%",
     marginBottom: "5%",
@@ -137,6 +140,10 @@ const styles = StyleSheet.create({
     paddingLeft: "3%",
     marginBottom: "3%",
   },
+  list: {
+    borderRadius: 10,
+    backgroundColor: "#fff",
+  },
   description: {
     fontFamily: "Raleway_600SemiBold",
     marginBottom: "5%",
@@ -144,9 +151,14 @@ const styles = StyleSheet.create({
     paddingBottom: "10%",
   },
   item: {
-    padding: 20,
-    marginVertical: 8,
+    padding: "5%",
+    marginVertical: 5,
     marginHorizontal: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
   },
 });
 
