@@ -25,7 +25,6 @@ const FriendProfile = ({ navigation, route }) => {
   });
 
   
-
   if (route.params != undefined) {
     const {
       firstName,
@@ -37,15 +36,7 @@ const FriendProfile = ({ navigation, route }) => {
       bio,
     } = route.params.data;
 
-    console.log("=============");
-    console.log(firstName);
-    console.log(lastName);
-    console.log(username);
-    console.log(profilePicture);
-    console.log(age);
-    console.log(gender);
-    console.log(bio);
-
+    
     let updated = {
       username: username,
       firstName: firstName,
@@ -103,11 +94,11 @@ const FriendProfile = ({ navigation, route }) => {
         onPressBack={() => navigation.navigate("Friends Screen")}
       /> */}
       <Image source={friendInfo.profilePicture ? { uri: friendInfo.profilePicture } : default_pic} style={styles.background} />
-      <Button style={styles.editFriend}
+      <View style={styles.editFriend}
       //  onPress={onEditFriend}
        >
-        <Text style={styles.addFriend}>{"INFO"}</Text>
-      </Button>
+        <Text style={styles.addFriend}>{"Profile"}</Text>
+      </View>
 
       <View style={styles.info}>
         <Text style={{ fontSize: 40 }}>{friendInfo.username}</Text>
@@ -132,7 +123,7 @@ const styles = StyleSheet.create({
   friendButtons: {},
   addFriend: {
     color: "white",
-    fontSize: 20,
+    fontSize: 25,
   },
   background: {
     position: "absolute",
@@ -169,13 +160,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    top: 325,
+    top: 320,
     zIndex: 10,
     elevation: 3,
     borderColor: "black",
     borderWidth: 1,
     backgroundColor: "black",
     borderRadius: 30,
+    width: "40%"
   },
   titleText: {
     fontSize: 20,

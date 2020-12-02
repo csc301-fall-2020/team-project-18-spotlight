@@ -11,9 +11,7 @@ import { useIsFocused } from '@react-navigation/native'
 
 
 
-const default_picture = default_pic;
-const textinfo =
-  "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
+
 
 const ProfileScreen = ({ route, navigation }) => {
   const [profileInfo, setInfo] = useState("");
@@ -23,7 +21,7 @@ const ProfileScreen = ({ route, navigation }) => {
     navigation.navigate("EditProfileScreen");
   };
 
-  const testing = async () => {
+  const updateUser = async () => {
     const userData = await getUser(user.uid);
     setInfo(userData);
   }
@@ -40,8 +38,7 @@ const ProfileScreen = ({ route, navigation }) => {
   const isFocused = useIsFocused();
   if (isFocused) {
     if (route.params != undefined) {
-      console.log("updated")
-      testing();
+      updateUser();
       route.params = undefined;
       
     }
@@ -52,7 +49,6 @@ const ProfileScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
 
       <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_pic} style={styles.background} />
-      {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
       <Button style={styles.editProfile} onPress={() => sendToEdit()}>
         <Text style={{ color: "white", position: "absolute", fontSize: 18 }}>
           {"Edit Profile"}
