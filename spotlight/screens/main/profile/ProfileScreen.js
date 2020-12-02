@@ -6,45 +6,29 @@ import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
 import editProfile from "./images/editProfile.png";
 import { getUser } from "../../../services/userService";
+import default_pic from "../../../../spotlight/assets/profile_picture.png"
+import { useIsFocused } from '@react-navigation/native'
 
+
+
+const default_picture = default_pic;
 const textinfo =
   "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
 
 const ProfileScreen = ({ route, navigation }) => {
-  const [profileInfo, setInfo] = useState({
-    nickname: "Aura",
-    name: "Laura",
-    gender: "F",
-    description: textinfo,
-    birthday: "2000 01 01",
-    age: "20",
-  });
+  const [profileInfo, setInfo] = useState("");
   const { emailLogout, user } = useContext(AuthContext);
 
   const sendToEdit = () => {
-    navigation.navigate("EditProfileScreen", {
-      nickname: profileInfo.nickname,
-      name: profileInfo.name,
-      gender: profileInfo.gender,
-      description: profileInfo.description,
-      birthday: profileInfo.birthday,
-      age: profileInfo.age,
-    });
+    navigation.navigate("EditProfileScreen");
   };
 
-  if (route.params != undefined) {
-    const { nickname, name, gender, description, birthday, age } = route.params;
-    const newInfo = {
-      nickname: nickname,
-      name: name,
-      gender: gender,
-      description: description,
-      birthday: birthday,
-      age: age,
-    };
-    setInfo(newInfo);
-    route.params = undefined;
+  const testing = async () => {
+    const userData = await getUser(user.uid);
+    setInfo(userData);
   }
+
+  
 
   useEffect(() => {
     (async () => {
@@ -53,23 +37,34 @@ const ProfileScreen = ({ route, navigation }) => {
     })();
   }, []);
 
+  const isFocused = useIsFocused();
+  if (isFocused) {
+    if (route.params != undefined) {
+      testing();
+      route.params = undefined;
+      
+    }
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
-      <Image source={profilePic} style={styles.background} />
-      <TouchableOpacity style={styles.editProfile} onPress={() => sendToEdit()}>
-        <Image source={editProfile} />
-        <Text style={{ color: "white", position: "absolute", fontSize: 30 }}>
+
+      <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_pic} style={styles.background} />
+      {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
+      <Button style={styles.editProfile} onPress={() => sendToEdit()}>
+        <Text style={{ color: "white", position: "absolute", fontSize: 20 }}>
           {"Edit Profile"}
         </Text>
-      </TouchableOpacity>
+      </Button>
 
       <View style={styles.info}>
-        <Text style={{ fontSize: 40 }}>{profileInfo.name}</Text>
+        <Text style={{ fontSize: 40 }}>{profileInfo.username}</Text>
         <Text style={styles.titleText}>
           {profileInfo.gender + " | " + profileInfo.age}
         </Text>
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
-          {profileInfo.description}
+          {profileInfo.bio}
         </Text>
         <Button
           style={styles.back}
@@ -128,7 +123,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     top: 365,
     zIndex: 10,
-    elevation: 3,
+    elevation: 10,
+    backgroundColor: "black",
+    borderRadius: 50,
   },
   titleText: {
     fontSize: 20,
