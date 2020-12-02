@@ -7,12 +7,12 @@ import profilePic from "../images/ben.png";
 import FriendButton from "../components/FriendButtonBar";
 import { color } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
+import default_pic from "../../../../assets/profile_picture.png"
 
-const textinfo =
-  "My name’s Ben, I like fishing and The Office. I’m just starting out at the gym and I’m looking for a workout partner.";
+
+
 
 const FriendProfile = ({ navigation, route }) => {
-  // const data = route.params.data;
   const [friendInfo, setInfo] = useState({
     username: "",
     firstName: "",
@@ -102,7 +102,7 @@ const FriendProfile = ({ navigation, route }) => {
         name={data.nickname}
         onPressBack={() => navigation.navigate("Friends Screen")}
       /> */}
-      <Image source={profilePic} style={styles.background} />
+      <Image source={friendInfo.profilePicture ? { uri: friendInfo.profilePicture } : default_pic} style={styles.background} />
       <Button style={styles.editFriend}
       //  onPress={onEditFriend}
        >
