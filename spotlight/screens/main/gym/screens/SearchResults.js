@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   Text,
   StyleSheet,
+  Image,
 } from "react-native";
 import { Searchbar } from "react-native-paper";
 import { queryUserByName } from "../../../../services/userService";
 import SearchFriendProfileModal from "./SearchFriendProfileModal";
+import default_pic from "../../../../assets/profile_picture.png";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 /**
  * @typedef {Object} Props
@@ -20,6 +23,9 @@ import SearchFriendProfileModal from "./SearchFriendProfileModal";
 /**
  * @param {Props} props
  */
+
+const default_picture = default_pic;
+
 const SearchResults = ({ navigation, route }) => {
   const { initialQuery } = route.params;
   const [searched, setSearched] = useState(initialQuery !== "");
@@ -27,6 +33,7 @@ const SearchResults = ({ navigation, route }) => {
   const [userResults, setUserResults] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedFriendId, setSelectedFriendId] = useState("");
+  const [profileInfo, setProfiles] = useState("");
 
   const onChangeText = (text) => {
     setSearchQuery(text);
@@ -53,9 +60,27 @@ const SearchResults = ({ navigation, route }) => {
       onPress={onPress}
       style={[styles.item, style]}
     >
-      <Text style={{ fontSize: 22, color: "#000" }}>
+      <Image
+        source={
+          item["profilePicture"]
+            ? { uri: item["profilePicture"] }
+            : default_picture
+        }
+        style={styles.images}
+      />
+      <Text style={styles.row}>
         {item["firstName"]} {item["lastName"]}
       </Text>
+      <MaterialCommunityIcons
+        name={
+          item["attending"] == "" || item["attending"] == null
+            ? "sleep"
+            : "dumbbell"
+        }
+        style={styles.gymIcon}
+        size={24}
+        color="#A20A0A"
+      />
     </TouchableOpacity>
   );
 
@@ -117,7 +142,9 @@ const SearchResults = ({ navigation, route }) => {
       <FlatList
         data={userResults}
         renderItem={renderItem}
-        keyExtractor={(item) => item.userID}
+        keyExtractor={(item, index) => {
+          return index.toString();
+        }}
         extraData={selectedFriendId}
         ListEmptyComponent={NoResults}
       />
@@ -146,6 +173,13 @@ const styles = StyleSheet.create({
     paddingLeft: "3%",
     marginBottom: "3%",
   },
+  row: {
+    fontSize: 22,
+    lineHeight: 30,
+    fontWeight: "bold",
+    paddingLeft: 10,
+    marginTop: 10,
+  },
   description: {
     fontFamily: "Raleway_600SemiBold",
     marginBottom: "5%",
@@ -153,9 +187,20 @@ const styles = StyleSheet.create({
     paddingBottom: "10%",
   },
   item: {
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
+    marginVertical: 5,
+    flexDirection: "row",
+    borderRadius: 15,
+    height: 50,
+  },
+  images: {
+    height: 40,
+    width: 40,
+    marginLeft: 10,
+    marginTop: 5,
+  },
+  gymIcon: {
+    marginTop: 10,
+    marginLeft: 10,
   },
 });
 export default SearchResults;
