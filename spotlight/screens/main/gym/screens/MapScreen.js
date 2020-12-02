@@ -1,37 +1,22 @@
 import React, { useEffect, useState, useContext, c } from "react";
-import {
-  FlatList,
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-} from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
-import { Searchbar } from "react-native-paper";
 import { getLocation } from "../../../../services/locationService";
+import { Searchbar } from "react-native-paper";
 import {
-  getAllGyms,
   subscribeAllGyms,
   subscribeFavorites,
 } from "../../../../services/gymService";
-import { queryUserByName } from "../../../../services/userService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
-import SearchFriendProfileModal from "./SearchFriendProfileModal";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const { user } = useContext(AuthContext);
-  const [searchUsers, setSearchUsers] = useState(null);
-  const [selectedId, setSelectedId] = useState(null);
-  const [searching, setSearching] = useState(null);
-  const [prevText, setPrevText] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedFriendId, setSelectedFriendId] = useState("");
 
   // Get location of user
   useEffect(() => {
@@ -45,8 +30,6 @@ const MapScreen = ({ navigation }) => {
       })
       .catch((e) => setErrorMessage(e.message));
   }, []);
-
-  const [searchQuery, setSearchQuery] = useState("");
 
   // subscribe to gyms
   useEffect(() => {
@@ -78,72 +61,19 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
-  const onChangeText = (text) => {
-    setSearchQuery(text);
-  };
-
-  const onSearch = async () => {
-    setSearching(true);
-    const newUsers = await queryUserByName(searchQuery);
-    setSearchUsers(newUsers);
-
-    if (searchQuery.length == 0) {
-      setSearching(false);
-    }
-  };
-
-  const Item = ({ item, onPress, style }) => (
-    <TouchableOpacity
-      key={item["userID"]}
-      onPress={onPress}
-      style={[styles.item, style]}
-    >
-      <Text style={{ fontSize: 22, color: "#000" }}>
-        {item["firstName"]} {item["lastName"]}
-      </Text>
-    </TouchableOpacity>
-  );
-  const renderItem = ({ item }) => {
-    // console.log(item);
-    const backgroundColor = item.id === selectedId ? "#fff" : "#fff";
-    return (
-      <Item
-        item={item}
-        onPress={() => {
-          setModalVisible(true);
-          setSelectedFriendId(item.userID);
-          console.log(item);
-          console.log(item.userID);
-        }}
-        style={{ backgroundColor }}
-      />
-    );
+  const onSearch = () => {
+    navigation.navigate("Search Results", {
+      initialQuery: searchQuery,
+    });
   };
 
   return (
     <View style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(modalVisible);
-        }}
-      >
-        <SearchFriendProfileModal
-          userID={selectedFriendId}
-          modalVisible={modalVisible}
-          setModalVisible={() => {
-            setModalVisible(!modalVisible);
-          }}
-        />
-      </Modal>
-
       <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
 
       <Searchbar
         placeholder="Search For Users"
-        onChangeText={(text) => onChangeText(text)}
+        onChangeText={(text) => setSearchQuery(text)}
         value={searchQuery}
         showCancel={true}
         iconColor={"#A20A0A"}
@@ -151,14 +81,7 @@ const MapScreen = ({ navigation }) => {
         onSubmitEditing={onSearch}
       />
 
-      <FlatList
-        data={searchUsers}
-        renderItem={searching ? renderItem : null}
-        keyExtractor={(item) => item.userID}
-        extraData={selectedId}
-      />
-
-      {location && markers && favorites && !searching ? (
+      {location && markers && favorites ? (
         <MapView key={new Date()} style={styles.map} initialRegion={location}>
           {markers.map((marker) => (
             <GymMarker

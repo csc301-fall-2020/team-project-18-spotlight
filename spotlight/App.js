@@ -10,7 +10,6 @@ import { firebaseConfig } from "./config";
 import { ActivityIndicator, Colors } from "react-native-paper";
 import { LogBox } from "react-native";
 
-console.log("hello");
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
 }
