@@ -23,6 +23,12 @@ const ProfileScreen = ({ route, navigation }) => {
     navigation.navigate("EditProfileScreen");
   };
 
+  const testing = async () => {
+    const userData = await getUser(user.uid);
+    console.log(userData)
+    setInfo(userData);
+  }
+
   
 
   useEffect(() => {
@@ -35,33 +41,16 @@ const ProfileScreen = ({ route, navigation }) => {
   const isFocused = useIsFocused();
   if (isFocused) {
     console.log("screen locked")      
-    console.log(route.param)
-    if (route.param != undefined) {
-      console.log("10")
-      route.param = undefined;
+    if (route.params != undefined) {
+      testing();
+      route.params = undefined;
+      
     }
   }
 
 
-
-
-
-  // if (route.params === undefined) {
-  //   console.log("route.params == undefined")
-  //   setTimeout(() => {
-  //     useEffect(() => {
-  //       (async () => {
-  //         const userData = await getUser(user.uid);
-  //         setInfo(userData);
-  //       })();
-  //     }, []);
-  //     route.params = "";
-  //   }, 3000);
-
-  // }
-
   return (
-    <SafeAreaView style={styles.container} onDidFocus={() => console.log('will focus')}>
+    <SafeAreaView style={styles.container}>
 
       <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_pic} style={styles.background} />
       {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
