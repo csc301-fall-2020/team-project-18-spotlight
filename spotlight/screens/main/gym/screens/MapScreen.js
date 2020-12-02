@@ -5,6 +5,7 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Modal
 } from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
@@ -17,6 +18,7 @@ import {
 } from "../../../../services/gymService";
 import { getAllUsers } from "../../../../services/userService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
+import SearchFriendProfileModal from "./SearchFriendProfileModal";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
@@ -29,6 +31,8 @@ const MapScreen = ({ navigation }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [searching, setSearching] = useState(null);
   const [prevText, setPrevText] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedFriendId, setSelectedFriendId] = useState("");
 
   useEffect(() => {
     getAllUsers()
@@ -55,15 +59,24 @@ const MapScreen = ({ navigation }) => {
 
   // subscribe to gyms
   useEffect(() => {
-    return subscribeAllGyms((gyms) => {
-      setMarkers(gyms);
-    });
+    try{
+      return subscribeAllGyms((gyms) => {
+        setMarkers(gyms);
+      });
+    } catch(e){
+      setErrorMessage(e.message)
+    }
+    
   }, []);
 
   useEffect(() => {
-    return subscribeFavorites(user.uid, (favoriteGyms) => {
-      setFavorites(favoriteGyms);
-    });
+    try{
+      return subscribeFavorites(user.uid, (favoriteGyms) => {
+        setFavorites(favoriteGyms);
+      });
+    } catch(e){
+      setErrorMessage(e.message)
+    }
   }, []);
 
   if (errorMessage) {
@@ -86,11 +99,6 @@ const MapScreen = ({ navigation }) => {
       return itemData.indexOf(textData) > -1;
     });
     setSearchUsers(newUsers);
-    // console.log(newUsers);
-    // console.log("---")
-    // console.log(newUsers);
-    // console.log("---")
-
     setSearching(true);
 
     setPrevText(text);
@@ -112,11 +120,17 @@ const MapScreen = ({ navigation }) => {
     </TouchableOpacity>
   );
   const renderItem = ({ item }) => {
+    // console.log(item);
     const backgroundColor = item.id === selectedId ? "#fff" : "#fff";
     return (
       <Item
         item={item}
-        onPress={() => navigation.navigate("Profile")}
+        onPress={() => {
+          setModalVisible(true);
+          setSelectedFriendId(item.userID);
+          console.log(item);
+          console.log(item.userID);
+        }}
         style={{ backgroundColor }}
       />
     );
@@ -124,6 +138,21 @@ const MapScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(modalVisible);
+        }}>
+          <SearchFriendProfileModal 
+            userID={selectedFriendId} 
+            modalVisible={modalVisible}
+            setModalVisible={() => {setModalVisible(!modalVisible)}}
+          />
+      </Modal>
+
       <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
 
       <Searchbar
@@ -138,7 +167,7 @@ const MapScreen = ({ navigation }) => {
         data={searchUsers}
         renderItem={searching ? renderItem : null}
         keyExtractor={(item) => {
-          item["userID"]
+          item.userID
         }}
         extraData={selectedId}
       />
