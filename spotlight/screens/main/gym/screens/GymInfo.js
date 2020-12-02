@@ -85,7 +85,6 @@ const GymInfo = ({ route, navigation }) => {
       setUsersInGym(usersInGym);
     });
   }, []);
-  console.log("usersingym: ", usersInGym);
 
   useEffect(() => {
     (async () => {

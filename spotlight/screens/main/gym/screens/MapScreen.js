@@ -150,8 +150,8 @@ const MapScreen = ({ navigation }) => {
       <FlatList
         data={searchUsers}
         renderItem={searching ? renderItem : null}
-        keyExtractor={(item) => {
-          item.userID;
+        keyExtractor={(item, index) => {
+          return index.toString();
         }}
         extraData={selectedId}
       />
