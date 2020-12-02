@@ -14,47 +14,75 @@ const textinfo =
 const FriendProfile = ({ navigation, route }) => {
   // const data = route.params.data;
   const [friendInfo, setInfo] = useState({
-    nickname: "Aura",
-    name: "Ben",
-    gender: "M",
-    description: textinfo,
-    birthday: "2000 01 01",
-    age: "22",
-    isFriend: false,
+    username: "",
+    firstName: "",
+    lastName: "",
+    profilePicture: "",
+    age: "",
+    gender: "",
+    bio: "",
+    // isFriend: false,
   });
 
-  const {
-    firstName,
-    lastName,
-    username,
-    profilePicture,
-    age,
-    gender,
-    bio,
-  } = route.params.data;
+  
+
+  if (route.params != undefined) {
+    const {
+      firstName,
+      lastName,
+      username,
+      profilePicture,
+      age,
+      gender,
+      bio,
+    } = route.params.data;
+
+    console.log("=============");
+    console.log(firstName);
+    console.log(lastName);
+    console.log(username);
+    console.log(profilePicture);
+    console.log(age);
+    console.log(gender);
+    console.log(bio);
+
+    let updated = {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      profilePicture: profilePicture,
+      age: age,
+      gender: gender,
+      bio: bio,
+      isFriend: false,
+    }
+    setInfo(updated);
+    route.params = undefined;
+  }
 
   let buttonTitle = "";
   let displayed = "";
   if (friendInfo.isFriend) {
     displayed = <FriendButton />;
-    buttonTitle = "REMOVE";
+    buttonTitle = "INFO";
   } else {
     displayed = (
       <Text style={{ position: "relative", top: 70 }}>
         add to your Friend list to check info
       </Text>
     );
-    buttonTitle = "ADD AS FRIEND";
+    buttonTitle = "INFO";
   }
 
   const onEditFriend = () => {
     let updated = {
-      nickname: friendInfo.nickname,
-      name: friendInfo.name,
-      gender: friendInfo.gender,
-      description: friendInfo.description,
-      birthday: friendInfo.birthday,
+      username: friendInfo.username,
+      firstName: friendInfo.firstName,
+      lastName: friendInfo.lastName,
+      profilePicture: friendInfo.profilePicture,
       age: friendInfo.age,
+      gender: friendInfo.gender,
+      bio: friendInfo.bio,
       isFriend: !friendInfo.isFriend,
     };
     setInfo(updated);
@@ -75,19 +103,21 @@ const FriendProfile = ({ navigation, route }) => {
         onPressBack={() => navigation.navigate("Friends Screen")}
       /> */}
       <Image source={profilePic} style={styles.background} />
-      <Button style={styles.editFriend} onPress={onEditFriend}>
-        <Text style={styles.addFriend}>{buttonTitle}</Text>
+      <Button style={styles.editFriend}
+      //  onPress={onEditFriend}
+       >
+        <Text style={styles.addFriend}>{"INFO"}</Text>
       </Button>
 
       <View style={styles.info}>
-        <Text style={{ fontSize: 40 }}>{friendInfo.name}</Text>
+        <Text style={{ fontSize: 40 }}>{friendInfo.username}</Text>
         <Text style={styles.titleText}>
           {friendInfo.gender + " | " + friendInfo.age}
         </Text>
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
-          {friendInfo.description}
+          {friendInfo.bio}
         </Text>
-        {displayed}
+        {/* {displayed} */}
       </View>
     </SafeAreaView>
   );
@@ -114,7 +144,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: "column",
-    top: 315,
+    top: 300,
     alignItems: "center",
     justifyContent: "center",
     borderColor: "grey",
@@ -139,7 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    top: 340,
+    top: 325,
     zIndex: 10,
     elevation: 3,
     borderColor: "black",
@@ -159,27 +189,3 @@ const styles = StyleSheet.create({
 
 export default FriendProfile;
 
-// const sendToEdit = () => {
-//   navigation.navigate("EditProfileScreen", {
-//     nickname: profileInfo.nickname,
-//     name: profileInfo.name,
-//     gender: profileInfo.gender,
-//     description: profileInfo.description,
-//     birthday: profileInfo.birthday,
-//     age: profileInfo.age,
-//   });
-// };
-
-// if (route.params != undefined) {
-//   const { nickname, name, gender, description, birthday, age } = route.params;
-//   const newInfo = {
-//     nickname: nickname,
-//     name: name,
-//     gender: gender,
-//     description: description,
-//     birthday: birthday,
-//     age: age,
-//   };
-//   setInfo(newInfo);
-//   route.params = undefined;
-// }
