@@ -148,7 +148,7 @@ const MapScreen = ({ navigation }) => {
         showCancel={true}
         iconColor={"#A20A0A"}
         onIconPress={onSearch}
-        on
+        onSubmitEditing={onSearch}
       />
 
       <FlatList
