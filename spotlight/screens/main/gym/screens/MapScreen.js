@@ -86,6 +86,11 @@ const MapScreen = ({ navigation }) => {
       return itemData.indexOf(textData) > -1;
     });
     setSearchUsers(newUsers);
+    // console.log(newUsers);
+    // console.log("---")
+    // console.log(newUsers);
+    // console.log("---")
+
     setSearching(true);
 
     setPrevText(text);
@@ -122,7 +127,7 @@ const MapScreen = ({ navigation }) => {
       <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
 
       <Searchbar
-        placeholder="Search"
+        placeholder="Find your Gym Buddy"
         onChangeText={(text) => searchFilterFunction(text)}
         value={searchQuery}
         showCancel={true}
@@ -132,7 +137,9 @@ const MapScreen = ({ navigation }) => {
       <FlatList
         data={searchUsers}
         renderItem={searching ? renderItem : null}
-        keyExtractor={(item) => item["userID"]}
+        keyExtractor={(item) => {
+          item["userID"]
+        }}
         extraData={selectedId}
       />
 
