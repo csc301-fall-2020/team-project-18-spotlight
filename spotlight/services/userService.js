@@ -2,12 +2,11 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import uuid from "uuid";
 
-const db = firebase.firestore();
-
 const createNewUser = async (userID) => {
   console.log("Trying to add user", userID);
   const data = { userID: userID };
   try {
+    const db = firebase.firestore();
     const userRef = db.collection("users").doc(userID);
     userRef.get().then((doc) => {
       if (!doc.exists) {
@@ -46,6 +45,7 @@ const uploadUserImage = async (uri) => {
 };
 
 const createUserInfo = async (userData, userID) => {
+  const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   try {
     await userRef.set(userData);
@@ -55,6 +55,7 @@ const createUserInfo = async (userData, userID) => {
 };
 
 const updateUserInfo = async (userData, userID) => {
+  const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   try {
     await userRef.update(userData);
@@ -112,6 +113,7 @@ const processUserDoc = (userDoc) => {
  * @returns {User}
  */
 const getUser = async (userID) => {
+  const db = firebase.firestore();
   const userRef = db.collection("users").doc(userID);
   const userDoc = await userRef.get();
   return processUserDoc(userDoc);
@@ -122,6 +124,7 @@ const getUser = async (userID) => {
  * @returns {Promise<User[]>} array of users whose names partially match the query
  */
 const queryUserByName = async (query) => {
+  const db = firebase.firestore();
   const allUsers = await db.collection("users").get();
 
   const processedUsers = allUsers.docs.map((userDoc) =>
