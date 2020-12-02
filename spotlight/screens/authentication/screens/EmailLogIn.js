@@ -1,14 +1,21 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, Text } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
 import { TextInput, Button } from "react-native-paper";
+import { LinearGradient } from "expo-linear-gradient";
 
 const EmailLogIn = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { emailLogin } = useContext(AuthContext); // Log-in with firebase
+  const { emailLogin, setIsNewUser } = useContext(AuthContext); // Log-in with firebase
 
   /**
    * Return True if some basic checks for username/password validity are passed.
@@ -29,99 +36,158 @@ const EmailLogIn = ({ navigation }) => {
     }, 3000);
   };
 
-  const login = () => {
-    emailLogin(email, password).catch((e) => showErrorMessage(e.message));
+  const login = async () => {
+    try {
+      setIsNewUser(false);
+      await emailLogin(email, password);
+    } catch (e) {
+      showErrorMessage(e.message);
+    }
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Welcome Back to Spotlight!</Text>
-      <TextInput
-        style={{ marginBottom: 10 }}
-        mode="outlined"
-        label="Your Email"
-        keyboardType="email-address"
-        underlineColorAndroid="transparent"
-        value={email}
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(email) => setEmail(email)}
-      />
-      <TextInput
-        mode="outlined"
-        label="Your Password"
-        value={password}
-        secureTextEntry={true}
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(password) => setPassword(password)}
-      />
-
-      <Button
-        style={styles.login}
-        icon="login"
-        mode="contained"
-        onPress={login}
-        contentStyle={{ height: 50 }} // See issue #18
-        disabled={!validateCredentials()}
+    <LinearGradient
+      colors={["red", "salmon", "orange"]}
+      style={{ flex: 1 }}
+      //  Linear Gradient
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        style={{ flex: 1 }}
       >
-        <Text style={{ fontSize: 15 }}>Login</Text>
-      </Button>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.header}>
+            <Text style={styles.logo}>Welcome back to Spotlight</Text>
+          </View>
 
-      <Button
-        style={styles.register}
-        icon="account-plus"
-        mode="contained"
-        onPress={() => navigation.navigate("EmailRegister")}
-      >
-        <Text>Create Account</Text>
-      </Button>
-      {error && <Text style={styles.errorMessage}>{error}</Text>}
+          <View
+            style={{
+              backgroundColor: "white",
+              borderColor: "black",
+              borderRadius: 10,
+              paddingHorizontal: 15,
+              paddingVertical: 10,
+              borderWidth: 2,
+              alignItems: "center",
+              marginBottom: 20,
+            }}
+          >
+            <Text style={{ fontWeight: "bold" }}>
+              We are very excited to have you back with us.
+            </Text>
+            <Text>Please Log in to your account.</Text>
+          </View>
 
-      <Button
-        style={styles.back}
-        icon="arrow-left-circle"
-        mode="contained"
-        onPress={() => navigation.navigate("Authentication")}
-      >
-        Back
-      </Button>
-    </SafeAreaView>
+          <View style={styles.formContainer}>
+            <View style={styles.inner}>
+              <Text style={styles.title}>Login To Your Account</Text>
+              <TextInput
+                style={styles.textInput}
+                mode="outlined"
+                label="Your Email"
+                keyboardType="email-address"
+                underlineColorAndroid="transparent"
+                value={email}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={(email) => setEmail(email)}
+              />
+              <TextInput
+                style={styles.textInput}
+                mode="outlined"
+                label="Your Password"
+                value={password}
+                secureTextEntry={true}
+                autoCorrect={false}
+                autoCapitalize="none"
+                onChangeText={(password) => setPassword(password)}
+              />
+
+              {error && <Text style={styles.errorMessage}>{error}</Text>}
+
+              <Button
+                style={styles.login}
+                icon="login"
+                mode="contained"
+                onPress={login}
+                contentStyle={{ height: 50 }} // See issue #18
+                disabled={!validateCredentials()}
+              >
+                <Text style={{ fontSize: 15 }}>Login</Text>
+              </Button>
+
+              <Button
+                style={styles.back}
+                icon="arrow-left-circle"
+                mode="contained"
+                onPress={() => navigation.navigate("Authentication")}
+              >
+                Back
+              </Button>
+            </View>
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    padding: 50,
+    alignItems: "center",
+  },
+  inner: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: "100%",
+    height: "100%",
+    paddingHorizontal: 40,
+    paddingTop: 20,
+    backgroundColor: "white",
+  },
+  header: {
+    marginTop: 15,
+    marginBottom: 10,
+  },
+  logo: {
+    textAlign: "center",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    fontSize: 30,
+    color: "white",
   },
   title: {
     fontWeight: "bold",
     marginBottom: 10,
-    fontSize: 20,
+    fontSize: 22,
     textAlign: "center",
   },
+  textInput: {
+    width: "100%",
+    height: 50,
+  },
   login: {
-    borderRadius: 10,
-    marginTop: 30,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    width: "100%",
+    height: 50,
     backgroundColor: "#0091EA",
   },
-  register: {
-    borderRadius: 10,
-    marginBottom: 20,
-    backgroundColor: "green",
-  },
   back: {
-    marginBottom: 20,
     backgroundColor: "grey",
     width: 120,
   },
   errorMessage: {
     color: "red",
-    textAlign: "center",
   },
 });
 

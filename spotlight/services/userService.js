@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import uuid from "uuid";
 
 const createNewUser = async (userID) => {
   console.log("Trying to add user", userID);
@@ -13,10 +14,55 @@ const createNewUser = async (userID) => {
       }
     });
   } catch (e) {
-    console.log(e);
+    console.log("createNewUser:", e.message);
   }
 };
 
+const uploadUserImage = async (uri) => {
+  // Snippet was taken from https://github.com/expo/examples/blob/master/with-firebase-storage-upload/App.js
+
+  const blob = await new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+      resolve(xhr.response);
+    };
+    xhr.onerror = function (e) {
+      console.log(e);
+      reject(new TypeError("Network request failed"));
+    };
+    xhr.responseType = "blob";
+    xhr.open("GET", uri, true);
+    xhr.send(null);
+  });
+
+  const ref = firebase.storage().ref().child(uuid.v4());
+  const snapshot = await ref.put(blob);
+
+  // We're done with the blob, close and release it
+  blob.close();
+
+  return await snapshot.ref.getDownloadURL();
+};
+
+const createUserInfo = async (userData, userID) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  try {
+    await userRef.set(userData);
+  } catch (e) {
+    console.log("updateUserInfo: ", e.message);
+  }
+};
+
+const updateUserInfo = async (userData, userID) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  try {
+    await userRef.update(userData);
+  } catch (e) {
+    console.log("updateUserInfo: ", e.message);
+  }
+};
 /**
  * @typedef {Object} User
  * @property {string} address
@@ -73,7 +119,7 @@ const getUser = async (userID) => {
 };
 
 /**
- * @returns {User[]}
+ * @returns {Promise<User[]>}
  */
 const getAllUsers = async () => {
   const db = firebase.firestore();
@@ -82,4 +128,11 @@ const getAllUsers = async () => {
   return allUsers.docs.map((userDoc) => processUserDoc(userDoc));
 };
 
-export { getAllUsers, createNewUser, getUser };
+export {
+  getAllUsers,
+  createNewUser,
+  uploadUserImage,
+  createUserInfo,
+  getUser,
+  updateUserInfo,
+};
