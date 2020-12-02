@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect}from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FriendsList from "../components/FriendsList";
@@ -11,11 +11,10 @@ const FriendsScreen = () => {
   const [friends, setFriends] = useState([]);
 
   useEffect(() => {
-    const tryGetFriends = async () => {
-      const newFriends = await getFriends(user.uid);
-      setFriends(newFriends);
-    };
-    tryGetFriends();
+    (async () => {
+      const friends = await getFriends(user.uid);
+      await setFriends(friends);
+    })();
   }, []);
 
   return (

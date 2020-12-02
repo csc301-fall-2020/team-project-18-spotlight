@@ -1,0 +1,45 @@
+import React, { Component, useEffect, useState } from 'react';
+import { Icon, StyleSheet, Text, View, Image, ImageBackground, Button, TextInput, TouchableOpacity } from 'react-native';
+import calender from "../images/calender.png"
+import location from "../images/location.png"
+import message from "../images/message.png"
+
+
+
+const FriendButtonBar = (props) => {
+  return (
+        <View style={styles.buttonGroup}>
+          <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
+            <Image source={location} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
+            <Image source={message} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => { alert("you clicked me") }}>
+            <Image source={calender} />
+          </TouchableOpacity>
+        </View>
+  );
+}
+
+const styles = StyleSheet.create({
+
+  button: {
+    justifyContent: "center",
+    alignItems: 'center',
+    backgroundColor: 'rgba(162, 10, 10, 1)',
+    borderRadius: 50,
+    width: 50,
+    height: 50
+  },
+  
+  buttonGroup: {
+    top: 10,
+    flexDirection: "row",
+    justifyContent: 'space-around',
+    alignSelf: 'stretch',
+
+  },
+});
+
+export default FriendButtonBar;

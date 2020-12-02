@@ -104,6 +104,7 @@ const processUserDoc = (userDoc) => {
     userID: user.userID,
     username: user.username,
     zip: user.zip,
+    bio: user.bio,
   };
 };
 
