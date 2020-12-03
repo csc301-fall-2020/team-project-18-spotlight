@@ -218,7 +218,6 @@ const attendGym = async (gymID, userID) => {
   const db = firebase.firestore();
   const gymRef = db.collection("gyms").doc(gymID);
   const userRef = db.collection("users").doc(userID);
-  const userDocSnapshot = await userRef.get();
 
   // Will have to check if it crashes if a gym does not have the "users" field
 
@@ -229,8 +228,6 @@ const attendGym = async (gymID, userID) => {
     await userRef.update({
       attending: gymRef,
     });
-    const userDocSnapshot = await userRef.get();
-    console.log(userDocSnapshot.get("attending"));
     await gymRef.update({
       users: firebase.firestore.FieldValue.arrayUnion(userRef),
     });

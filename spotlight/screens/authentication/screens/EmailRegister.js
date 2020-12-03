@@ -1,15 +1,16 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
 import { TextInput, Button } from "react-native-paper";
+import { LinearGradient } from 'expo-linear-gradient';
 
 const EmailSignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { emailRegister } = useContext(AuthContext);
+  const { emailRegister, setIsNewUser } = useContext(AuthContext);
 
   /**
    * Return True if user has started confirming password and it is not the same as the actual password
@@ -44,116 +45,167 @@ const EmailSignUp = ({ navigation }) => {
     }, 3000);
   };
 
-  const register = () => {
-    emailRegister(email, password).catch((e) => showErrorMessage(e.message));
+  const register = async () => {
+    try{
+      setIsNewUser(true);
+      await emailRegister(email, password);
+      navigation.navigate("Onboarding", {
+        firstName: "",
+        lastName: "",
+        email: email
+      })
+    } catch (e){
+      showErrorMessage(e.message);
+    }
   };
 
   return (
+    <LinearGradient
+            colors={['red', 'salmon', 'orange']}
+            style={{flex: 1}}
+            //  Linear Gradient 
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Register for Spotlight</Text>
-      <TextInput
-        style={{ marginBottom: 10 }}
-        mode="outlined"
-        label="Your Email"
-        placeholder="name@example.com"
-        keyboardType="email-address"
-        underlineColorAndroid="transparent"
-        value={email}
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(email) => setEmail(email)}
-      />
-      <TextInput
-        mode="outlined"
-        label="Your Password"
-        placeholder="Min 6 characters"
-        value={password}
-        secureTextEntry={true}
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(password) => setPassword(password)}
-      />
-      <TextInput
-        mode="outlined"
-        label={
-          confirmPasswordIsInvalid()
-            ? "Passwords do not match"
-            : "Confirm Password"
-        }
-        error={confirmPasswordIsInvalid()}
-        value={confirmPassword}
-        secureTextEntry={true}
-        autoCorrect={false}
-        autoCapitalize="none"
-        onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
-      />
 
-      <Button
-        style={styles.register}
-        icon="account-plus"
-        mode="contained"
-        onPress={register}
-        contentStyle={{ height: 50 }}
-        disabled={!validateCredentials()}
-      >
-        <Text style={{ fontSize: 15 }}>Create Account</Text>
-      </Button>
+      <View style={styles.header}>
+        <Text style={styles.logo}>Welcome to Spotlight</Text>
+      </View>
 
-      <Button
-        style={styles.login}
-        uppercase="false"
-        icon="login"
-        mode="contained"
-        onPress={() => navigation.navigate("EmailLogIn")}
-      >
-        <Text>Login</Text>
-      </Button>
+      <View style={{
+        backgroundColor:"white",
+        borderColor:"black",
+        borderRadius:10,
+        paddingHorizontal: 15,
+        paddingVertical:10,
+        borderWidth:2,
+        alignItems:"center",
+        marginBottom:20
+      }}>
+        <Text style={{fontWeight:"bold"}}>We are very excited to have you with us.</Text>
+        <Text>Please Create an account below</Text>
+      </View>
 
-      {error && <Text style={styles.errorMessage}>{error}</Text>}
+      <View style={styles.formContainer}>
+        <Text style={styles.title}>Register with Spotlight</Text>
+        <TextInput
+          style={styles.textInput}
+          mode="outlined"
+          label="Your Email"
+          placeholder="name@example.com"
+          keyboardType="email-address"
+          underlineColorAndroid="transparent"
+          value={email}
+          autoCorrect={false}
+          autoCapitalize="none"
+          onChangeText={(email) => setEmail(email)}
+        />
+        <TextInput
+          style={styles.textInput}
+          mode="outlined"
+          label="Your Password"
+          placeholder="Min 6 characters"
+          value={password}
+          secureTextEntry={true}
+          autoCorrect={false}
+          autoCapitalize="none"
+          onChangeText={(password) => setPassword(password)}
+        />
+        <TextInput
+          style={styles.textInput}
+          mode="outlined"
+          label={
+            confirmPasswordIsInvalid()
+              ? "Passwords do not match"
+              : "Confirm Password"
+          }
+          error={confirmPasswordIsInvalid()}
+          value={confirmPassword}
+          secureTextEntry={true}
+          autoCorrect={false}
+          autoCapitalize="none"
+          onChangeText={(confirmPassword) => setConfirmPassword(confirmPassword)}
+        />
 
-      <Button
-        style={styles.back}
-        icon="arrow-left-circle"
-        mode="contained"
-        onPress={() => navigation.navigate("Authentication")}
-      >
-        Back
-      </Button>
+        {error && <Text style={styles.errorMessage}>{error}</Text>}
+      
+        <Button
+            style={styles.register}
+            icon="account-plus"
+            mode="contained"
+            onPress={register}
+            contentStyle={{ height: 50 }}
+            disabled={!validateCredentials()}
+          >
+            <Text style={{ fontSize: 15 }}>Create Account</Text>
+          </Button>
+
+          <Button
+            style={styles.back}
+            icon="arrow-left-circle"
+            mode="contained"
+            onPress={() => navigation.navigate("Authentication")}
+          >
+            Back
+          </Button>
+      </View>
     </SafeAreaView>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    padding: 50,
+    alignItems: "center",
+  },
+  formContainer:{
+    flex:1,
+    justifyContent:"flex-start",
+    alignItems:"flex-start",
+    width: "100%",
+    height:"100%",
+    // marginTop: 30,
+    paddingHorizontal:40,
+    paddingTop:20,
+    backgroundColor:"white"
+  },
+  header:{
+    // flex:1,
+    // justifyContent:"flex-end",
+    marginTop:15,
+    marginBottom:10
+  },
+  logo: {
+    textAlign:"center",
+    fontWeight: "bold",
+    textTransform:"uppercase",
+    fontSize: 30,
+    color:"white"
   },
   title: {
     fontWeight: "bold",
-    marginBottom: 10,
-    fontSize: 20,
+    marginBottom: 20,
+    fontSize: 22,
     textAlign: "center",
   },
-  login: {
-    borderRadius: 10,
-    marginBottom: 20,
-    backgroundColor: "#0091EA",
+  textInput:{
+    width:"100%",
+    height: 50
   },
   errorMessage: {
     color: "red",
     textAlign: "center",
   },
   register: {
-    marginTop: 30,
-    marginBottom: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    width:"100%",
     height: 50,
-    borderRadius: 10,
     backgroundColor: "green",
   },
   back: {
-    marginBottom: 20,
     backgroundColor: "grey",
     width: 120,
   },
