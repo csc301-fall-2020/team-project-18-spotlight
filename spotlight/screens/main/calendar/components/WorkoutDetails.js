@@ -32,10 +32,19 @@ const WorkoutDetails = ({ muscle, day, notes }) => {
     toggleEditMode(false);
   };
 
+  const firstSave = () => {
+    (async () => {
+      await setSavedNotes(editNotes);
+      await addWorkout(user.uid, day, { [muscle]: editNotes });
+      await setEditNotes(notes);
+      await toggleEditMode(false);
+    })();
+    toggleFirstTime(false);
+  };
+
   const enterFirstEdit = () => {
     setEditNotes(notes);
     toggleEditMode(true);
-    toggleFirstTime(false);
   };
 
   const enterEdit = () => {
@@ -45,7 +54,59 @@ const WorkoutDetails = ({ muscle, day, notes }) => {
 
   return (
     <View style={styles.container}>
-      {editMode && (
+      {editMode && firstTime && (
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              height: 50,
+              width: 320,
+            }}
+          >
+            <View style={{ flex: 0.6 }}>
+              <Text style={styles.header}>{muscle}</Text>
+            </View>
+            <View style={{ flex: 0.05 }}>
+              <TouchableHighlight
+                style={styles.cancel}
+                onPress={() => cancelEdit()}
+              >
+                <Text style={styles.textStyle}>x</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={{ flex: 0.2 }}>
+              <TouchableHighlight
+                style={styles.clear}
+                onPress={() => setEditNotes("")}
+              >
+                <Text style={styles.textStyle}>Clear</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={{ flex: 0.1 }}>
+              <TouchableHighlight
+                style={styles.button}
+                onPress={() => firstSave()}
+              >
+                <Text style={styles.textStyle}>Save</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+
+          <View
+            style={{
+              margin: 10,
+            }}
+          >
+            <TextInput
+              style={styles.input}
+              value={editNotes}
+              onChangeText={(text) => setEditNotes(text)}
+            />
+          </View>
+        </View>
+      )}
+
+      {editMode && !firstTime && (
         <View>
           <View
             style={{
