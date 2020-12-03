@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   map: {
     ...StyleSheet.absoluteFillObject,
-    marginTop: "50%",
+    marginTop: "60%",
     paddingBottom: "5%",
     marginLeft: "5%",
     marginRight: "5%",
