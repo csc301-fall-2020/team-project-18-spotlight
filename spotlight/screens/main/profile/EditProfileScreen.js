@@ -10,8 +10,6 @@ import CountryPicker from "react-native-country-picker-modal";
 import Constants from "expo-constants";
 import { getUser } from "../../../services/userService";
 
-
-
 import { AddressInput } from "../../authentication/components/AddressInput";
 import { DateOfBirthInput } from "../../authentication/components/DateOfBirthInput";
 import { GenderInput } from "../../authentication/components/GenderInput";
@@ -200,73 +198,66 @@ const EditProfileScreen = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    header: {
-        marginTop: 5,
-        marginBottom: 5,
-    },
-    headerTitle: {
-        fontWeight: "bold",
-        textTransform: "uppercase",
-        marginTop: 5,
-        marginBottom: 5,
-    },
-    title: {
-        fontWeight: "bold",
-        marginBottom: 10,
-        fontSize: 20,
-        textAlign: "center",
-    },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  headerTitle: {
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  title: {
+    fontWeight: "bold",
+    marginBottom: 10,
+    fontSize: 20,
+    textAlign: "center",
+  },
 
-    instructions: {
-        fontSize: 12,
-        textAlign: "center",
-        color: "#888",
-        marginBottom: 5,
-    },
+  instructions: {
+    fontSize: 12,
+    textAlign: "center",
+    color: "#888",
+    marginBottom: 5,
+  },
 
-    register: {
-        borderRadius: 10,
-        marginTop: 20,
-        backgroundColor: "salmon",
+  register: {
+    borderRadius: 10,
+    marginTop: 20,
+    backgroundColor: "salmon",
+  },
+  cancel: {
+    borderWidth: 1,
+    marginTop: 10,
+    borderColor: "salmon",
+    backgroundColor: "white",
+  },
+  info: {
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 15,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    width: "90%",
+    marginVertical: 60,
+    marginHorizontal: "auto",
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
     },
-    cancel: {
-        borderWidth:1,
-        marginTop: 10,
-        borderColor:"salmon",
-        backgroundColor:"white"
-    },
-    info: {
-        borderColor: "black",
-        borderWidth: 2,
-        borderRadius: 15,
-        paddingVertical: 40,
-        paddingHorizontal: 20,
-        width: "90%",
-        marginVertical: 60,
-        marginHorizontal: "auto",
-        backgroundColor: "white",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-        zIndex: 3,
-    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    zIndex: 3,
+  },
 });
 
 export default EditProfileScreen;
-
-
-
-
-
-
-
