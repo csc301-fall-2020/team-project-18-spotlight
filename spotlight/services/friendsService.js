@@ -157,12 +157,14 @@ const subscribeToFriends = (userID, onSnapshot) => {
   const unsubscribe = userRef.onSnapshot((userDoc) => {
     (async () => {
       const friends = userDoc.get("friends");
-      const processedFriends = await Promise.all(
-        friends.map((friendRef) => {
-          return getUser(friendRef.id);
-        })
-      );
-      onSnapshot(processedFriends);
+      if (friends) {
+        const processedFriends = await Promise.all(
+          friends.map((friendRef) => {
+            return getUser(friendRef.id);
+          })
+        );
+        onSnapshot(processedFriends);
+      }
     })();
   });
   return unsubscribe;
@@ -174,12 +176,14 @@ const subscribeToFriendRequests = (userID, onSnapshot) => {
   const unsubscribe = userRef.onSnapshot((userDoc) => {
     (async () => {
       const friendRequests = userDoc.get("pendingReceivedRequests");
-      const processedFriendRequests = await Promise.all(
-        friendRequests.map((friendRequestRef) => {
-          return getUser(friendRequestRef.id);
-        })
-      );
-      onSnapshot(processedFriendRequests);
+      if (friendRequests) {
+        const processedFriendRequests = await Promise.all(
+          friendRequests.map((friendRequestRef) => {
+            return getUser(friendRequestRef.id);
+          })
+        );
+        onSnapshot(processedFriendRequests);
+      }
     })();
   });
   return unsubscribe;
