@@ -2,10 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-paper";
 
-const BioInput = ({
-  bio,
-  onChangeBio,
-}) => {
+const BioInput = ({ bio, onChangeBio }) => {
   return (
     <View style={styles.header}>
       <TextInput

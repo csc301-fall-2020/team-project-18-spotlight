@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { useEffect, useState, useContext, c } from "react";
+import { Text, View, StyleSheet, Image } from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
-import { Searchbar } from "react-native-paper";
 import { getLocation } from "../../../../services/locationService";
+import { Searchbar } from "react-native-paper";
 import {
-  getAllGyms,
   subscribeAllGyms,
   subscribeFavorites,
 } from "../../../../services/gymService";
@@ -13,6 +12,7 @@ import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const MapScreen = ({ navigation }) => {
   const [location, setLocation] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -31,28 +31,25 @@ const MapScreen = ({ navigation }) => {
       .catch((e) => setErrorMessage(e.message));
   }, []);
 
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // Get list of gyms from firestore
-  // useEffect(() => {
-  //   getAllGyms(user.uid)
-  //     .then((gyms) => {
-  //       setMarkers(gyms);
-  //     })
-  //     .catch((e) => setErrorMessage(e));
-  // }, []);
-
   // subscribe to gyms
   useEffect(() => {
-    return subscribeAllGyms((gyms) => {
-      setMarkers(gyms);
-    });
+    try {
+      return subscribeAllGyms((gyms) => {
+        setMarkers(gyms);
+      });
+    } catch (e) {
+      setErrorMessage(e.message);
+    }
   }, []);
 
   useEffect(() => {
-    return subscribeFavorites(user.uid, (favoriteGyms) => {
-      setFavorites(favoriteGyms);
-    });
+    try {
+      return subscribeFavorites(user.uid, (favoriteGyms) => {
+        setFavorites(favoriteGyms);
+      });
+    } catch (e) {
+      setErrorMessage(e.message);
+    }
   }, []);
 
   if (errorMessage) {
@@ -64,18 +61,24 @@ const MapScreen = ({ navigation }) => {
     );
   }
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+  const onSearch = () => {
+    navigation.navigate("Search Results", {
+      initialQuery: searchQuery,
+    });
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Gyms Nearby (More to Come!)</Text>
 
       <Searchbar
-        placeholder="Search"
-        onChangeText={onChangeSearch}
+        placeholder="Search For Users"
+        onChangeText={(text) => setSearchQuery(text)}
         value={searchQuery}
         showCancel={true}
         iconColor={"#A20A0A"}
+        onIconPress={onSearch}
+        onSubmitEditing={onSearch}
       />
 
       {location && markers && favorites ? (
@@ -99,9 +102,7 @@ const MapScreen = ({ navigation }) => {
             />
           ))}
         </MapView>
-      ) : (
-        <Text style={styles.description}>Loading...</Text>
-      )}
+      ) : null}
     </View>
   );
 };
@@ -120,6 +121,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     borderWidth: 1,
   },
+  row: {
+    fontSize: 22,
+    lineHeight: 30,
+    fontWeight: "bold",
+  },
   search: {
     paddingRight: "20%",
     marginBottom: "5%",
@@ -136,11 +142,25 @@ const styles = StyleSheet.create({
     paddingLeft: "3%",
     marginBottom: "3%",
   },
+  list: {
+    borderRadius: 10,
+    backgroundColor: "#fff",
+  },
   description: {
     fontFamily: "Raleway_600SemiBold",
     marginBottom: "5%",
     paddingLeft: "3%",
     paddingBottom: "10%",
+  },
+  item: {
+    padding: "5%",
+    marginVertical: 5,
+    marginHorizontal: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
   },
 });
 

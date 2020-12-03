@@ -28,8 +28,6 @@ const ProfileScreen = ({ route, navigation }) => {
     setInfo(userData);
   }
 
-  
-
   useEffect(() => {
     (async () => {
       const userData = await getUser(user.uid);
@@ -50,7 +48,7 @@ const ProfileScreen = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
 
-      <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_pic} style={styles.background} />
+      <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_picture} style={styles.background} />
       {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
       <Button style={styles.editProfile} onPress={() => sendToEdit()}>
         <Text style={{ color: "white", position: "absolute", fontSize: 20 }}>

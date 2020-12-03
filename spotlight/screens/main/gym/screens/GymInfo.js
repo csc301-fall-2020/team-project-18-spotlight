@@ -1,19 +1,23 @@
 import React, { useEffect, useState, useContext } from "react";
-import { render } from "react-dom";
-import { Text, View, StyleSheet, Alert } from "react-native";
+import {
+  FlatList,
+  Text,
+  View,
+  StyleSheet,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { ToggleButton, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CurrentGym from "../components/CurrentGym";
-import Icon from "react-native-vector-icons";
+import AwesomeIcon from "react-native-vector-icons/FontAwesome";
 
 import {
-  isGymFavorited,
-  getGymByAddress,
   addFavoriteGym,
   removeFavoriteGym,
   getGymUserAttending,
   attendGym,
   unattendGym,
+  getUsersInGym,
 } from "../../../../services/gymService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
@@ -23,36 +27,9 @@ const GymInfo = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   const [favoriteChecked, setFavoriteChecked] = useState(isFavorite);
   const [attendChecked, setAttendChecked] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [usersInGym, setUsersInGym] = useState(null);
 
-  // const add_member = () => {
-  //   (async () => {
-  //     if (!attendChecked && (attending != gymID || attending == null)) {
-  //       // add user to this gym
-  //       await attendGym(gymID, user.uid);
-  //       setAttendChecked(!attendChecked);
-  //       console.log("Adding user to this gym.");
-  //       Alert.alert("", "You are at the gym now!", [{ text: "OK" }], {
-  //         cancelable: false,
-  //       });
-  //     } else if (attendChecked && attending == gymID) {
-  //       // user is at a gym and this is the gym so remove user from this gym
-  //       await unattendGym(gymID, user.uid);
-  //       setAttendChecked(!attendChecked);
-  //       console.log("Removed user from this gym.");
-  //       Alert.alert("", "You left the gym!", [{ text: "OK" }], {
-  //         cancelable: false,
-  //       });
-  //     } else {
-  //       // user is at a gym and this isn't the gym user is at, so give alert user
-  //       Alert.alert(
-  //         "",
-  //         "You are already at a different gym!",
-  //         [{ text: "OK" }],
-  //         { cancelable: false }
-  //       );
-  //     }
-  //   })();
-  // };
   const toggleAttending = () => {
     (async () => {
       const userAttending = await getGymUserAttending(user.uid);
@@ -69,6 +46,7 @@ const GymInfo = ({ route, navigation }) => {
         // user is at a gym and this is the gym so remove user from this gym
         await unattendGym(gymID, user.uid);
         setAttendChecked(!attendChecked);
+
         console.log("Removed user from this gym.");
         Alert.alert("", "You left the gym!", [{ text: "OK" }], {
           cancelable: false,
@@ -82,6 +60,7 @@ const GymInfo = ({ route, navigation }) => {
           { cancelable: false }
         );
       }
+      setUsersInGym(await getUsersInGym(gymID));
     })();
   };
 
@@ -101,12 +80,42 @@ const GymInfo = ({ route, navigation }) => {
   };
 
   useEffect(() => {
+    getUsersInGym(gymID).then((usersInGym) => {
+      setUsersInGym(usersInGym);
+    });
+  }, []);
+
+  useEffect(() => {
     (async () => {
       const userAttending = await getGymUserAttending(user.uid);
       const isAttended = userAttending === gymID;
       setAttendChecked(isAttended);
     })();
   }, []);
+
+  const Item = ({ item, onPress, style }) => (
+    <TouchableOpacity onPress={onPress} style={[styles.items, style]}>
+      <AwesomeIcon
+        paddingTop="10%"
+        marginTop="10%"
+        name={
+          item["gender"] != null &&
+          item["gender"] == "male" &&
+          item["gender"] != "non-binary"
+            ? "mars"
+            : "venus"
+        }
+        color="#A20A0A"
+        size={20}
+      />
+      <Text style={styles.row}>
+        {item["firstName"]} {item["lastName"]}
+      </Text>
+    </TouchableOpacity>
+  );
+  const renderItem = ({ item }) => {
+    return <Item item={item} onPress={() => null} style={[styles.list]} />;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -126,8 +135,17 @@ const GymInfo = ({ route, navigation }) => {
       <Text style={styles.header}>{title}</Text>
       <Text style={styles.description}>{address}</Text>
       <View style={styles.block}>
-        <View style={styles.profile} />
-        <View style={styles.data} />
+        <FlatList
+          data={usersInGym}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => {
+            return index.toString();
+          }}
+          extraData={selectedId}
+          style={styles.profile}
+        />
+
+        {/* <View style={styles.data} /> */}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <ToggleButton
             icon={attendChecked ? "minus" : "plus"}
@@ -161,7 +179,6 @@ const styles = StyleSheet.create({
   },
   block: {
     flex: 1,
-    backgroundColor: "#fff",
     paddingRight: "5%",
     paddingLeft: "5%",
     marginLeft: "5%",
@@ -181,20 +198,26 @@ const styles = StyleSheet.create({
     paddingLeft: "3%",
   },
   profile: {
-    flex: 0.3,
     backgroundColor: "#d3d3d3",
     borderRadius: 10,
-    paddingTop: "85%",
     marginBottom: "5%",
   },
-  data: {
-    flex: 0.3,
-    backgroundColor: "#d3d3d3",
+  list: {
+    padding: 10,
+    flexDirection: "row",
+    backgroundColor: "#fff",
     borderRadius: 10,
-    paddingBottom: "50%",
-    marginBottom: "5%",
+    margin: "5%",
   },
-  favourite: {},
+  item: {
+    backgroundColor: "#A20A0A",
+  },
+  row: {
+    fontSize: 22,
+    lineHeight: 30,
+    fontWeight: "bold",
+    paddingLeft: 10,
+  },
 });
 
 export default GymInfo;

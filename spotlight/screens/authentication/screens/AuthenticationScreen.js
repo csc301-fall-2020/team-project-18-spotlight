@@ -73,7 +73,7 @@ const AuthenticationScreen = ({ navigation }) => {
           </Button>
 
           <Text style={{ color: "grey", marginBottom: 15 }}>
-          -----------  Already have an account?  -----------
+            ----------- Already have an account? -----------
           </Text>
 
           <Button
@@ -83,7 +83,7 @@ const AuthenticationScreen = ({ navigation }) => {
             style={styles.email}
             onPress={() => navigation.navigate("EmailLogIn")}
           >
-            <Text style={{color:"black"}}>Login</Text>
+            <Text style={{ color: "black" }}>Login</Text>
           </Button>
         </View>
       </View>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   email: {
     marginBottom: 10,
-    borderWidth:1,
+    borderWidth: 1,
     width: "80%",
   },
   google: {

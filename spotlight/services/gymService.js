@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import useFirestoreQuery from "../hooks/useFirestoreQuery";
 import { Alert } from "react-native";
+import { getUser } from "./userService";
 
 /**
  * @typedef {Object} LongLat
@@ -250,7 +251,7 @@ const unattendGym = async (gymID, userID) => {
   try {
     console.log(`${userID} is unattending gym ${gymID}`);
     await gymRef.update({
-      users: firebase.firestore.FieldValue.arrayRemove({ userRef }),
+      users: firebase.firestore.FieldValue.arrayRemove(userRef),
     });
     await userRef.update({
       attending: null,
@@ -269,7 +270,7 @@ const getUsersInGym = async (gymID) => {
     const usersRefs = (await gymRef.get()).get("users");
     return await Promise.all(
       usersRefs.map((userRef) => {
-        return userRef.get().data();
+        return getUser(userRef.id);
       })
     );
   } catch (e) {

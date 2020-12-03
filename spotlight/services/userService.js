@@ -8,8 +8,8 @@ DEPRECATED, DO NOT USE
 const createNewUser = async (userID) => {
   console.log("Trying to add user", userID);
   const data = { userID: userID };
-  const db = firebase.firestore();
   try {
+    const db = firebase.firestore();
     const userRef = db.collection("users").doc(userID);
     userRef.get().then((doc) => {
       if (!doc.exists) {
@@ -83,6 +83,8 @@ const updateUserInfo = async (userData, userID) => {
  * @property {string} userID
  * @property {string} username
  * @property {string} zip
+ * @property {string} attending
+ * @property {string} nickname
  */
 
 /**
@@ -108,6 +110,8 @@ const processUserDoc = (userDoc) => {
     username: user.username,
     zip: user.zip,
     bio: user.bio,
+    attending: user.attending,
+    nickname: user.nickname,
   };
 };
 
@@ -120,6 +124,32 @@ const getUser = async (userID) => {
   const userRef = db.collection("users").doc(userID);
   const userDoc = await userRef.get();
   return processUserDoc(userDoc);
+};
+
+/**
+ * @param {string} query
+ * @returns {Promise<User[]>} array of users whose names partially match the query
+ */
+const queryUserByName = async (query) => {
+  const db = firebase.firestore();
+  const allUsers = await db.collection("users").get();
+
+  const processedUsers = allUsers.docs.map((userDoc) =>
+    processUserDoc(userDoc)
+  );
+
+  return processedUsers.filter((user) => {
+    try {
+      const { firstName, lastName, nickname } = user;
+      const fullName = `${firstName.toLowerCase()} ${lastName.toLowerCase()}`;
+      return (
+        fullName.includes(query.toLowerCase()) ||
+        nickname.includes(query.toLowerCase())
+      );
+    } catch (e) {
+      return false;
+    }
+  });
 };
 
 /**
@@ -139,4 +169,5 @@ export {
   createUserInfo,
   getUser,
   updateUserInfo,
+  queryUserByName,
 };

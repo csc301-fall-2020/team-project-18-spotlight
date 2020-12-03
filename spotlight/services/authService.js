@@ -74,30 +74,30 @@ const googleLogin = async () => {
 
     if (result.type === "success") {
       onSignIn(result);
-      
+
       let email = "";
-      if(result.user.email !== undefined){
+      if (result.user.email !== undefined) {
         email = result.user.email;
       }
 
       let isNewUser = false;
-      if(await googleIsNew(email)){
+      if (await googleIsNew(email)) {
         isNewUser = true;
       }
-      
+
       return {
         accessToken: result.accessToken,
         cancelled: false,
         firstName: result.user.givenName,
         lastName: result.user.familyName,
         email: email,
-        isNewUser: isNewUser
+        isNewUser: isNewUser,
       };
     } else {
       return { cancelled: true };
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return { error: true };
   }
 };
@@ -165,7 +165,6 @@ const isUserEqual = (googleUser, firebaseUser) => {
   if (firebaseUser) {
     let providerData = firebaseUser.providerData;
     for (let i = 0; i < providerData.length; i++) {
-
       if (
         providerData[i].providerId ===
           firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
@@ -188,17 +187,16 @@ const googleIsNew = async (email) => {
     query = allUsers.where("email", "==", email);
     const querySnapshot = await query.get();
 
-    if(querySnapshot.empty){
+    if (querySnapshot.empty) {
       console.log("NEW USER");
       return true;
     }
     console.log("OLD USER");
-    return false
-
+    return false;
   } catch {
     console.error("Something went wrong with the googleIsNew request.");
     return [];
   }
 };
 
-export { emailLogin, emailRegister, emailLogout, googleLogin};
+export { emailLogin, emailRegister, emailLogout, googleLogin };
