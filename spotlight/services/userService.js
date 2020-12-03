@@ -2,6 +2,9 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import uuid from "uuid";
 
+/**
+DEPRECATED, DO NOT USE 
+ */
 const createNewUser = async (userID) => {
   console.log("Trying to add user", userID);
   const data = { userID: userID };
@@ -91,6 +94,7 @@ const updateUserInfo = async (userData, userID) => {
 const processUserDoc = (userDoc) => {
   const user = userDoc.data();
   return {
+    userID: userDoc.id,
     address: user.address,
     age: user.age,
     city: user.city,
@@ -103,7 +107,6 @@ const processUserDoc = (userDoc) => {
     phoneNumber: user.phoneNumber,
     profilePicture: user.profilePicture,
     province: user.province,
-    userID: user.userID,
     username: user.username,
     zip: user.zip,
     bio: user.bio,

@@ -39,7 +39,7 @@ const MainNavigator = () => {
         inactiveTintColor: "black",
         activeBackgroundColor: "#A20A0A",
         inactiveBackgroundColor: "white",
-        tabStyle: { paddingBottom: "7%" },
+        tabStyle: { paddingBottom: "0%" },
         style: { height: "9%" },
         safeAreaInsets: { bottom: 0 },
         showLabel: false,
