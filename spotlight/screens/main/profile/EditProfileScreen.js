@@ -22,7 +22,7 @@ import { CountryInput } from "../../authentication/components/CountryInput";
 const EditProfileScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
 
-  const { email } = user.email;
+  const email = user.email;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -45,8 +45,7 @@ const EditProfileScreen = ({ route, navigation }) => {
   };
 
   // Date
-  const today = new Date();
-  const [date, setDate] = useState(today);
+  const [date, setDate] = useState(null);
   const [show, setShow] = useState(false);
 
   const onChangeDate = (event, selectedDate) => {
@@ -64,7 +63,7 @@ const EditProfileScreen = ({ route, navigation }) => {
           bio: bio,
           city: city,
           country: countryText,
-          dateOfBirth: date,
+          dateOfBirth: date ?? user.dateOfBirth,
           email: user.email,
           firstName: firstName,
           gender: gender,
@@ -101,7 +100,6 @@ const EditProfileScreen = ({ route, navigation }) => {
       setPhoneNumber(userData.phoneNumber);
       setBio(userData.bio);
       setCountryText(userData.country);
-
       setDate(userData.dateOfBirth.toDate());
     })();
   }, []);
@@ -114,7 +112,10 @@ const EditProfileScreen = ({ route, navigation }) => {
           style={styles.scrollView}
           showsVerticalScrollIndicator={false}
         >
-          <ProfileImagePicker setImageURL={(newPic) => setImageURL(newPic)} />
+          <ProfileImagePicker
+            defaultImage={imageURL}
+            setImageURL={(newPic) => setImageURL(newPic)}
+          />
           <UpdateNameInput
             firstName={firstName}
             onChangeFirstName={(newFirstName) => setFirstName(newFirstName)}
