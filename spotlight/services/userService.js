@@ -81,6 +81,7 @@ const updateUserInfo = async (userData, userID) => {
  * @property {string} username
  * @property {string} zip
  * @property {string} attending
+ * @property {string} nickname
  */
 
 /**
@@ -106,7 +107,8 @@ const processUserDoc = (userDoc) => {
     username: user.username,
     zip: user.zip,
     bio: user.bio,
-    attending: user.attending 
+    attending: user.attending,
+    nickname: user.nickname,
   };
 };
 
@@ -135,9 +137,12 @@ const queryUserByName = async (query) => {
 
   return processedUsers.filter((user) => {
     try {
-      const { firstName, lastName } = user;
+      const { firstName, lastName, nickname } = user;
       const fullName = `${firstName.toLowerCase()} ${lastName.toLowerCase()}`;
-      return fullName.includes(query.toLowerCase());
+      return (
+        fullName.includes(query.toLowerCase()) ||
+        nickname.includes(query.toLowerCase())
+      );
     } catch (e) {
       return false;
     }
