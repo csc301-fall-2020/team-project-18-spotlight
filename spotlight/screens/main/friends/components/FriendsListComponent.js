@@ -41,14 +41,14 @@ const FriendRequest = ({ data, onPress }) => {
     (async () => {
       await acceptFriendRequest(data.userID, user.uid);
     })();
-    Alert.alert("Accepted friend request!");
+    Alert.alert("","Accepted friend request!");
   };
 
   const onReject = () => {
     (async () => {
       await rejectFriendRequest(data.userID, user.uid);
     })();
-    Alert.alert("Rejected friend request!");
+    Alert.alert("", "Rejected friend request!");
   };
 
   return (
