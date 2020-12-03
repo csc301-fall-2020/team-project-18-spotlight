@@ -7,58 +7,72 @@ import profilePic from "../images/ben.png";
 import FriendButton from "../components/FriendButtonBar";
 import { color } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
-
-const textinfo =
-  "My name’s Ben, I like fishing and The Office. I’m just starting out at the gym and I’m looking for a workout partner.";
+import default_pic from "../../../../assets/profile_picture.png";
 
 const FriendProfile = ({ navigation, route }) => {
-  // const data = route.params.data;
   const [friendInfo, setInfo] = useState({
-    nickname: "Aura",
-    name: "Ben",
-    gender: "M",
-    description: textinfo,
-    birthday: "2000 01 01",
-    age: "22",
-    isFriend: false,
+    username: "",
+    firstName: "",
+    lastName: "",
+    profilePicture: "",
+    age: "",
+    gender: "",
+    bio: "",
+    // isFriend: false,
   });
 
-  const {
-    firstName,
-    lastName,
-    username,
-    profilePicture,
-    age,
-    gender,
-    bio,
-  } = route.params.data;
+  if (route.params != undefined) {
+    const {
+      firstName,
+      lastName,
+      username,
+      profilePicture,
+      age,
+      gender,
+      bio,
+    } = route.params.data;
+
+    let updated = {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      profilePicture: profilePicture,
+      age: age,
+      gender: gender,
+      bio: bio,
+      // isFriend: false,
+    };
+    setInfo(updated);
+    route.params = undefined;
+  }
 
   let buttonTitle = "";
   let displayed = "";
   if (friendInfo.isFriend) {
     displayed = <FriendButton />;
-    buttonTitle = "REMOVE";
+    buttonTitle = "INFO";
   } else {
     displayed = (
       <Text style={{ position: "relative", top: 70 }}>
         add to your Friend list to check info
       </Text>
     );
-    buttonTitle = "ADD AS FRIEND";
+    buttonTitle = "INFO";
   }
 
-  const onEditFriend = () => {
-    let updated = {
-      nickname: friendInfo.nickname,
-      name: friendInfo.name,
-      gender: friendInfo.gender,
-      description: friendInfo.description,
-      birthday: friendInfo.birthday,
-      age: friendInfo.age,
-      isFriend: !friendInfo.isFriend,
-    };
-    setInfo(updated);
-  };
+  // const onEditFriend = () => {
+  //   let updated = {
+  //     username: friendInfo.username,
+  //     firstName: friendInfo.firstName,
+  //     lastName: friendInfo.lastName,
+  //     profilePicture: friendInfo.profilePicture,
+  //     age: friendInfo.age,
+  //     gender: friendInfo.gender,
+  //     bio: friendInfo.bio,
+  //     isFriend: !friendInfo.isFriend,
+  //   };
+  //   setInfo(updated);
+  // };
 
   const sendToFriendList = () => {
     navigation.navigate("Friends Screen");
@@ -74,20 +88,30 @@ const FriendProfile = ({ navigation, route }) => {
         name={data.nickname}
         onPressBack={() => navigation.navigate("Friends Screen")}
       /> */}
-      <Image source={profilePic} style={styles.background} />
-      <Button style={styles.editFriend} onPress={onEditFriend}>
-        <Text style={styles.addFriend}>{buttonTitle}</Text>
-      </Button>
+      <Image
+        source={
+          friendInfo.profilePicture
+            ? { uri: friendInfo.profilePicture }
+            : default_pic
+        }
+        style={styles.background}
+      />
+      <View
+        style={styles.editFriend}
+        //  onPress={onEditFriend}
+      >
+        <Text style={styles.addFriend}>{"Profile"}</Text>
+      </View>
 
       <View style={styles.info}>
-        <Text style={{ fontSize: 40 }}>{friendInfo.name}</Text>
+        <Text style={{ fontSize: 40 }}>{friendInfo.username}</Text>
         <Text style={styles.titleText}>
           {friendInfo.gender + " | " + friendInfo.age}
         </Text>
         <Text style={{ textAlign: "justify", fontSize: 16 }}>
-          {friendInfo.description}
+          {friendInfo.bio}
         </Text>
-        {displayed}
+        {/* {displayed} */}
       </View>
     </SafeAreaView>
   );
@@ -102,7 +126,7 @@ const styles = StyleSheet.create({
   friendButtons: {},
   addFriend: {
     color: "white",
-    fontSize: 20,
+    fontSize: 25,
   },
   background: {
     position: "absolute",
@@ -114,7 +138,7 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: "column",
-    top: 315,
+    top: 300,
     alignItems: "center",
     justifyContent: "center",
     borderColor: "grey",
@@ -139,13 +163,14 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    top: 340,
+    top: 320,
     zIndex: 10,
     elevation: 3,
     borderColor: "black",
     borderWidth: 1,
     backgroundColor: "black",
     borderRadius: 30,
+    width: "40%",
   },
   titleText: {
     fontSize: 20,
@@ -158,28 +183,3 @@ const styles = StyleSheet.create({
 });
 
 export default FriendProfile;
-
-// const sendToEdit = () => {
-//   navigation.navigate("EditProfileScreen", {
-//     nickname: profileInfo.nickname,
-//     name: profileInfo.name,
-//     gender: profileInfo.gender,
-//     description: profileInfo.description,
-//     birthday: profileInfo.birthday,
-//     age: profileInfo.age,
-//   });
-// };
-
-// if (route.params != undefined) {
-//   const { nickname, name, gender, description, birthday, age } = route.params;
-//   const newInfo = {
-//     nickname: nickname,
-//     name: name,
-//     gender: gender,
-//     description: description,
-//     birthday: birthday,
-//     age: age,
-//   };
-//   setInfo(newInfo);
-//   route.params = undefined;
-// }

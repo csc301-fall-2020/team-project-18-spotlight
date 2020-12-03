@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   Image,
+  Alert,
 } from "react-native";
 import { Avatar } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
@@ -13,6 +14,16 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from "react-native-gesture-handler";
+import { useContext } from "react";
+import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
+import {
+  AcceptFriendRequest,
+  RejectFriendRequest,
+} from "./FriendRequestButtons";
+import {
+  acceptFriendRequest,
+  rejectFriendRequest,
+} from "../../../../services/friendsService";
 
 const DEFAULT_PROFILE = "../../../../assets/profile_picture.png";
 const Header = ({ title, size }) => {
@@ -24,33 +35,44 @@ const Header = ({ title, size }) => {
 };
 
 const FriendRequest = ({ data, onPress }) => {
-  // TODO: Copy the friend stuff and put it here too.
+  const { user } = useContext(AuthContext);
+
+  const onAccept = () => {
+    (async () => {
+      await acceptFriendRequest(data.userID, user.uid);
+    })();
+    Alert.alert("Accepted friend request!");
+  };
+
+  const onReject = () => {
+    (async () => {
+      await rejectFriendRequest(data.userID, user.uid);
+    })();
+    Alert.alert("Rejected friend request!");
+  };
+
   return (
     <View style={styles.friendContainer}>
       <TouchableOpacity
         onPress={onPress}
         style={{ flexDirection: "row", alignItems: "center" }}
       >
-        <Avatar.Text
+        <Avatar.Image
           size={64}
-          label={data.username.slice(0, 3)}
-          style={styles.avatarStyle}
-          labelStyle={styles.avatarLabelStyle}
+          source={
+            data.profilePicture
+              ? { uri: data.profilePicture }
+              : require(DEFAULT_PROFILE)
+          }
         />
         <Text style={styles.friendName}>{data.username}</Text>
       </TouchableOpacity>
-      <Entypo
-        name="check"
-        size={24}
-        color="#adadad"
-        style={{ position: "absolute", right: "20%" }}
-      />
-      <Entypo
-        name="block"
-        size={24}
-        color="#adadad"
-        style={{ position: "absolute", right: "7.5%" }}
-      />
+      <View style={{ position: "absolute", right: "20%" }}>
+        <AcceptFriendRequest onPress={onAccept} />
+      </View>
+      <View style={{ position: "absolute", right: "7.5%" }}>
+        <RejectFriendRequest onPress={onReject} />
+      </View>
     </View>
   );
 };

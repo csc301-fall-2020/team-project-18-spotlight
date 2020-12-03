@@ -3,7 +3,7 @@ import React from "react";
 import { Text, View, SectionList, StyleSheet } from "react-native";
 import { FriendRequest, Header, Friend } from "./FriendsListComponent";
 
-const FriendsList = ({ friends }) => {
+const FriendsList = ({ friends, friendRequests }) => {
   const navigation = useNavigation();
 
   /**
@@ -84,7 +84,7 @@ const FriendsList = ({ friends }) => {
         sections={[
           {
             title: "Friend Requests",
-            data: [],
+            data: friendRequests,
           },
           {
             title: "Friends",
