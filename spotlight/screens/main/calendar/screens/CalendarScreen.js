@@ -28,7 +28,7 @@ const CalendarScreen = ({ navigation }) => {
             navigation.navigate("Add Workout", { day: selectedDate })
           }
         >
-          <Text style={styles.textStyle}>Add Workout</Text>
+          <Text style={styles.textStyle}>Edit Workout</Text>
         </TouchableHighlight>
       )}
 
