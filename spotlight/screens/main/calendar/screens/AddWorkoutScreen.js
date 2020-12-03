@@ -3,6 +3,7 @@ import { Text, View, Button, StyleSheet, ScrollView } from "react-native";
 import WorkoutDetails from "../components/WorkoutDetails";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 import { useEffect } from "react";
+import moment from "moment";
 import { getWorkoutNotes } from "../../../../services/workoutService";
 
 //import MuscleSelector from '../components/MuscleSelector';
@@ -59,7 +60,7 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{day}</Text>
+      <Text style={styles.header}>{moment(day).format("dddd, MMMM D, YYYY")}</Text>
       <Button
         title="Back"
         color="#A20A0A"
@@ -86,10 +87,13 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   header: {
     fontFamily: "Raleway_600SemiBold",
-    fontSize: 36,
+    fontSize: 30,
+
     fontStyle: "normal",
     textAlign: "center",
-    paddingTop: "12%",
+    paddingTop: "15%",
+    paddingBottom:"1%",
+    paddingHorizontal:"15%"
   },
   container: {
     flex: 1,
