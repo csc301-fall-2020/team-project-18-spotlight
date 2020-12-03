@@ -6,14 +6,8 @@ import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
 import profilePic from "./images/profilePic.png";
 import editProfile from "./images/editProfile.png";
 import { getUser } from "../../../services/userService";
-import default_pic from "../../../../spotlight/assets/profile_picture.png"
-import { useIsFocused } from '@react-navigation/native'
-
-
-
-const default_picture = default_pic;
-const textinfo =
-  "Hey, I’m Laura! I love cycling and my dog Francis. I’m usually at the gym every weekday morning, Lmk if you wanna do some workouts together!";
+import default_pic from "../../../../spotlight/assets/profile_picture.png";
+import { useIsFocused } from "@react-navigation/native";
 
 const ProfileScreen = ({ route, navigation }) => {
   const [profileInfo, setInfo] = useState("");
@@ -23,10 +17,10 @@ const ProfileScreen = ({ route, navigation }) => {
     navigation.navigate("EditProfileScreen");
   };
 
-  const testing = async () => {
+  const updateUser = async () => {
     const userData = await getUser(user.uid);
     setInfo(userData);
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -38,20 +32,23 @@ const ProfileScreen = ({ route, navigation }) => {
   const isFocused = useIsFocused();
   if (isFocused) {
     if (route.params != undefined) {
-      testing();
+      updateUser();
       route.params = undefined;
-      
     }
   }
 
-
   return (
     <SafeAreaView style={styles.container}>
-
-      <Image source={profileInfo.profilePicture ? { uri: profileInfo.profilePicture } : default_picture} style={styles.background} />
-      {/* <Image source={{uri: data.profilePicture}} style={styles.background} /> */}
+      <Image
+        source={
+          profileInfo.profilePicture
+            ? { uri: profileInfo.profilePicture }
+            : default_pic
+        }
+        style={styles.background}
+      />
       <Button style={styles.editProfile} onPress={() => sendToEdit()}>
-        <Text style={{ color: "white", position: "absolute", fontSize: 20 }}>
+        <Text style={{ color: "white", position: "absolute", fontSize: 18 }}>
           {"Edit Profile"}
         </Text>
       </Button>
