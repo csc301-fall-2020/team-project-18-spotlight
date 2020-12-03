@@ -15,7 +15,12 @@ if (!firebase.apps.length) {
 }
 
 const App = () => {
+  // === REMOVE LATER ===
   LogBox.ignoreLogs(["Setting a timer"]);
+  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+  LogBox.ignoreAllLogs();//Ignore all log notifications
+  // === END REMOVE LATER ===
+
   const [fontsLoaded] = useFonts({ Raleway_600SemiBold });
 
   if (!fontsLoaded) {
@@ -24,6 +29,7 @@ const App = () => {
     );
     // <ActivityIndicator size="large"/>;
   }
+
   return (
     <AuthProvider>
       <SafeAreaProvider>
