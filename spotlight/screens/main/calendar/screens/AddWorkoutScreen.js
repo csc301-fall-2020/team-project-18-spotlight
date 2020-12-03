@@ -67,13 +67,15 @@ const AddWorkoutScreen = ({ route, navigation }) => {
       />
 
       <ScrollView style={styles.scrollable}>
-        {muscles.map((muscle) => {
+        {muscles.map((muscle, key) => {
           return (
-            <WorkoutDetails
-              muscle={muscle}
-              day={day}
-              notes={findNotes(muscle)}
-            />
+            <View key={key}>
+              <WorkoutDetails
+                muscle={muscle}
+                day={day}
+                notes={findNotes(muscle)}
+              />
+            </View>
           );
         })}
       </ScrollView>
