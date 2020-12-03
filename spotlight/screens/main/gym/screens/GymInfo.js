@@ -147,17 +147,21 @@ const GymInfo = ({ route, navigation }) => {
 
         {/* <View style={styles.data} /> */}
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <ToggleButton
-            icon={attendChecked ? "minus" : "plus"}
-            labelStyle={{ fontSize: 30 }}
+          <Button
+            mode="contained"
+            icon={attendChecked ? "account-arrow-left" : "account-arrow-right"}
+            // labelStyle={{ fontSize: 30 }}
             color="#A20A0A"
             title="attend"
             onPress={toggleAttending}
-            paddingLeft="30%"
+            // paddingLeft="30%"
             status={favoriteChecked ? "checked" : "unchecked"}
           >
-            Attend
-          </ToggleButton>
+            <Text style={{ color:"white"}}>
+            {attendChecked ? "Leave" : "Attend"}
+            </Text>
+          </Button>
+          
           <Button
             title="Return to map"
             onPress={() => navigation.goBack()}
@@ -207,7 +211,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 10,
-    margin: "5%",
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   item: {
     backgroundColor: "#A20A0A",
