@@ -1,9 +1,16 @@
 import React, { useState, useContext } from "react";
-import { Text, View, Button, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  TouchableHighlight,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import WorkoutDetails from "../components/WorkoutDetails";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 import { useEffect } from "react";
 import { getWorkoutNotes } from "../../../../services/workoutService";
+import { AntDesign } from "@expo/vector-icons";
 
 //import MuscleSelector from '../components/MuscleSelector';
 
@@ -59,12 +66,28 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{day}</Text>
-      <Button
-        title="Back"
-        color="#A20A0A"
-        onPress={() => navigation.navigate("Calendar Stack")}
-      />
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          height: 100,
+          width: "100%",
+          marginBottom: 10,
+        }}
+      >
+        <View style={{ flex: 0.2 }}>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={() => navigation.navigate("Calendar Stack")}
+          >
+            <AntDesign name="leftcircle" size={30} color="#A20A0A" />
+          </TouchableHighlight>
+        </View>
+
+        <View style={{ flex: 0.8 }}>
+          <Text style={styles.header}>{day}</Text>
+        </View>
+      </View>
 
       <ScrollView style={styles.scrollable}>
         {muscles.map((muscle, key) => {
@@ -86,10 +109,10 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   header: {
     fontFamily: "Raleway_600SemiBold",
-    fontSize: 36,
+    fontSize: 50,
     fontStyle: "normal",
-    textAlign: "center",
-    paddingTop: "12%",
+    color: "#000",
+    position: "absolute",
   },
   container: {
     flex: 1,
@@ -99,6 +122,11 @@ const styles = StyleSheet.create({
   },
   scrollable: {
     marginTop: 10,
+  },
+  button: {
+    position: "absolute",
+    left: "25%",
+    top: "20%",
   },
 });
 
