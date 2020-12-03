@@ -7,14 +7,13 @@ import {
   StyleSheet,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import * as Permissions from "expo-permissions";
 import { Avatar } from "react-native-paper";
 import { uploadUserImage } from "../../../services/userService";
 
 const DEFAULT_PROFILE = "../../../assets/profile_picture.png";
 
-const ProfileImagePicker = ({ setImageURL }) => {
-  const [image, setImage] = useState("");
+const ProfileImagePicker = ({ setImageURL, defaultImage }) => {
+  const [image, setImage] = useState(defaultImage);
 
   useEffect(() => {
     (async () => {
