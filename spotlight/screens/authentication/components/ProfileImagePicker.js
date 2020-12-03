@@ -8,17 +8,22 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Avatar } from "react-native-paper";
-import { uploadUserImage } from "../../../services/userService";
+import { getUser, uploadUserImage } from "../../../services/userService";
+import { AuthContext } from "../EmailContext/AuthProvider";
 
 const DEFAULT_PROFILE = "../../../assets/profile_picture.png";
 
 const ProfileImagePicker = ({ setImageURL, defaultImage }) => {
   const [image, setImage] = useState(defaultImage);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
       await ImagePicker.requestCameraRollPermissionsAsync();
       await ImagePicker.requestCameraPermissionsAsync();
+      const userData = await getUser(user.uid);
+      setImageURL(userData.profilePicture);
+      setImage(userData.profilePicture);
     })();
   }, []);
 
