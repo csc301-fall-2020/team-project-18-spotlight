@@ -22,7 +22,7 @@ import { CountryInput } from "../../authentication/components/CountryInput";
 const EditProfileScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
 
-  const { email } = user.email;
+  const email = user.email;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
