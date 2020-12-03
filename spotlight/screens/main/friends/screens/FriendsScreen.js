@@ -3,24 +3,52 @@ import { Text, View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FriendsList from "../components/FriendsList";
 import { FriendsHeader } from "../components/Headers";
-import { getFriends } from "../../../../services/friendsService";
+import {
+  getFriends,
+  getFriendRequests,
+  subscribeToFriends,
+  subscribeToFriendRequests,
+} from "../../../../services/friendsService";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 
 const FriendsScreen = () => {
   const { user } = useContext(AuthContext);
   const [friends, setFriends] = useState([]);
+  const [friendRequests, setFriendRequests] = useState([]);
+
+  const onFriendsSnapshot = (friendData) => {
+    setFriends(friendData);
+  };
+
+  const onFriendRequestsSnapshot = (friendRequestsData) => {
+    setFriendRequests(friendRequestsData);
+  };
 
   useEffect(() => {
-    (async () => {
-      const friends = await getFriends(user.uid);
-      setFriends(friends);
-    })();
+    const unsubscribe = subscribeToFriends(user.uid, onFriendsSnapshot);
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    const unsubscribe = subscribeToFriendRequests(
+      user.uid,
+      onFriendRequestsSnapshot
+    );
+    return () => unsubscribe();
+  }, []);
+  // useEffect(() => {
+  //   // (async () => {
+  //   //   const friends = await getFriends(user.uid);
+  //   //   const friendRequests = await getFriendRequests(user.uid);
+  //   //   setFriends(friends);
+  //   //   setFriendRequests(friendRequests);
+  //   // })();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <FriendsHeader />
-      <FriendsList friends={friends} />
+      <FriendsList friends={friends} friendRequests={friendRequests} />
     </SafeAreaView>
   );
 };

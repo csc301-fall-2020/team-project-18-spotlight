@@ -118,7 +118,9 @@ const Onboarding = ({ route, navigation }) => {
             style={styles.scrollView}
             showsVerticalScrollIndicator={false}
           >
-            <ProfileImagePicker setImageURL={() => setImageURL} />
+            <ProfileImagePicker
+              setImageURL={(imageURL) => setImageURL(imageURL)}
+            />
             <NameInput
               firstName={firstName}
               onChangeFirstName={(newFirstName) => setFirstName(newFirstName)}

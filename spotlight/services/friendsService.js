@@ -88,6 +88,27 @@ const acceptFriendRequest = async (from, to) => {
   }
 };
 
+const rejectFriendRequest = async (from, to) => {
+  const db = firebase.firestore();
+  const fromRef = db.collection("users").doc(from);
+  const toRef = db.collection("users").doc(to);
+  try {
+    const batch = db.batch();
+    // Remove pending friend requests from both users
+    batch.update(fromRef, {
+      pendingSentRequests: firebase.firestore.FieldValue.arrayRemove(toRef),
+    });
+    batch.update(toRef, {
+      pendingReceivedRequests: firebase.firestore.FieldValue.arrayRemove(
+        fromRef
+      ),
+    });
+    await batch.commit();
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
 /**
  *
  * @param {string} userID
@@ -113,4 +134,68 @@ const removeFriend = async (userID, friendToRemove) => {
   }
 };
 
-export { getFriends, removeFriend, sendFriendRequest, acceptFriendRequest };
+const getFriendRequests = async (userID) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  try {
+    const userDoc = await userRef.get();
+    const friendRequests = userDoc.get("pendingReceivedRequests");
+    const processedFriendRequests = await Promise.all(
+      friendRequests.map((friendRequestRef) => {
+        return getUser(friendRequestRef.id);
+      })
+    );
+    return processedFriendRequests;
+  } catch (e) {
+    console.log("getFriendRequests error: ", e.message);
+  }
+};
+
+const subscribeToFriends = (userID, onSnapshot) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  const unsubscribe = userRef.onSnapshot((userDoc) => {
+    (async () => {
+      const friends = userDoc.get("friends");
+      if (friends) {
+        const processedFriends = await Promise.all(
+          friends.map((friendRef) => {
+            return getUser(friendRef.id);
+          })
+        );
+        onSnapshot(processedFriends);
+      }
+    })();
+  });
+  return unsubscribe;
+};
+
+const subscribeToFriendRequests = (userID, onSnapshot) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  const unsubscribe = userRef.onSnapshot((userDoc) => {
+    (async () => {
+      const friendRequests = userDoc.get("pendingReceivedRequests");
+      if (friendRequests) {
+        const processedFriendRequests = await Promise.all(
+          friendRequests.map((friendRequestRef) => {
+            return getUser(friendRequestRef.id);
+          })
+        );
+        onSnapshot(processedFriendRequests);
+      }
+    })();
+  });
+  return unsubscribe;
+};
+
+export {
+  getFriends,
+  removeFriend,
+  sendFriendRequest,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  getFriendRequests,
+  subscribeToFriends,
+  subscribeToFriendRequests,
+};
