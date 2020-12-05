@@ -1,19 +1,7 @@
 import React from "react";
-import {
-  Text,
-  View,
-  SectionList,
-  StyleSheet,
-  Pressable,
-  Image,
-  Alert,
-} from "react-native";
+import { Text, View, StyleSheet, Alert } from "react-native";
 import { Avatar } from "react-native-paper";
-import { Entypo } from "@expo/vector-icons";
-import {
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { useContext } from "react";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 import {
@@ -25,7 +13,6 @@ import {
   rejectFriendRequest,
 } from "../../../../services/friendsService";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 
 const DEFAULT_PROFILE = "../../../../assets/profile_picture.png";
 const Header = ({ title, size }) => {
@@ -43,7 +30,7 @@ const FriendRequest = ({ data, onPress }) => {
     (async () => {
       await acceptFriendRequest(data.userID, user.uid);
     })();
-    Alert.alert("","Accepted friend request!");
+    Alert.alert("", "Accepted friend request!");
   };
 
   const onReject = () => {
@@ -77,9 +64,7 @@ const FriendRequest = ({ data, onPress }) => {
       </View>
       <MaterialCommunityIcons
         name={
-          data.attending == "" || data.attending == null
-            ? "sleep"
-            : "dumbbell"
+          data.attending == "" || data.attending == null ? "sleep" : "dumbbell"
         }
         style={styles.gymIcon}
         size={24}
@@ -103,18 +88,16 @@ const Friend = ({ data, onPress }) => {
         />
         <Text style={styles.friendName}>{data.username}</Text>
         <MaterialCommunityIcons
-        name={
-          data.attending == "" || data.attending == null
-            ? "sleep"
-            : "dumbbell"
-        }
-        style={styles.gymIcon}
-        size={24}
-        color="#A20A0A"
-      />
+          name={
+            data.attending == "" || data.attending == null
+              ? "sleep"
+              : "dumbbell"
+          }
+          style={styles.gymIcon}
+          size={24}
+          color="#A20A0A"
+        />
       </View>
-      
-
     </TouchableOpacity>
   );
 };

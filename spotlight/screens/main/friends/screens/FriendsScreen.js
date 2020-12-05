@@ -1,11 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FriendsList from "../components/FriendsList";
 import { FriendsHeader } from "../components/Headers";
 import {
-  getFriends,
-  getFriendRequests,
   subscribeToFriends,
   subscribeToFriendRequests,
 } from "../../../../services/friendsService";

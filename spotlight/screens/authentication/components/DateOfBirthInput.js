@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import moment from "moment";
-import { TextInput, Button, RadioButton } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 const DateOfBirthInput = ({ show, setShow, date, onChangeDate }) => {
   const [mode, setMode] = useState("date");

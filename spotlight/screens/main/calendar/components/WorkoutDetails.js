@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  TouchableOpacity,
 } from "react-native";
 
 import { addWorkout } from "../../../../services/workoutService";

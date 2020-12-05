@@ -3,9 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import MainNavigator from "./main/MainNavigator";
 import AuthNavigator from "./authentication/AuthNavigator";
-import * as firebase from "firebase";
+import firebase from "firebase/app";
 import { AuthContext } from "./authentication/EmailContext/AuthProvider";
-import { createNewUser } from "../services/userService";
 import { ActivityIndicator } from "react-native";
 
 const AppStack = createStackNavigator();

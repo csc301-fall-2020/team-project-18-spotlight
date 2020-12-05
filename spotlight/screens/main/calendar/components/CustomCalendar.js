@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
+import { Calendar } from "react-native-calendars";
 
 const CustomCalender = ({ updateSelected }) => {
   const [currSelected, setSelected] = useState(new Date().toLocaleDateString());
