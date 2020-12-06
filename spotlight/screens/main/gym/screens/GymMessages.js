@@ -2,7 +2,7 @@
  * Inspiration from https://github.com/fireship-io/react-firebase-chat
  */
 
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -124,14 +124,14 @@ const ChatMessage = ({ userID, message }) => {
   const messageType =
     message?.userID === userID ? styles.sent : styles.received;
 
+  const source =
+    message.dpURL === ""
+      ? require("../../../../assets/profile_picture.png")
+      : { uri: message.dpURL };
+
   return (
     <View style={[styles.message, messageType]}>
-      <Avatar.Image
-        size={24}
-        source={{
-          uri: message?.dpURL || require("../../../assets/profile_picture.png"),
-        }}
-      />
+      <Avatar.Image size={24} source={source} />
       <Text styles={styles.timeStamp}>
         {message?.createdAt?.toDate()?.toLocaleTimeString("en-US")}
       </Text>
