@@ -116,6 +116,10 @@ const GymInfo = ({ route, navigation }) => {
     return <Item item={item} onPress={() => null} style={[styles.list]} />;
   };
 
+  const goToMessages = () => {
+    navigation.navigate("Gym Messages", { gymID, title });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ToggleButton
@@ -144,8 +148,17 @@ const GymInfo = ({ route, navigation }) => {
           style={styles.profile}
         />
 
+        <Button
+          style={{ marginBottom: 5 }}
+          mode="contained"
+          title="Messages"
+          onPress={goToMessages}
+        >
+          Gym Messages
+        </Button>
+
         {/* <View style={styles.data} /> */}
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
           <Button
             mode="contained"
             icon={attendChecked ? "account-arrow-left" : "account-arrow-right"}
