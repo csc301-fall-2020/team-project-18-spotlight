@@ -64,7 +64,7 @@ const processGymDocument = (gymDocument) => {
 /**
  * Get an array of gyms which includes whether the gym is favorited by the user.
  * DEPRECATED
- * @returns {GymCoordinate[]}
+ * @returns {Promise<GymCoordinate[]>}
  * @throws {Error} if something goes wrong
  */
 const getAllGyms = async () => {

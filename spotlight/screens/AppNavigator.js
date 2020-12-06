@@ -9,22 +9,27 @@ import { ActivityIndicator } from "react-native";
 
 const AppStack = createStackNavigator();
 
-const AppNavigator = () => {
+const AppNavigator = ({ navigation }) => {
   const { user, setUser, isNewUser } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(true);
 
   // Handle user state changes
-  function onAuthStateChanged(user) {
-    (async () => {
-      await setUser(user);
-      if (initializing) setInitializing(false);
-      setLoading(false);
-    })();
-  }
+
+  // function onAuthStateChanged(user) {
+  //   (async () => {
+  //     await setUser(user);
+  //     if (initializing) setInitializing(false);
+  //     setLoading(false);
+  //   })();
+  // }
 
   useEffect(() => {
-    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    const subscriber = firebase.auth().onAuthStateChanged((user) => {
+      setUser(user);
+      setInitializing(false);
+      setLoading(false);
+    });
     return subscriber; // unsubscribe on unmount
   }, []);
 
