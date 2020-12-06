@@ -36,10 +36,6 @@ const MapScreen = ({ navigation }) => {
   useEffect(() => {
     try {
       getAllGyms().then((gyms) => setMarkers(gyms));
-      // // unsubscribe function
-      // return subscribeAllGyms((gyms) => {
-      //   setMarkers(gyms); // Does this every time gym data updates on the backend
-      // });
     } catch (e) {
       setErrorMessage(e.message);
     }
