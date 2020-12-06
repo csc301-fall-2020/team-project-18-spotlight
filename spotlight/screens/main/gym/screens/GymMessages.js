@@ -126,7 +126,12 @@ const ChatMessage = ({ userID, message }) => {
 
   return (
     <View style={[styles.message, messageType]}>
-      <Avatar.Image size={24} source={{ uri: message?.dpURL }} />
+      <Avatar.Image
+        size={24}
+        source={{
+          uri: message?.dpURL || require("../../../assets/profile_picture.png"),
+        }}
+      />
       <Text styles={styles.timeStamp}>
         {message?.createdAt?.toDate()?.toLocaleTimeString("en-US")}
       </Text>
