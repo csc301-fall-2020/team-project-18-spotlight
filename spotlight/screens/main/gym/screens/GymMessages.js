@@ -133,7 +133,7 @@ const ChatMessage = ({ userID, message }) => {
       <Text style={styles.name}>
         {`${message?.firstName} ${message?.lastName}`}
       </Text>
-      <Text style={{ borderStyle: "solid" }}>{message.text}</Text>
+      <Text>{message.text}</Text>
     </View>
   );
 };
