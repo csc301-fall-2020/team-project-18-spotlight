@@ -49,39 +49,32 @@ const getGymUserAttending = async (userID) => {
 
 /**
  * @param {firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>} gymDocument
- * @param {string} userID
  * @returns {GymCoordinate}
  */
-const processGymDocument = async (gymDocument, userID) => {
-  const gymObj = gymDocument.data();
-  const isFavorite = await isGymFavorited(gymDocument.id, userID);
+const processGymDocument = (gymDocument) => {
+  const gym = gymDocument.data();
 
   return {
+    longlat: gym.longlat,
+    title: gym.title,
+    address: gym.address,
     id: gymDocument.id,
-    title: gymObj.title,
-    address: gymObj.address,
-    longlat: gymObj.longlat,
-    isFavorite,
-    users: gymObj.users,
   };
 };
 /**
  * Get an array of gyms which includes whether the gym is favorited by the user.
  * DEPRECATED
- * @param {string} userID
  * @returns {GymCoordinate[]}
  * @throws {Error} if something goes wrong
  */
-const getAllGyms = async (userID) => {
+const getAllGyms = async () => {
   console.log("Getting all gyms from firestore.");
   const db = firebase.firestore();
   const gymsRef = db.collection("gyms");
 
   try {
     const allGyms = await gymsRef.get();
-    return await Promise.all(
-      allGyms.docs.map((gymDoc) => processGymDocument(gymDoc, userID))
-    );
+    return allGyms.docs.map(processGymDocument);
   } catch (e) {
     throw new Error(
       "Something went wrong while attempting to retrieve all gyms: " + e.message
@@ -103,17 +96,7 @@ const subscribeAllGyms = (callback) => {
 
   // Subscribe to gyms, return the unsubscribe function
   return gymsRef.onSnapshot((allGyms) => {
-    callback(
-      allGyms.docs.map((gymDoc) => {
-        const gym = gymDoc.data();
-        return {
-          longlat: gym.longlat,
-          title: gym.title,
-          address: gym.address,
-          id: gymDoc.id,
-        };
-      })
-    );
+    callback(allGyms.docs.map(processGymDocument));
   });
 };
 

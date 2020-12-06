@@ -5,6 +5,7 @@ import GymMarker from "../components/GymMarker";
 import { getLocation } from "../../../../services/locationService";
 import { Searchbar } from "react-native-paper";
 import {
+  getAllGyms,
   subscribeAllGyms,
   subscribeFavorites,
 } from "../../../../services/gymService";
