@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  View,
-  TouchableHighlight,
-  Text,
-  Image,
-  StyleSheet,
-} from "react-native";
+import { View, TouchableHighlight, Text, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Avatar } from "react-native-paper";
 import { getUser, uploadUserImage } from "../../../services/userService";

@@ -1,11 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ProfileHeader } from "../components/Headers";
-import { Button } from "react-native-paper";
-import profilePic from "../images/ben.png";
 import FriendButton from "../components/FriendButtonBar";
-import { color } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 import default_pic from "../../../../assets/profile_picture.png";
 

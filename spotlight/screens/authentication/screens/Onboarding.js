@@ -2,8 +2,7 @@ import React, { useState, useContext } from "react";
 import { StyleSheet, Text, View, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../EmailContext/AuthProvider";
-import { TextInput, Button, RadioButton } from "react-native-paper";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { Button } from "react-native-paper";
 import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
 import { ProfileImagePicker } from "../components/ProfileImagePicker";
@@ -11,8 +10,6 @@ import { NameInput } from "../components/NameInput";
 import { CountryInput } from "../components/CountryInput";
 import { createUserInfo } from "../../../services/userService";
 
-import CountryPicker from "react-native-country-picker-modal";
-import Constants from "expo-constants";
 import { AddressInput } from "../components/AddressInput";
 import { DateOfBirthInput } from "../components/DateOfBirthInput";
 import { GenderInput } from "../components/GenderInput";

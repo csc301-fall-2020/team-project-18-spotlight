@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext, c } from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
 import GymMarker from "../components/GymMarker";
 import { getLocation } from "../../../../services/locationService";
@@ -34,8 +34,9 @@ const MapScreen = ({ navigation }) => {
   // subscribe to gyms
   useEffect(() => {
     try {
+      // unsubscribe function
       return subscribeAllGyms((gyms) => {
-        setMarkers(gyms);
+        setMarkers(gyms); // Does this every time gym data updates on the backend
       });
     } catch (e) {
       setErrorMessage(e.message);

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  TouchableOpacity,
 } from "react-native";
 
 import { addWorkout } from "../../../../services/workoutService";
@@ -219,7 +218,7 @@ const WorkoutDetails = ({ muscle, day, notes }) => {
 
 const styles = StyleSheet.create({
   header: {
-    fontFamily: "Raleway_600SemiBold",
+    fontWeight: "300",
     fontSize: 24,
     fontStyle: "normal",
     textAlign: "left",

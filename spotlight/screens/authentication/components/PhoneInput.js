@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import moment from "moment";
-import { TextInput, Button, RadioButton } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 
 const PhoneInput = ({ phoneNumber, onChangePhoneNumber }) => {
   return (

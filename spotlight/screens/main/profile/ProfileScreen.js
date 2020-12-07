@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
-import profilePic from "./images/profilePic.png";
-import editProfile from "./images/editProfile.png";
 import { getUser } from "../../../services/userService";
 import default_pic from "../../../../spotlight/assets/profile_picture.png";
 import { useIsFocused } from "@react-navigation/native";

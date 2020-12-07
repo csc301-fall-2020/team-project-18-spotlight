@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Text, SafeAreaView, View, StyleSheet, Pressable } from "react-native";
+import { Text, SafeAreaView, StyleSheet, Pressable } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 
 const FriendsHeader = () => {
   return (
-    <View style={styles.headerContainer}>
+    <SafeAreaView style={styles.headerContainer}>
       <Text style={styles.header}>{"Friends"}</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -14,7 +14,7 @@ const ProfileHeader = ({ name, onPressBack }) => {
   const [color, setColor] = useState("black");
 
   return (
-    <View style={styles.headerContainer}>
+    <SafeAreaView style={styles.headerContainer}>
       <Pressable
         onPress={onPressBack}
         onPressIn={() => setColor("red")}
@@ -24,7 +24,7 @@ const ProfileHeader = ({ name, onPressBack }) => {
         <Entypo name="cross" size={24} color={color} />
       </Pressable>
       <Text style={styles.header}>{`${name}'s Profile`}</Text>
-    </View>
+    </SafeAreaView>
   );
 };
 

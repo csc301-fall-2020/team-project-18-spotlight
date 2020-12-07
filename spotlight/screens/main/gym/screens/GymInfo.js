@@ -29,7 +29,6 @@ const GymInfo = ({ route, navigation }) => {
   const [attendChecked, setAttendChecked] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [usersInGym, setUsersInGym] = useState(null);
-
   const toggleAttending = () => {
     (async () => {
       const userAttending = await getGymUserAttending(user.uid);
@@ -157,11 +156,11 @@ const GymInfo = ({ route, navigation }) => {
             // paddingLeft="30%"
             status={favoriteChecked ? "checked" : "unchecked"}
           >
-            <Text style={{ color:"white"}}>
-            {attendChecked ? "Leave" : "Attend"}
+            <Text style={{ color: "white" }}>
+              {attendChecked ? "Leave" : "Attend"}
             </Text>
           </Button>
-          
+
           <Button
             title="Return to map"
             onPress={() => navigation.goBack()}

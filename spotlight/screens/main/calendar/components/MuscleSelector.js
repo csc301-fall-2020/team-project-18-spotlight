@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  Modal,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { Text, StyleSheet, Modal } from "react-native";
 
 const MuscleSelector = (props) => {
   return (

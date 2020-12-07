@@ -1,7 +1,5 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
-import useFirestoreQuery from "../hooks/useFirestoreQuery";
-import { Alert } from "react-native";
 import { getUser } from "./userService";
 
 /**

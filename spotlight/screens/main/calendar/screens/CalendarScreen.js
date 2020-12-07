@@ -5,9 +5,7 @@ import {
   StyleSheet,
   TouchableHighlight,
 } from "react-native";
-import { Calendar, CalendarList, Agenda } from "react-native-calendars";
 import CustomCalendar from "../components/CustomCalendar";
-import { NavigationContainer, ThemeProvider } from "@react-navigation/native";
 
 const CalendarScreen = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState();

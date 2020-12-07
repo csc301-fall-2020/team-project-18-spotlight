@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { StyleSheet, Text, View, ScrollView, Platform } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import CountryPicker from "react-native-country-picker-modal";
 
 const CountryInput = ({ country, countryCode, onSelect }) => {

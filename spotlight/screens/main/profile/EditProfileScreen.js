@@ -2,12 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
-import { TextInput, Button, RadioButton } from "react-native-paper";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { Button } from "react-native-paper";
 import moment from "moment";
-import { createNewUser, updateUserInfo } from "../../../services/userService";
-import CountryPicker from "react-native-country-picker-modal";
-import Constants from "expo-constants";
+import { updateUserInfo } from "../../../services/userService";
 import { getUser } from "../../../services/userService";
 
 import { AddressInput } from "../../authentication/components/AddressInput";

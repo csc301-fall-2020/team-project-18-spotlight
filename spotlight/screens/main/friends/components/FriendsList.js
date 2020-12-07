@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Text, View, SectionList, StyleSheet } from "react-native";
+import { View, SectionList, StyleSheet } from "react-native";
 import { FriendRequest, Header, Friend } from "./FriendsListComponent";
 
 const FriendsList = ({ friends, friendRequests }) => {

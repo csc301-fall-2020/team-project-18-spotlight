@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import {
   Text,
   View,
+  Button,
   TouchableHighlight,
   StyleSheet,
   ScrollView,
@@ -9,6 +10,7 @@ import {
 import WorkoutDetails from "../components/WorkoutDetails";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 import { useEffect } from "react";
+import moment from "moment";
 import { getWorkoutNotes } from "../../../../services/workoutService";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -66,28 +68,15 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          height: 100,
-          width: "100%",
-          marginBottom: 10,
-        }}
+      <Text style={styles.subheader}>{moment(day).format("dddd")}</Text>
+      <Text style={styles.header}>{moment(day).format("MMMM D, YYYY")}</Text>
+      <TouchableHighlight
+        style={styles.back}
+        underlayColor={"#A20A0A"}
+        onPress={() => navigation.navigate("Calendar Stack")}
       >
-        <View style={{ flex: 0.2 }}>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={() => navigation.navigate("Calendar Stack")}
-          >
-            <AntDesign name="leftcircle" size={30} color="#A20A0A" />
-          </TouchableHighlight>
-        </View>
-
-        <View style={{ flex: 0.8 }}>
-          <Text style={styles.header}>{day}</Text>
-        </View>
-      </View>
+        <Text style={styles.backText}>Back</Text>
+      </TouchableHighlight>
 
       <ScrollView style={styles.scrollable}>
         {muscles.map((muscle, key) => {
@@ -109,10 +98,16 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   header: {
     fontFamily: "Raleway_600SemiBold",
-    fontSize: 50,
+    fontSize: 30,
     fontStyle: "normal",
-    color: "#000",
-    position: "absolute",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  subheader: {
+    fontSize: 24,
+    color: "#A20A0A",
+    fontWeight: "200",
+    paddingTop: "10%",
   },
   container: {
     flex: 1,
@@ -121,12 +116,20 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   scrollable: {
-    marginTop: 10,
+    marginTop: 15,
+    width: "100%",
+    backgroundColor: "#eee",
+    padding: 10,
   },
-  button: {
-    position: "absolute",
-    left: "25%",
-    top: "20%",
+  back: {
+    borderColor: "#A20A0A",
+    borderWidth: 1,
+    padding: 3,
+    borderRadius: 3,
+  },
+  backText: {
+    fontSize: 10,
+    color: "#A20A0A",
   },
 });
 
