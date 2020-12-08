@@ -162,6 +162,15 @@ const getAllUsers = async () => {
   return allUsers.docs.map((userDoc) => processUserDoc(userDoc));
 };
 
+const subscribeUserInfo = (userID, onSnapshot) => {
+  const db = firebase.firestore();
+  const userRef = db.collection("users").doc(userID);
+  const unsubscribe = userRef.onSnapshot((userDoc) => {
+    onSnapshot(processUserDoc(userDoc));
+  });
+  return unsubscribe;
+};
+
 export {
   getAllUsers,
   createNewUser,
@@ -170,4 +179,5 @@ export {
   getUser,
   updateUserInfo,
   queryUserByName,
+  subscribeUserInfo,
 };
