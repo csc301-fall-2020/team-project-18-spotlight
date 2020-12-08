@@ -15,31 +15,11 @@ const ProfileScreen = ({ route, navigation }) => {
     navigation.navigate("EditProfileScreen");
   };
 
-  // const updateUser = async () => {
-  //   const userData = await getUser(user.uid);
-  //   setInfo(userData);
-  // };
-
   useEffect(() => {
     return subscribeUserInfo(user.uid, (userData) => {
       setInfo(userData);
     });
   }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const userData = await getUser(user.uid);
-  //     setInfo(userData);
-  //   })();
-  // }, []);
-
-  // const isFocused = useIsFocused();
-  // if (isFocused) {
-  //   if (route.params != undefined) {
-  //     updateUser();
-  //     route.params = undefined;
-  //   }
-  // }
 
   return (
     <SafeAreaView style={styles.container}>
