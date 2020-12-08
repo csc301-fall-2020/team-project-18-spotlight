@@ -42,7 +42,7 @@ const EditProfileScreen = ({ route, navigation }) => {
   };
 
   // Date
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(route.params.dateOfBirth);
   const [show, setShow] = useState(false);
 
   const onChangeDate = (event, selectedDate) => {
