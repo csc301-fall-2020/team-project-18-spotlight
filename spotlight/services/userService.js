@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
-import uuid from "uuid";
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 
 /**
 DEPRECATED, DO NOT USE 
@@ -37,8 +38,7 @@ const uploadUserImage = async (uri) => {
     xhr.open("GET", uri, true);
     xhr.send(null);
   });
-
-  const ref = firebase.storage().ref().child(uuid.v4());
+  const ref = firebase.storage().ref().child(uuidv4());
   const snapshot = await ref.put(blob);
 
   // We're done with the blob, close and release it

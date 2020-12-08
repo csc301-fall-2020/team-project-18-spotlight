@@ -104,10 +104,7 @@ const FriendProfile = ({ navigation, route }) => {
         <Text style={styles.titleText}>
           {friendInfo.gender + " | " + friendInfo.age}
         </Text>
-        <Text style={{ textAlign: "justify", fontSize: 16 }}>
-          {friendInfo.bio}
-        </Text>
-        {/* {displayed} */}
+        <Text style={{ textAlign: "justify", fontSize: 16 }}>{"cheese"}</Text>
       </View>
     </SafeAreaView>
   );

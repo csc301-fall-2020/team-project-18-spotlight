@@ -50,11 +50,15 @@ const ProfileImagePicker = ({ setImageURL, defaultImage }) => {
   };
 
   const handleImagePicked = async (pickerResult) => {
-    const uploadURL = await uploadUserImage(pickerResult.uri);
-    // Uses the image in local.
-    await setImage(pickerResult.uri);
-    // Gives download link to parent to store in database.
-    await setImageURL(uploadURL);
+    try {
+      const uploadURL = await uploadUserImage(pickerResult.uri);
+      // Uses the image in local.
+      setImage(pickerResult.uri);
+      // Gives download link to parent to store in database.
+      setImageURL(uploadURL);
+    } catch (e) {
+      console.log(e.message);
+    }
   };
 
   return (
