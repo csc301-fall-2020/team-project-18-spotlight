@@ -15,9 +15,9 @@ const ProfileImagePicker = ({ setImageURL, defaultImage }) => {
     (async () => {
       await ImagePicker.requestCameraRollPermissionsAsync();
       await ImagePicker.requestCameraPermissionsAsync();
-      const userData = await getUser(user.uid);
-      setImageURL(userData.profilePicture);
-      setImage(userData.profilePicture);
+      // const userData = await getUser(user.uid);
+      // setImageURL(userData.profilePicture);
+      // setImage(userData.profilePicture);
     })();
   }, []);
 

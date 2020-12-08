@@ -12,7 +12,7 @@ const ProfileScreen = ({ route, navigation }) => {
   const { emailLogout, user } = useContext(AuthContext);
 
   const sendToEdit = () => {
-    navigation.navigate("EditProfileScreen");
+    navigation.navigate("EditProfileScreen", profileInfo);
   };
 
   useEffect(() => {
