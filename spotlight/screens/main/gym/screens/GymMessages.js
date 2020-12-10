@@ -14,7 +14,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text, StyleSheet, View, Image } from "react-native";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
-import { Avatar, Button, TextInput } from "react-native-paper";
+import { Avatar, Button, TextInput, ToggleButton } from "react-native-paper";
 import { FlatList } from "react-native";
 
 /**
@@ -97,22 +97,35 @@ const GymMessages = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>{title}</Text>
+      <View style={{ flexDirection: "row" }}>
+        <ToggleButton
+          icon="arrow-left-circle"
+          color="#A20A0A"
+          title="back"
+          style={styles.back}
+          onPress={() => navigation.goBack()}
+        ></ToggleButton>
+
+        <Text style={styles.header}>{title}</Text>
+      </View>
       <FlatList
         ref={bottomAnchor}
         data={messages}
         renderItem={renderMessage}
         keyExtractor={(message) => message.id}
       />
-      <TextInput
-        value={formValue}
-        onChangeText={(text) => {
-          setFormValue(text);
-        }}
-      />
-      <Button title="Send" onPress={sendMessage}>
-        Send
-      </Button>
+      <View style={{ flexDirection: "row" }}>
+        <TextInput
+          value={formValue}
+          onChangeText={(text) => {
+            setFormValue(text);
+          }}
+          style={styles.textinput}
+        />
+        <Button title="Send" style={styles.send} onPress={sendMessage}>
+          Send
+        </Button>
+      </View>
     </SafeAreaView>
   );
 };
@@ -131,14 +144,17 @@ const ChatMessage = ({ userID, message }) => {
 
   return (
     <View style={[styles.message, messageType]}>
-      <Avatar.Image size={24} source={source} />
+      <View style={{ flexDirection: "row" }}>
+        <Avatar.Image size={24} source={source} />
+
+        <Text style={styles.name}>
+          {`${message?.firstName} ${message?.lastName}`}
+        </Text>
+      </View>
+      <Text style={styles.text}>{message.text}</Text>
       <Text styles={styles.timeStamp}>
         {message?.createdAt?.toDate()?.toLocaleTimeString("en-US")}
       </Text>
-      <Text style={styles.name}>
-        {`${message?.firstName} ${message?.lastName}`}
-      </Text>
-      <Text>{message.text}</Text>
     </View>
   );
 };
@@ -151,16 +167,54 @@ const styles = StyleSheet.create({
   },
   header: {
     fontFamily: "Raleway_600SemiBold",
-    fontSize: 30,
+    fontSize: 25,
     fontStyle: "normal",
     textAlign: "center",
     paddingTop: "3%",
+    paddingRight: "18%",
+  },
+  textinput: {
+    borderRadius: 30,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    width: 320,
+    height: 40,
   },
   message: {
     display: "flex",
+    backgroundColor: "#1982FC",
+    marginBottom: "2%",
+  },
+  back: {
+    marginTop: "5%",
+  },
+  send: {
+    marginTop: 10,
+  },
+  text: {
+    fontSize: 20,
   },
 
-  sent: { alignSelf: "flex-end", alignItems: "flex-end" },
+  sent: {
+    alignSelf: "flex-end",
+    alignItems: "flex-end",
+    borderRadius: 20,
+    marginTop: "5%",
+    padding: "2%",
+    marginRight: "3%",
+    backgroundColor: "rgba(191, 249, 255, 0.8)",
+  },
 
-  received: { alignSelf: "flex-start", alignItems: "flex-start" },
+  received: {
+    alignSelf: "flex-start",
+    alignItems: "flex-start",
+    borderRadius: 20,
+    marginTop: "3%",
+    padding: "2%",
+    marginLeft: "5%",
+    backgroundColor: "rgba(191, 255, 206, 0.8)",
+  },
+  name: {
+    marginLeft: 10,
+  },
 });
