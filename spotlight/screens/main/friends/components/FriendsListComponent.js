@@ -46,30 +46,42 @@ const FriendRequest = ({ data, onPress }) => {
         onPress={onPress}
         style={{ flexDirection: "row", alignItems: "center" }}
       >
-        <Avatar.Image
-          size={64}
-          source={
-            data.profilePicture
-              ? { uri: data.profilePicture }
-              : require(DEFAULT_PROFILE)
-          }
-        />
+        <View style={styles.avatarContainer}>
+          <Avatar.Image
+            size={64}
+            source={
+              data.profilePicture
+                ? { uri: data.profilePicture }
+                : require(DEFAULT_PROFILE)
+            }
+          />
+          <MaterialCommunityIcons
+            name={
+              data.attending == "" || data.attending == null
+                ? "sleep"
+                : "dumbbell"
+            }
+            style={styles.gymIcon}
+            size={24}
+            color="#A20A0A"
+          />
+        </View>
         <Text style={styles.friendName}>{data.username}</Text>
       </TouchableOpacity>
-      <View style={{ position: "absolute", right: "20%" }}>
+      <View style={{ position: "absolute", right: "17%" }}>
         <AcceptFriendRequest onPress={onAccept} />
       </View>
       <View style={{ position: "absolute", right: "7.5%" }}>
         <RejectFriendRequest onPress={onReject} />
       </View>
-      <MaterialCommunityIcons
+      {/* <MaterialCommunityIcons
         name={
           data.attending == "" || data.attending == null ? "sleep" : "dumbbell"
         }
         style={styles.gymIcon}
         size={24}
         color="#A20A0A"
-      />
+      /> */}
     </View>
   );
 };
@@ -78,25 +90,27 @@ const Friend = ({ data, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.friendContainer}>
-        <Avatar.Image
-          size={64}
-          source={
-            data.profilePicture
-              ? { uri: data.profilePicture }
-              : require(DEFAULT_PROFILE)
-          }
-        />
+        <View style={styles.avatarContainer}>
+          <Avatar.Image
+            size={64}
+            source={
+              data.profilePicture
+                ? { uri: data.profilePicture }
+                : require(DEFAULT_PROFILE)
+            }
+          />
+          <MaterialCommunityIcons
+            name={
+              data.attending == "" || data.attending == null
+                ? "sleep"
+                : "dumbbell"
+            }
+            style={styles.gymIcon}
+            size={24}
+            color="#A20A0A"
+          />
+        </View>
         <Text style={styles.friendName}>{data.username}</Text>
-        <MaterialCommunityIcons
-          name={
-            data.attending == "" || data.attending == null
-              ? "sleep"
-              : "dumbbell"
-          }
-          style={styles.gymIcon}
-          size={24}
-          color="#A20A0A"
-        />
       </View>
     </TouchableOpacity>
   );
@@ -109,7 +123,11 @@ const styles = StyleSheet.create({
     paddingBottom: "1.5%",
   },
   gymIcon: {
-    left: "50%",
+    top: "-4%",
+    right: "5%",
+  },
+  avatarContainer: {
+    flexDirection: "row",
   },
   friendContainer: {
     flex: 1,
@@ -118,7 +136,7 @@ const styles = StyleSheet.create({
     paddingVertical: "3%",
   },
   friendName: {
-    marginLeft: 10,
+    marginLeft: "-2%",
     fontSize: 20,
     fontFamily: "Raleway_600SemiBold",
   },
