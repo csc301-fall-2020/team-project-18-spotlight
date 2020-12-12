@@ -5,6 +5,7 @@ import GymMarker from "../components/GymMarker";
 import { getLocation } from "../../../../services/locationService";
 import { Searchbar } from "react-native-paper";
 import {
+  getAllGyms,
   subscribeAllGyms,
   subscribeFavorites,
 } from "../../../../services/gymService";
@@ -34,10 +35,7 @@ const MapScreen = ({ navigation }) => {
   // subscribe to gyms
   useEffect(() => {
     try {
-      // unsubscribe function
-      return subscribeAllGyms((gyms) => {
-        setMarkers(gyms); // Does this every time gym data updates on the backend
-      });
+      getAllGyms().then((gyms) => setMarkers(gyms));
     } catch (e) {
       setErrorMessage(e.message);
     }
