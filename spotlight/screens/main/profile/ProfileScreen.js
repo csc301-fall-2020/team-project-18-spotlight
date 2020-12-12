@@ -1,39 +1,33 @@
 import React, { useState, useContext, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, LogBox } from "react-native";
 import { Button } from "react-native-paper";
 import { AuthContext } from "../../authentication/EmailContext/AuthProvider";
-import { getUser } from "../../../services/userService";
+import { getUser, subscribeUserInfo } from "../../../services/userService";
 import default_pic from "../../../../spotlight/assets/profile_picture.png";
 import { useIsFocused } from "@react-navigation/native";
+
+// The warning was for attending, which we won't use anyways.
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state. Check:",
+]);
 
 const ProfileScreen = ({ route, navigation }) => {
   const [profileInfo, setInfo] = useState("");
   const { emailLogout, user } = useContext(AuthContext);
 
   const sendToEdit = () => {
-    navigation.navigate("EditProfileScreen");
-  };
-
-  const updateUser = async () => {
-    const userData = await getUser(user.uid);
-    setInfo(userData);
+    navigation.navigate("EditProfileScreen", {
+      ...profileInfo,
+      dateOfBirth: profileInfo.dateOfBirth.toDate(),
+    });
   };
 
   useEffect(() => {
-    (async () => {
-      const userData = await getUser(user.uid);
+    return subscribeUserInfo(user.uid, (userData) => {
       setInfo(userData);
-    })();
+    });
   }, []);
-
-  const isFocused = useIsFocused();
-  if (isFocused) {
-    if (route.params != undefined) {
-      updateUser();
-      route.params = undefined;
-    }
-  }
 
   return (
     <SafeAreaView style={styles.container}>

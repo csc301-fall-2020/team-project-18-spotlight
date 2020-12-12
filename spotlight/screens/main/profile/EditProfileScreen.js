@@ -20,20 +20,20 @@ const EditProfileScreen = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
 
   const email = user.email;
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [gender, setGender] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  const [address, setAddress] = useState("");
-  const [province, setProvince] = useState("");
-  const [zip, setZip] = useState("");
-  const [city, setCity] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [bio, setBio] = useState("");
+  const [firstName, setFirstName] = useState(route.params.firstName);
+  const [lastName, setLastName] = useState(route.params.lastName);
+  const [username, setUsername] = useState(route.params.username);
+  const [gender, setGender] = useState(route.params.gender);
+  const [imageURL, setImageURL] = useState(route.params.profilePicture);
+  const [address, setAddress] = useState(route.params.address);
+  const [province, setProvince] = useState(route.params.province);
+  const [zip, setZip] = useState(route.params.zip);
+  const [city, setCity] = useState(route.params.city);
+  const [phoneNumber, setPhoneNumber] = useState(route.params.phoneNumber);
+  const [bio, setBio] = useState(route.params.bio);
   const [countryCode, setCountryCode] = useState("");
   const [country, setCountry] = useState(null);
-  const [countryText, setCountryText] = useState("");
+  const [countryText, setCountryText] = useState(route.params.country);
 
   const onSelect = (country) => {
     setCountryCode(country.cca2);
@@ -42,7 +42,7 @@ const EditProfileScreen = ({ route, navigation }) => {
   };
 
   // Date
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(route.params.dateOfBirth);
   const [show, setShow] = useState(false);
 
   const onChangeDate = (event, selectedDate) => {
@@ -68,38 +68,37 @@ const EditProfileScreen = ({ route, navigation }) => {
           phoneNumber: phoneNumber,
           profilePicture: imageURL,
           province: province,
-          userID: user.uid,
           username: username,
           zip: zip,
         },
         user.uid
       );
     })();
-    navigation.navigate("ProfileScreen", { zip: zip });
+    navigation.navigate("ProfileScreen");
   };
 
   const cancel = () => {
     navigation.navigate("ProfileScreen");
   };
 
-  useEffect(() => {
-    (async () => {
-      const userData = await getUser(user.uid);
-      setFirstName(userData.firstName);
-      setLastName(userData.lastName);
-      setUsername(userData.username);
-      setGender(userData.gender);
-      setImageURL(userData.profilePicture);
-      setAddress(userData.address);
-      setProvince(userData.province);
-      setZip(userData.zip);
-      setCity(userData.city);
-      setPhoneNumber(userData.phoneNumber);
-      setBio(userData.bio);
-      setCountryText(userData.country);
-      setDate(userData.dateOfBirth.toDate());
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     const userData = await getUser(user.uid);
+  //     setFirstName(userData.firstName);
+  //     setLastName(userData.lastName);
+  //     setUsername(userData.username);
+  //     setGender(userData.gender);
+  //     setImageURL(userData.profilePicture);
+  //     setAddress(userData.address);
+  //     setProvince(userData.province);
+  //     setZip(userData.zip);
+  //     setCity(userData.city);
+  //     setPhoneNumber(userData.phoneNumber);
+  //     setBio(userData.bio);
+  //     setCountryText(userData.country);
+  //     setDate(userData.dateOfBirth.toDate());
+  //   })();
+  // }, []);
 
   return (
     <SafeAreaView style={styles.container}>
