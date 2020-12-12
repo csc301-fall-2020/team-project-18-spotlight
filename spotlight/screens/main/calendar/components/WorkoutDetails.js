@@ -218,7 +218,7 @@ const WorkoutDetails = ({ muscle, day, notes }) => {
 
 const styles = StyleSheet.create({
   header: {
-    fontFamily: "Raleway_600SemiBold",
+    fontWeight: "300",
     fontSize: 24,
     fontStyle: "normal",
     textAlign: "left",

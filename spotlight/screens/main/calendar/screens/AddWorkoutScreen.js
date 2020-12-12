@@ -1,10 +1,18 @@
 import React, { useState, useContext } from "react";
-import { Text, View, Button, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  TouchableHighlight,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import WorkoutDetails from "../components/WorkoutDetails";
 import { AuthContext } from "../../../authentication/EmailContext/AuthProvider";
 import { useEffect } from "react";
 import moment from "moment";
 import { getWorkoutNotes } from "../../../../services/workoutService";
+import { AntDesign } from "@expo/vector-icons";
 
 //import MuscleSelector from '../components/MuscleSelector';
 
@@ -60,12 +68,15 @@ const AddWorkoutScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{moment(day).format("dddd, MMMM D, YYYY")}</Text>
-      <Button
-        title="Back"
-        color="#A20A0A"
+      <Text style={styles.subheader}>{moment(day).format("dddd")}</Text>
+      <Text style={styles.header}>{moment(day).format("MMMM D, YYYY")}</Text>
+      <TouchableHighlight
+        style={styles.back}
+        underlayColor={"#A20A0A"}
         onPress={() => navigation.navigate("Calendar Stack")}
-      />
+      >
+        <Text style={styles.backText}>Back</Text>
+      </TouchableHighlight>
 
       <ScrollView style={styles.scrollable}>
         {muscles.map((muscle, key) => {
@@ -88,12 +99,15 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: "Raleway_600SemiBold",
     fontSize: 30,
-
     fontStyle: "normal",
     textAlign: "center",
-    paddingTop: "15%",
-    paddingBottom:"1%",
-    paddingHorizontal:"15%"
+    marginBottom: 10,
+  },
+  subheader: {
+    fontSize: 24,
+    color: "#A20A0A",
+    fontWeight: "200",
+    paddingTop: "10%",
   },
   container: {
     flex: 1,
@@ -102,7 +116,20 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   scrollable: {
-    marginTop: 10,
+    marginTop: 15,
+    width: "100%",
+    backgroundColor: "#eee",
+    padding: 10,
+  },
+  back: {
+    borderColor: "#A20A0A",
+    borderWidth: 1,
+    padding: 3,
+    borderRadius: 3,
+  },
+  backText: {
+    fontSize: 10,
+    color: "#A20A0A",
   },
 });
 
