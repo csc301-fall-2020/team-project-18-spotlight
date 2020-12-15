@@ -14,19 +14,6 @@ import moment from "moment";
 import { getWorkoutNotes } from "../../../../services/workoutService";
 import { AntDesign } from "@expo/vector-icons";
 
-//import MuscleSelector from '../components/MuscleSelector';
-
-/*  const [modalVisible, setModalVisible] = useState(false);
-
-<Button
-title="+"
-color="#000"
-onPress={() => {
-  setModalVisible(true);
-}}/>
-
-<MuscleSelector modalVisible={modalVisible}/>*/
-
 const AddWorkoutScreen = ({ route, navigation }) => {
   const { day } = route.params;
   const muscles = [
