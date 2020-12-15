@@ -8,6 +8,10 @@
   - [Deployment and Github Workflow](#deployment-and-github-workflow)
   - [License](#license)
 
+# Demo/Presentation Video
+
+# https://youtu.be/_EaTTlXf4Oc
+
 ## Description
 
 Spotlight is a gym networking app which aims to be an all-in-one tool for gym-goers to make friends, find ideal times to go to the gym, and share workouts. One of the biggest pet peeves of people who go to the gym is when the gym is overcrowded and no equipment is available. Spotlight will show gyms in your area and help you plan your workouts to better your gym experience.
